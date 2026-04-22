@@ -15,11 +15,14 @@
             theme: {
                 extend: {
                     colors: {
-                        primary: '#5865F2', // Azul corporativo inspirado en Discord
+                        primary: '#5865F2', 
                         primaryHover: '#4752C4',
                         neutralLight: '#F9FAFB',
                         neutralDark: '#111827',
-                        neutralGray: '#6B7280'
+                        neutralGray: '#6B7280',
+                        accentIndigo: '#F5F7FF',
+                        accentViolet: '#FBF7FF',
+                        accentSky: '#F0F9FF'
                     },
                     fontFamily: {
                         sans: ['Inter', 'sans-serif'],
@@ -106,7 +109,7 @@
     </header>
 
     <!-- 3. SECCIÓN 'ABOUT US' (Quiénes Somos) -->
-    <section class="py-24 bg-white">
+    <section class="py-24 bg-accentIndigo">
         <div class="max-w-3xl mx-auto px-4 text-center">
             <h2 class="text-sm font-bold text-primary tracking-widest uppercase mb-3">Quiénes Somos</h2>
             <h3 class="text-3xl md:text-4xl font-bold mb-6 text-neutralDark">Libertad para aprender, sin presiones.</h3>
@@ -243,7 +246,7 @@
     </section>
 
     <!-- 6. SECCIÓN DE PLANES -->
-    <section id="planes" class="py-24 bg-white">
+    <section id="planes" class="py-24 bg-accentSky">
         <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="text-center mb-16">
                 <h2 class="text-3xl md:text-4xl font-bold text-neutralDark mb-4">Planes simples y transparentes</h2>
@@ -302,7 +305,7 @@
     </section>
 
     <!-- 6. SECCIÓN DE COMUNIDAD (Integración Discord) -->
-    <section id="comunidad" class="py-24 bg-neutralLight overflow-hidden">
+    <section id="comunidad" class="py-24 bg-accentViolet overflow-hidden">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="bg-white rounded-[2rem] p-8 md:p-12 lg:p-16 shadow-2xl relative overflow-hidden flex flex-col lg:flex-row items-center gap-12 border border-gray-100">
                 <!-- Fondo decorativo Discord -->
