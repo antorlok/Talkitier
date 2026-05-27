@@ -27,5 +27,14 @@ export default defineNuxtConfig({
   dir: {
     app: '.'
   },
-  telemetry: false
+  telemetry: false,
+
+  // Configuración de variables de entorno seguras para OAuth2 en el servidor
+  runtimeConfig: {
+    discordClientSecret: process.env.DISCORD_CLIENT_SECRET || '',
+    public: {
+      discordClientId: process.env.DISCORD_CLIENT_ID || '',
+      discordRedirectUri: process.env.DISCORD_REDIRECT_URI || ''
+    }
+  }
 })

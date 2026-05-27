@@ -21,6 +21,10 @@ const startPlacementTest = (langId: string = 'en') => {
 const toggleMobileMenu = () => {
   isMobileMenuOpen.value = !isMobileMenuOpen.value;
 };
+
+const loginWithDiscord = () => {
+  navigateTo('/api/auth/login', { external: true });
+};
 </script>
 
 <template>
@@ -42,12 +46,8 @@ const toggleMobileMenu = () => {
           Idioma: ES
         </button>
         
-        <BaseButton variant="accent" class="text-brand-blue hover:text-brand-dark">
+        <BaseButton variant="secondary" class="!bg-brand-blue !text-brand-cream hover:!bg-brand-blue/95 border-none shadow-md" @click="loginWithDiscord">
           Iniciar sesión
-        </BaseButton>
-        
-        <BaseButton variant="secondary" class="!bg-brand-blue !text-brand-cream hover:!bg-brand-blue/95 border-none shadow-md">
-          Registrarse
         </BaseButton>
       </nav>
 
@@ -65,11 +65,8 @@ const toggleMobileMenu = () => {
       <button class="bg-brand-blue text-brand-cream text-xs font-semibold py-2.5 rounded-talki w-full">
         Idioma: ES
       </button>
-      <BaseButton variant="accent" class="text-brand-blue justify-center w-full">
+      <BaseButton variant="secondary" class="!bg-brand-blue !text-brand-cream justify-center w-full shadow-md border-none" @click="loginWithDiscord">
         Iniciar sesión
-      </BaseButton>
-      <BaseButton variant="secondary" class="!bg-brand-blue !text-brand-cream justify-center w-full">
-        Registrarse
       </BaseButton>
     </div>
 
@@ -110,7 +107,7 @@ const toggleMobileMenu = () => {
             <BaseButton
               variant="primary"
               class="self-start !bg-[#5865F2] hover:!bg-[#4752C4] !text-white px-8 py-4 text-base md:text-lg flex items-center gap-3 shadow-lg shadow-[#5865F2]/20 hover:shadow-[#5865F2]/40 rounded-talki font-title tracking-wide transition-all transform hover:-translate-y-0.5 active:translate-y-0"
-              @click="startPlacementTest('en')"
+              @click="loginWithDiscord"
             >
               <!-- Icono oficial de Discord vectorizado -->
               <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 127.14 96.36" class="w-6 h-6 fill-current">
