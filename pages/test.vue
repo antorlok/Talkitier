@@ -45,6 +45,47 @@ onMounted(async () => {
     loading.value = false;
   }
 });
+
+// Estados reactivos para la integración de Discord
+const discordStatus = ref<'idle' | 'loading' | 'success' | 'error'>('idle');
+const discordMessage = ref('');
+
+// Controlador para capturar la finalización del test y gatillar la asignación de roles
+const handleTestFinished = async (payload: { answers: Record<string, any>; score: number }) => {
+  const lang = (route.query.lang as string || 'en').toLowerCase();
+  
+  // Determinamos el nivel obtenido basándonos en los umbrales definidos en el JSON del test
+  const thresholds = testData.value?.tier_thresholds || {};
+  const thresholdEntries = Object.entries(thresholds).sort((a: any, b: any) => b[1] - a[1]);
+  const matched = thresholdEntries.find(([_, minScore]: any) => payload.score >= minScore);
+  const calculatedTier = matched ? matched[0] : 'A1';
+
+  discordStatus.value = 'loading';
+  discordMessage.value = '';
+
+  try {
+    const response = await $fetch<any>('/api/discord/assign-role', {
+      method: 'POST',
+      body: {
+        language: lang,
+        tier: calculatedTier
+      }
+    });
+
+    if (response.success) {
+      discordStatus.value = 'success';
+    } else {
+      discordStatus.value = 'error';
+      discordMessage.value = response.message || 'No se pudo asignar el rol.';
+    }
+  } catch (error: any) {
+    console.error('Error al solicitar asignación de roles:', error);
+    discordStatus.value = 'error';
+    
+    // Capturar mensaje semántico retornado de forma controlada por el backend (ej. Error 404 del miembro)
+    discordMessage.value = error.data?.statusMessage || 'Ocurrió un error inesperado al conectar con el servidor.';
+  }
+};
 </script>
 
 <template>
@@ -111,7 +152,12 @@ onMounted(async () => {
 
       <!-- 3. Renderizado del Cuestionario Activo (QuizEngine montado centralmente) -->
       <div v-else-if="testData" class="w-full flex justify-center animate-fade-in">
-        <QuizEngine :testData="testData" v-if="testData" />
+        <QuizEngine 
+          :testData="testData" 
+          :discordStatus="discordStatus"
+          :discordMessage="discordMessage"
+          @finish="handleTestFinished"
+        />
       </div>
 
     </main>

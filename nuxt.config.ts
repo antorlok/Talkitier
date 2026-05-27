@@ -32,6 +32,8 @@ export default defineNuxtConfig({
   // Configuración de variables de entorno seguras para OAuth2 en el servidor
   runtimeConfig: {
     discordClientSecret: process.env.DISCORD_CLIENT_SECRET || '',
+    discordBotToken: process.env.DISCORD_BOT_TOKEN || '',
+    discordGuildId: process.env.DISCORD_GUILD_ID || '',
     public: {
       discordClientId: process.env.DISCORD_CLIENT_ID || '',
       discordRedirectUri: process.env.DISCORD_REDIRECT_URI || ''

@@ -48,6 +48,8 @@ interface QuizData {
 const props = defineProps<{
   quizData?: QuizData;
   testData?: QuizData;
+  discordStatus?: 'idle' | 'loading' | 'success' | 'error';
+  discordMessage?: string;
 }>();
 
 // Computado defensivo para unificar ambos nombres de props
@@ -233,6 +235,39 @@ const finishTest = () => {
         <span class="text-xs md:text-sm font-semibold tracking-wider text-brand-lightBlue uppercase">TU NIVEL DE ENTRADA AUTOMÁTICO</span>
         <span class="text-5xl font-extrabold font-title text-brand-greenLight">{{ calculatedTier }}</span>
         <span class="text-sm font-body text-gray-300">Puntaje de autoevaluación: <strong>{{ totalScore }} puntos</strong></span>
+      </div>
+
+      <!-- Estado de asignación de roles de Discord integrado de forma premium -->
+      <div v-if="discordStatus === 'loading'" class="w-full bg-brand-blue/15 border border-brand-blue/30 p-4 rounded-talki text-xs md:text-sm text-brand-blue flex items-center justify-center gap-2 animate-pulse shadow-md">
+        <svg class="animate-spin h-5 w-5 text-brand-blue" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+          <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4" />
+          <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z" />
+        </svg>
+        <span class="font-bold">Asignando tu rol de idioma en el servidor de Discord...</span>
+      </div>
+
+      <div v-else-if="discordStatus === 'success'" class="w-full bg-brand-greenLight/20 border border-brand-greenDark/30 p-5 rounded-talki text-xs md:text-sm text-brand-greenDark text-left shadow-lg flex flex-col gap-1.5 animate-fade-in">
+        <p class="font-bold flex items-center gap-2 text-sm">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="w-5 h-5 text-brand-greenDark">
+            <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.857-9.809a.75.75 0 00-1.214-.882l-3.483 4.79-1.88-1.88a.75.75 0 10-1.06 1.061l2.5 2.5a.75.75 0 001.137-.089l4-5.5z" clip-rule="evenodd" />
+          </svg>
+          ¡Roles de Discord actualizados!
+        </p>
+        <p class="font-body text-gray-700 leading-relaxed">
+          Hemos asignado exitosamente tu rol correspondiente en el servidor de Discord de Talkitier. ¡Tu perfil ya cuenta con los accesos!
+        </p>
+      </div>
+
+      <div v-else-if="discordStatus === 'error'" class="w-full bg-red-50 border border-red-200 p-5 rounded-talki text-xs md:text-sm text-red-700 text-left shadow-lg flex flex-col gap-1.5 animate-fade-in">
+        <p class="font-bold flex items-center gap-2 text-sm">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="w-5 h-5 text-red-600">
+            <path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-8-5a.75.75 0 01.75.75v4.5a.75.75 0 01-1.5 0v-4.5A.75.75 0 0110 5zm0 10a1 1 0 100-2 1 1 0 000 2z" clip-rule="evenodd" />
+          </svg>
+          Sincronización de Discord pendiente
+        </p>
+        <p class="font-body text-gray-700 leading-relaxed">
+          {{ discordMessage || 'No se pudo asignar el rol de forma automática en este momento.' }}
+        </p>
       </div>
 
       <div class="bg-brand-blue/10 border border-brand-blue/20 p-4 rounded-talki text-xs md:text-sm text-brand-blue max-w-lg text-left">
