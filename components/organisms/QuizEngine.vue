@@ -293,7 +293,7 @@ const finishTest = () => {
         <div class="flex flex-col gap-3 w-full max-w-md mx-auto mt-2">
           <!-- Paso 1: Unirme al Servidor -->
           <a 
-            href="https://discord.gg/3fVNDwA6TJ" 
+            href="https://discord.gg/jHN3amJyZu" 
             target="_blank" 
             rel="noopener noreferrer" 
             class="w-full bg-[#5865F2] hover:bg-[#4752C4] text-white py-4 px-6 rounded-talki font-title font-bold text-md tracking-wider flex items-center justify-center gap-3 shadow-lg shadow-[#5865F2]/20 hover:shadow-[#5865F2]/40 transition-all duration-300 transform hover:-translate-y-0.5 active:translate-y-0 cursor-pointer text-center no-underline"
@@ -321,7 +321,7 @@ const finishTest = () => {
       <!-- Botón de Acción Principal (CTA) para entrar a Discord -->
       <a 
         v-if="discordStatus !== 'pending_sync'"
-        href="https://discord.gg/3fVNDwA6TJ" 
+        href="https://discord.gg/jHN3amJyZu" 
         target="_blank" 
         rel="noopener noreferrer" 
         class="w-full max-w-md bg-[#5865F2] hover:bg-[#4752C4] text-white py-4 px-6 rounded-talki font-title font-bold text-md tracking-wider flex items-center justify-center gap-3 shadow-lg shadow-[#5865F2]/20 hover:shadow-[#5865F2]/40 transition-all duration-300 transform hover:-translate-y-0.5 active:translate-y-0 cursor-pointer text-center no-underline"

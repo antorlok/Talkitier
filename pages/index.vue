@@ -11,9 +11,14 @@ const { user, isAuthenticated, logout } = useAuth();
 
 // Estados reactivos de navegación de la Landing Page
 const isMobileMenuOpen = ref(false);
+const isPlansOpen = ref(false);
 
 const toggleMobileMenu = () => {
   isMobileMenuOpen.value = !isMobileMenuOpen.value;
+};
+
+const togglePlans = () => {
+  isPlansOpen.value = !isPlansOpen.value;
 };
 
 const loginWithDiscord = () => {
@@ -53,9 +58,16 @@ const scrollToLanguages = () => {
 
       <!-- Menú de Navegación de Escritorio -->
       <nav class="hidden md:flex items-center gap-4">
-        <!-- Selector de idioma actual -->
-        <button class="bg-brand-blue text-brand-cream text-xs font-semibold px-4 py-2 rounded-talki border border-brand-lightBlue/20 shadow-sm">
-          Idioma: ES
+        <!-- Selector de planes -->
+        <button 
+          @click="togglePlans" 
+          class="bg-brand-blue text-brand-cream hover:bg-brand-blue/90 text-xs font-semibold px-5 py-2.5 rounded-talki border border-brand-lightBlue/20 shadow-sm transition-all flex items-center gap-1.5 cursor-pointer"
+        >
+          <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2.5" stroke="currentColor" class="w-4 h-4 text-brand-greenLight">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M9.813 15.904L9 21L14.907 18L21 21L20.187 15.904L24 12.188L18.828 11.458L16.5 6.75L14.172 11.458L9 12.188L12.813 15.904Z" />
+            <path stroke-linecap="round" stroke-linejoin="round" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364-6.364l-.707.707M6.343 17.657l-.707.707m0-12.728l.707.707m11.314 11.314l.707-.707" />
+          </svg>
+          Planes
         </button>
         
         <!-- Renderizado Condicional según Autenticación -->
@@ -85,10 +97,16 @@ const scrollToLanguages = () => {
 
     </header>
 
-    <!-- Menú desplegable para móviles -->
     <div v-if="isMobileMenuOpen" class="md:hidden bg-brand-cream border-b border-brand-blue/10 px-6 py-4 flex flex-col gap-3 shadow-lg">
-      <button class="bg-brand-blue text-brand-cream text-xs font-semibold py-2.5 rounded-talki w-full">
-        Idioma: ES
+      <button 
+        @click="togglePlans(); isMobileMenuOpen = false;" 
+        class="bg-brand-blue text-brand-cream hover:bg-brand-blue/90 text-xs font-semibold py-3 rounded-talki w-full transition-all flex items-center justify-center gap-1.5 cursor-pointer"
+      >
+        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2.5" stroke="currentColor" class="w-4 h-4 text-brand-greenLight">
+          <path stroke-linecap="round" stroke-linejoin="round" d="M9.813 15.904L9 21L14.907 18L21 21L20.187 15.904L24 12.188L18.828 11.458L16.5 6.75L14.172 11.458L9 12.188L12.813 15.904Z" />
+          <path stroke-linecap="round" stroke-linejoin="round" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364-6.364l-.707.707M6.343 17.657l-.707.707m0-12.728l.707.707m11.314 11.314l.707-.707" />
+        </svg>
+        Planes
       </button>
       
       <!-- Menú condicional para dispositivos móviles -->
@@ -210,6 +228,155 @@ const scrollToLanguages = () => {
       </div>
 
     </main>
+
+    <!-- MODAL DE PLANES COMPARATIVOS DE LA LANDING (Fase 12) -->
+    <div v-if="isPlansOpen" class="fixed inset-0 z-[100] flex items-center justify-center p-4">
+      <div class="absolute inset-0 bg-[#040a21]/60 backdrop-blur-sm" @click="togglePlans" />
+
+      <div class="relative bg-white text-brand-dark w-full max-w-3xl rounded-[2rem] shadow-2xl p-6 md:p-8 flex flex-col gap-6 border-4 border-[#b6cf7b] max-h-[90vh] overflow-y-auto z-10">
+        
+        <!-- Botón de Cerrar Modal -->
+        <button 
+          @click="togglePlans" 
+          class="absolute top-4 right-4 w-8 h-8 rounded-full bg-brand-blue/10 hover:bg-brand-blue/20 flex items-center justify-center transition-all cursor-pointer"
+        >
+          <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2.5" stroke="currentColor" class="w-4 h-4 text-brand-blue">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" />
+          </svg>
+        </button>
+
+        <!-- Cabecera del Modal -->
+        <div class="text-center flex flex-col gap-1.5 mt-2">
+          <h3 class="font-title font-extrabold text-2xl md:text-3xl text-brand-blue leading-snug">Nuestros Planes 🚀</h3>
+          <p class="font-body text-xs md:text-sm text-gray-500 max-w-lg mx-auto">
+            Elige la opción que mejor se adapte a tu ritmo de aprendizaje y saca el máximo provecho a tu experiencia.
+          </p>
+        </div>
+
+        <!-- Columnas Comparativas -->
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mt-2">
+          
+          <!-- Plan Gratis -->
+          <div class="bg-[#1f2060]/5 border-2 border-brand-blue/10 p-5 rounded-talki flex flex-col gap-4">
+            <div class="border-b border-brand-blue/10 pb-3">
+              <h4 class="font-title font-bold text-lg text-brand-blue">Plan Free ⚡</h4>
+              <p class="font-body text-xs text-gray-500">Acceso básico de por vida</p>
+            </div>
+            <ul class="font-body text-xs md:text-sm flex flex-col gap-3 text-gray-700 flex-1">
+              <li class="flex items-center gap-2">
+                <svg class="w-4 h-4 text-[#b6cf7b] flex-shrink-0" fill="currentColor" viewBox="0 0 20 20">
+                  <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd" />
+                </svg>
+                Acceso ilimitado 24/7 al servidor
+              </li>
+              <li class="flex items-center gap-2">
+                <svg class="w-4 h-4 text-[#b6cf7b] flex-shrink-0" fill="currentColor" viewBox="0 0 20 20">
+                  <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd" />
+                </svg>
+                Grupos grandes y dinámicos
+              </li>
+              <li class="flex items-center gap-2">
+                <svg class="w-4 h-4 text-[#b6cf7b] flex-shrink-0" fill="currentColor" viewBox="0 0 20 20">
+                  <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd" />
+                </svg>
+                Moderación limitada a eventos
+              </li>
+              <li class="flex items-center gap-2">
+                <svg class="w-4 h-4 text-[#b6cf7b] flex-shrink-0" fill="currentColor" viewBox="0 0 20 20">
+                  <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd" />
+                </svg>
+                Interacción espontánea en salas
+              </li>
+              <li class="flex items-center gap-2">
+                <svg class="w-4 h-4 text-[#b6cf7b] flex-shrink-0" fill="currentColor" viewBox="0 0 20 20">
+                  <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd" />
+                </svg>
+                Turno de voz estándar
+              </li>
+              <li class="flex items-center gap-2 text-gray-400 line-through">
+                <svg class="w-4 h-4 text-gray-300 flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M6 18L18 6M6 6l12 12" />
+                </svg>
+                Material de apoyo no incluido
+              </li>
+            </ul>
+            <div class="mt-2 pt-3 border-t border-brand-blue/5 text-center">
+              <span class="font-title font-extrabold text-xl text-brand-blue">$0 USD</span>
+            </div>
+          </div>
+
+          <!-- Plan Premium -->
+          <div class="bg-brand-blue text-white p-5 rounded-talki flex flex-col gap-4 shadow-xl border-2 border-[#b6cf7b]">
+            <div class="border-b border-brand-lightBlue/20 pb-3 flex justify-between items-start">
+              <div>
+                <h4 class="font-title font-bold text-lg text-brand-greenLight">Plan Premium ⭐</h4>
+                <p class="font-body text-xs text-brand-lightBlue">Experiencia completa y guiada</p>
+              </div>
+              <span class="bg-brand-greenLight text-brand-blue text-[10px] font-bold px-2 py-0.5 rounded-full uppercase">Recomendado</span>
+            </div>
+            <ul class="font-body text-xs md:text-sm flex flex-col gap-3 text-brand-cream flex-1">
+              <li class="flex items-center gap-2">
+                <svg class="w-4 h-4 text-brand-greenLight flex-shrink-0" fill="currentColor" viewBox="0 0 20 20">
+                  <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd" />
+                </svg>
+                Acceso ilimitado 24/7 al servidor
+              </li>
+              <li class="flex items-center gap-2">
+                <svg class="w-4 h-4 text-brand-greenLight flex-shrink-0" fill="currentColor" viewBox="0 0 20 20">
+                  <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd" />
+                </svg>
+                Grupos súper reducidos (4-5 personas)
+              </li>
+              <li class="flex items-center gap-2">
+                <svg class="w-4 h-4 text-brand-greenLight flex-shrink-0" fill="currentColor" viewBox="0 0 20 20">
+                  <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd" />
+                </svg>
+                Moderación activa y dedicada
+              </li>
+              <li class="flex items-center gap-2">
+                <svg class="w-4 h-4 text-brand-greenLight flex-shrink-0" fill="currentColor" viewBox="0 0 20 20">
+                  <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd" />
+                </svg>
+                Reportes semanales de progreso (DM)
+              </li>
+              <li class="flex items-center gap-2">
+                <svg class="w-4 h-4 text-brand-greenLight flex-shrink-0" fill="currentColor" viewBox="0 0 20 20">
+                  <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd" />
+                </svg>
+                Prioridad de voz en canales de audio
+              </li>
+              <li class="flex items-center gap-2">
+                <svg class="w-4 h-4 text-brand-greenLight flex-shrink-0" fill="currentColor" viewBox="0 0 20 20">
+                  <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd" />
+                </svg>
+                Guías y recursos exclusivos (PDF)
+              </li>
+            </ul>
+            <div class="mt-2 pt-3 border-t border-brand-lightBlue/20 text-center">
+              <span class="font-title font-extrabold text-xl text-brand-greenLight">¡Acceso Premium!</span>
+            </div>
+          </div>
+
+        </div>
+
+        <!-- Sección de Contacto -->
+        <div class="bg-brand-blue/5 border border-brand-blue/15 p-4 rounded-talki text-center flex flex-col gap-1.5 mt-2">
+          <p class="font-body text-xs md:text-sm text-gray-600">
+            ¿Quieres unirte a nuestro programa Premium y acelerar tu aprendizaje?
+          </p>
+          <a 
+            href="mailto:talkitier@gmail.com" 
+            class="font-title font-bold text-sm md:text-base text-brand-blue hover:text-brand-blue/80 underline flex items-center justify-center gap-2 transition-colors"
+          >
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" class="w-4 h-4">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M21.75 6.75v10.5a2.25 2.25 0 01-2.25 2.25h-15a2.25 2.25 0 01-2.25-2.25V6.75m19.5 0A2.25 2.25 0 0019.5 4.5h-15a2.25 2.25 0 00-2.25 2.25m19.5 0v.243a2.25 2.25 0 01-1.07 1.916l-7.5 4.615a2.25 2.25 0 01-2.36 0L3.32 8.91a2.25 2.25 0 01-1.07-1.916V6.75" />
+            </svg>
+            Contacta a talkitier@gmail.com
+          </a>
+        </div>
+
+      </div>
+    </div>
 
     <!-- FOOTER SIMPLE Y ELEGANTE -->
     <footer class="w-full bg-brand-dark text-brand-cream/60 py-6 px-6 text-center text-xs font-body border-t border-brand-blue/20">
