@@ -12,6 +12,7 @@ const { user, isAuthenticated, logout } = useAuth();
 // Estados reactivos de navegación de la Landing Page
 const isMobileMenuOpen = ref(false);
 const isPlansOpen = ref(false);
+const isTestDropdownOpen = ref(false);
 
 const toggleMobileMenu = () => {
   isMobileMenuOpen.value = !isMobileMenuOpen.value;
@@ -163,17 +164,53 @@ const scrollToLanguages = () => {
               INICIAR SESIÓN CON DISCORD
             </BaseButton>
 
-            <BaseButton
-              v-else
-              variant="primary"
-              class="self-start px-8 py-4 text-base md:text-lg flex items-center gap-2 rounded-talki font-title tracking-wide shadow-lg shadow-brand-greenLight/20 transition-all transform hover:-translate-y-0.5 active:translate-y-0"
-              @click="scrollToLanguages"
-            >
-              COMENZAR TEST
-              <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2.5" stroke="currentColor" class="w-5 h-5">
-                <path stroke-linecap="round" stroke-linejoin="round" d="M19.5 8.25l-7.5 7.5-7.5-7.5" />
-              </svg>
-            </BaseButton>
+            <div v-else class="relative inline-block self-start z-30">
+              <BaseButton
+                variant="primary"
+                class="px-8 py-4 text-base md:text-lg flex items-center gap-2 rounded-talki font-title tracking-wide shadow-lg shadow-brand-greenLight/20 transition-all transform hover:-translate-y-0.5 active:translate-y-0 cursor-pointer"
+                @click="isTestDropdownOpen = !isTestDropdownOpen"
+              >
+                COMENZAR TEST
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2.5" stroke="currentColor" class="w-5 h-5 transition-transform" :class="{ 'rotate-180': isTestDropdownOpen }">
+                  <path stroke-linecap="round" stroke-linejoin="round" d="M19.5 8.25l-7.5 7.5-7.5-7.5" />
+                </svg>
+              </BaseButton>
+
+              <!-- Panel Premium de Selección de Idioma para el Test (Fase 12) -->
+              <div v-if="isTestDropdownOpen" class="absolute left-0 mt-2 w-[320px] sm:w-[420px] bg-white border-2 border-brand-blue/15 rounded-3xl shadow-2xl p-4 flex flex-col gap-3 animate-fade-in z-50">
+                <div class="flex items-center justify-between border-b border-brand-blue/10 pb-2">
+                  <span class="text-xs font-bold text-brand-blue uppercase tracking-wider font-title">Elige el idioma del test</span>
+                  <span class="bg-brand-greenLight text-brand-blue text-[9px] font-bold px-2 py-0.5 rounded-full uppercase">Selección Obligatoria</span>
+                </div>
+                
+                <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 max-h-[350px] overflow-y-auto pr-1">
+                  <button
+                    v-for="lang in [
+                      { id: 'de', name: 'Deutsch', label: 'Alemán', desc: 'Evalúa tu nivel de alemán e intégrate a los canales.', flag: `<svg class='w-6 h-6 rounded-full' viewBox='0 0 512 512'><g clip-path='circle(256 256 256)'><path fill='#ffce00' d='M0 0h512v512H0z'/><path d='M0 0h512v341.3H0z'/><path fill='#dd0000' d='M0 170.7h512v170.6H0z'/></g></svg>` },
+                      { id: 'pt', name: 'Português', label: 'Portugués', desc: 'Mide tu fluidez en portugués y conéctate con la red.', flag: `<svg class='w-6 h-6 rounded-full' viewBox='0 0 512 512'><g clip-path='circle(256 256 256)'><path fill='#ff0000' d='M0 0h512v512H0z'/><path fill='#006600' d='M0 0h204.8v512H0z'/><circle cx='204.8' cy='256' r='76.8' fill='#ffce00'/><path fill='#ff0000' d='M192 204.8h25.6v102.4H192z'/><path fill='#ffffff' d='M185.6 217.6h38.4v76.8h-38.4z'/><circle cx='204.8' cy='256' r='38.4' fill='#002b7f'/></g></svg>` },
+                      { id: 'en', name: 'English', label: 'Inglés', desc: 'Certifica tu capacidad de conversación internacional.', flag: `<svg class='w-6 h-6 rounded-full' viewBox='0 0 512 512'><g clip-path='circle(256 256 256)'><path fill='#ffffff' d='M0 0h512v512H0z'/><path fill='#b22234' d='M0 0h512v39.4H0zm0 78.8h512v39.4H0zm0 78.8h512v39.4H0zm0 78.8h512v39.4H0zm0 78.7h512v39.4H0zm0 78.8h512v39.4H0zm0 78.8h512v39.4H0z'/><path fill='#3c3b6e' d='M0 0h204.8v275.8H0z'/></g></svg>` },
+                      { id: 'es', name: 'Español', label: 'Español', desc: 'Mide tus habilidades nativas y avanza en la comunidad.', flag: `<svg class='w-6 h-6 rounded-full' viewBox='0 0 512 512'><g clip-path='circle(256 256 256)'><path fill='#c60b1e' d='M0 0h512v512H0z'/><path fill='#ffc400' d='M0 128h512v256H0z'/><circle cx='140' cy='256' r='36' fill='#c60b1e'/><circle cx='140' cy='256' r='26' fill='#ffc400'/></g></svg>` },
+                      { id: 'it', name: 'Italiano', label: 'Italiano', desc: 'Comienza tu test de italiano y domina el vocabulario.', flag: `<svg class='w-6 h-6 rounded-full' viewBox='0 0 512 512'><g clip-path='circle(256 256 256)'><path fill='#ffffff' d='M0 0h512v512H0z'/><path fill='#009246' d='M0 0h170.7v512H0z'/><path fill='#ce2b37' d='M341.3 0H512v512H341.3z'/></g></svg>` }
+                    ]"
+                    :key="lang.id"
+                    @click="handleLanguageSelected(lang.id); isTestDropdownOpen = false;"
+                    class="w-full text-left p-3 bg-brand-cream/40 border border-brand-blue/10 hover:border-brand-greenLight rounded-2xl hover:bg-brand-blue/5 flex flex-col gap-1.5 transition-all cursor-pointer group text-brand-dark"
+                  >
+                    <div class="flex items-center gap-2">
+                      <div v-html="lang.flag" class="w-6 h-6 flex-shrink-0" />
+                      <div class="flex flex-col">
+                        <span class="font-title font-bold text-sm text-brand-blue leading-none group-hover:text-brand-greenDark">{{ lang.name }}</span>
+                        <span class="text-[9px] font-body text-gray-500 font-semibold">{{ lang.label }}</span>
+                      </div>
+                    </div>
+                    <!-- Pequeña tarjeta con la descripción del idioma -->
+                    <p class="text-[10px] font-body text-gray-600 leading-relaxed">
+                      {{ lang.desc }}
+                    </p>
+                  </button>
+                </div>
+              </div>
+            </div>
 
           </div>
 
