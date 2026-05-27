@@ -1,0 +1,207 @@
+{
+    "language": "EN",
+    "tier_thresholds": {
+        "A1": 0,
+        "A2": 20,
+        "B1": 40,
+        "B2": 60,
+        "C1": 80,
+        "C2": 100
+    },
+    "modules": [
+        {
+            "id": "module_1_reading",
+            "type": "reading",
+            "grading": "automated",
+            "sections": [
+                {
+                    "id": "r1",
+                    "level": "A1-A2",
+                    "instruction": "Read the text and select the correct option for each question.",
+                    "text": "Welcome to the Central Metro Station. The ticket office is open daily from 6:00 AM to 10:00 PM. If you need assistance outside these hours, please use the automated ticket machines located next to the main entrance. Passengers must hold a valid ticket before boarding the trains. Backpacks and large luggage are subject to security screening.",
+                    "questions": [
+                        {
+                            "id": "q_1_1",
+                            "text": "What should a passenger do if the ticket office is closed at 11:00 PM?",
+                            "options": [
+                                {
+                                    "id": "opt_a",
+                                    "text": "Wait until the next morning at 6:00 AM.",
+                                    "points": 0
+                                },
+                                {
+                                    "id": "opt_b",
+                                    "text": "Use the automated ticket machines near the main entrance.",
+                                    "points": 10
+                                },
+                                {
+                                    "id": "opt_c",
+                                    "text": "Board the train immediately and pay inside.",
+                                    "points": 0
+                                },
+                                {
+                                    "id": "opt_d",
+                                    "text": "Contact security to purchase a special pass.",
+                                    "points": 0
+                                }
+                            ]
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "id": "module_2_reading_advanced",
+            "type": "reading",
+            "grading": "automated",
+            "sections": [
+                {
+                    "id": "r2",
+                    "level": "B1-B2",
+                    "instruction": "Read the sentence and choose the correct word to fill the gap.",
+                    "text": "This section evaluates your knowledge of English grammar, conditionals, and phrasal verbs at an intermediate-to-upper level.",
+                    "questions": [
+                        {
+                            "id": "q_2_1",
+                            "text": "If I _______ about the meeting earlier, I would have prepared the report on time.",
+                            "options": [
+                                {
+                                    "id": "opt_a",
+                                    "text": "know",
+                                    "points": 0
+                                },
+                                {
+                                    "id": "opt_b",
+                                    "text": "knew",
+                                    "points": 0
+                                },
+                                {
+                                    "id": "opt_c",
+                                    "text": "had known",
+                                    "points": 8
+                                },
+                                {
+                                    "id": "opt_d",
+                                    "text": "have known",
+                                    "points": 0
+                                }
+                            ]
+                        },
+                        {
+                            "id": "q_2_2",
+                            "text": "The company decided to _______ the product launch due to unexpected supply chain issues.",
+                            "options": [
+                                {
+                                    "id": "opt_a",
+                                    "text": "put off",
+                                    "points": 7
+                                },
+                                {
+                                    "id": "opt_b",
+                                    "text": "put up",
+                                    "points": 0
+                                },
+                                {
+                                    "id": "opt_c",
+                                    "text": "put on",
+                                    "points": 0
+                                },
+                                {
+                                    "id": "opt_d",
+                                    "text": "put out",
+                                    "points": 0
+                                }
+                            ]
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "id": "module_3_writing",
+            "type": "writing",
+            "grading": "deferred",
+            "config": {
+                "block_paste": true,
+                "show_word_counter": true
+            },
+            "sections": [
+                {
+                    "id": "w1",
+                    "level": "A2-B1",
+                    "instruction": "Write an email response based on the situation below. Your response must be between 80 and 120 words.",
+                    "prompt_text": "A client sent an angry email because their corporate order arrived four days late due to a customs bottleneck. Write an email apologizing for the delay, explaining briefly that it was a logistics issue, and offering a 15% discount code on their next invoice as compensation.",
+                    "min_words": 80,
+                    "max_words": 120
+                }
+            ]
+        },
+        {
+            "id": "module_4_use_of_english",
+            "type": "reading",
+            "grading": "automated",
+            "sections": [
+                {
+                    "id": "uoe1",
+                    "level": "C1-C2",
+                    "instruction": "Read the text and select the most advanced vocabulary word to complete the sentence.",
+                    "text": "This section evaluates your mastery of advanced English vocabulary, idiomatic usage, and nuanced register at a proficiency level.",
+                    "questions": [
+                        {
+                            "id": "q_4_1",
+                            "text": "The CEO's decision to restructure the entire department was met with _______ from employees who feared losing their positions.",
+                            "options": [
+                                {
+                                    "id": "opt_a",
+                                    "text": "happiness",
+                                    "points": 0
+                                },
+                                {
+                                    "id": "opt_b",
+                                    "text": "trepidation",
+                                    "points": 8
+                                },
+                                {
+                                    "id": "opt_c",
+                                    "text": "boredom",
+                                    "points": 0
+                                },
+                                {
+                                    "id": "opt_d",
+                                    "text": "curiosity",
+                                    "points": 0
+                                }
+                            ]
+                        },
+                        {
+                            "id": "q_4_2",
+                            "text": "Despite the overwhelming evidence against him, the defendant maintained an air of _______ throughout the entire trial.",
+                            "options": [
+                                {
+                                    "id": "opt_a",
+                                    "text": "guilt",
+                                    "points": 0
+                                },
+                                {
+                                    "id": "opt_b",
+                                    "text": "sadness",
+                                    "points": 0
+                                },
+                                {
+                                    "id": "opt_c",
+                                    "text": "insouciance",
+                                    "points": 7
+                                },
+                                {
+                                    "id": "opt_d",
+                                    "text": "anger",
+                                    "points": 0
+                                }
+                            ]
+                        }
+                    ]
+                }
+            ]
+        }
+    ]
+}
