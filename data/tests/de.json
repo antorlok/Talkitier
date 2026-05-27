@@ -1,5 +1,5 @@
 {
-    "language": "EN",
+    "language": "DE",
     "tier_thresholds": {
         "A1": 0,
         "A2": 20,
@@ -17,31 +17,31 @@
                 {
                     "id": "r1",
                     "level": "A1-A2",
-                    "instruction": "Read the text and select the correct option for each question.",
-                    "text": "Welcome to the Central Metro Station. The ticket office is open daily from 6:00 AM to 10:00 PM. If you need assistance outside these hours, please use the automated ticket machines located next to the main entrance. Passengers must hold a valid ticket before boarding the trains. Backpacks and large luggage are subject to security screening.",
+                    "instruction": "Lesen Sie den Text und wählen Sie die richtige Option für jede Frage aus.",
+                    "text": "Willkommen am Hauptbahnhof. Der Fahrkartenschalter ist täglich von 6:00 bis 22:00 Uhr geöffnet. Wenn Sie außerhalb dieser Zeiten Hilfe benötigen, nutzen Sie bitte die Fahrkartenautomaten neben dem Haupteingang. Fahrgäste müssen vor dem Betreten der Züge im Besitz einer gültigen Fahrkarte sein. Rucksäcke und großes Gepäck können einer Sicherheitskontrolle unterzogen werden.",
                     "questions": [
                         {
                             "id": "q_1_1",
-                            "text": "What should a passenger do if the ticket office is closed at 11:00 PM?",
+                            "text": "Was sollte ein Fahrgast tun, wenn der Fahrkartenschalter um 23:00 Uhr geschlossen ist?",
                             "options": [
                                 {
                                     "id": "opt_a",
-                                    "text": "Wait until the next morning at 6:00 AM.",
+                                    "text": "Bis zum nächsten Morgen um 6:00 Uhr warten.",
                                     "points": 0
                                 },
                                 {
                                     "id": "opt_b",
-                                    "text": "Use the automated ticket machines near the main entrance.",
+                                    "text": "Die Fahrkartenautomaten in der Nähe des Haupteingangs benutzen.",
                                     "points": 10
                                 },
                                 {
                                     "id": "opt_c",
-                                    "text": "Board the train immediately and pay inside.",
+                                    "text": "Sofort in den Zug einsteigen und drinnen bezahlen.",
                                     "points": 0
                                 },
                                 {
                                     "id": "opt_d",
-                                    "text": "Contact security to purchase a special pass.",
+                                    "text": "Den Sicherheitsdienst kontaktieren, um einen Sonderausweis zu kaufen.",
                                     "points": 0
                                 }
                             ]
@@ -58,57 +58,57 @@
                 {
                     "id": "r2",
                     "level": "B1-B2",
-                    "instruction": "Read the sentence and choose the correct word to fill the gap.",
-                    "text": "This section evaluates your knowledge of English grammar, conditionals, and phrasal verbs at an intermediate-to-upper level.",
+                    "instruction": "Lesen Sie den Satz und wählen Sie das richtige Wort aus, um die Lücke zu füllen.",
+                    "text": "Dieser Abschnitt bewertet Ihre Kenntnisse der deutschen Grammatik, der Konditionalsätze und der trennbaren Verben auf fortgeschrittenem Niveau.",
                     "questions": [
                         {
                             "id": "q_2_1",
-                            "text": "If I _______ about the meeting earlier, I would have prepared the report on time.",
+                            "text": "Wenn ich früher von dem Treffen _______ hätte, hätte ich den Bericht rechtzeitig vorbereitet.",
                             "options": [
                                 {
                                     "id": "opt_a",
-                                    "text": "know",
+                                    "text": "gewissen",
                                     "points": 0
                                 },
                                 {
                                     "id": "opt_b",
-                                    "text": "knew",
+                                    "text": "wüsste",
                                     "points": 0
                                 },
                                 {
                                     "id": "opt_c",
-                                    "text": "had known",
+                                    "text": "gewusst",
                                     "points": 8
                                 },
                                 {
                                     "id": "opt_d",
-                                    "text": "have known",
+                                    "text": "gewiss",
                                     "points": 0
                                 }
                             ]
                         },
                         {
                             "id": "q_2_2",
-                            "text": "The company decided to _______ the product launch due to unexpected supply chain issues.",
+                            "text": "Das Unternehmen beschloss, den Produktlaunch wegen unerwarteter Lieferkettenschwierigkeiten zu _______.",
                             "options": [
                                 {
                                     "id": "opt_a",
-                                    "text": "put off",
+                                    "text": "verschieben",
                                     "points": 7
                                 },
                                 {
                                     "id": "opt_b",
-                                    "text": "put up",
+                                    "text": "abschaffen",
                                     "points": 0
                                 },
                                 {
                                     "id": "opt_c",
-                                    "text": "put on",
+                                    "text": "einstellen",
                                     "points": 0
                                 },
                                 {
                                     "id": "opt_d",
-                                    "text": "put out",
+                                    "text": "vertreiben",
                                     "points": 0
                                 }
                             ]
@@ -129,8 +129,8 @@
                 {
                     "id": "w1",
                     "level": "A2-B1",
-                    "instruction": "Write an email response based on the situation below. Your response must be between 80 and 120 words.",
-                    "prompt_text": "A client sent an angry email because their corporate order arrived four days late due to a customs bottleneck. Write an email apologizing for the delay, explaining briefly that it was a logistics issue, and offering a 15% discount code on their next invoice as compensation.",
+                    "instruction": "Schreiben Sie eine E-Mail-Antwort basierend auf der unten beschriebenen Situation. Ihre Antwort muss zwischen 80 und 120 Wörtern lang sein.",
+                    "prompt_text": "Ein Kunde hat eine verärgerte E-Mail geschickt, weil seine Firmenbestellung aufgrund eines Zollengpasses mit vier Tagen Verspätung eingetroffen ist. Schreiben Sie eine E-Mail, in der Sie sich für die Verzögerung entschuldigen, kurz erklären, dass es sich um ein logistisches Problem handelte, und als Entschädigung einen Rabattcode von 15 % auf die nächste Rechnung anbieten.",
                     "min_words": 80,
                     "max_words": 120
                 }
@@ -144,57 +144,57 @@
                 {
                     "id": "uoe1",
                     "level": "C1-C2",
-                    "instruction": "Read the text and select the most advanced vocabulary word to complete the sentence.",
-                    "text": "This section evaluates your mastery of advanced English vocabulary, idiomatic usage, and nuanced register at a proficiency level.",
+                    "instruction": "Lesen Sie den Text und wählen Sie das anspruchsvollste Vokabelwort aus, um den Satz zu vervollständigen.",
+                    "text": "Dieser Abschnitt bewertet Ihre Beherrschung des fortgeschrittenen deutschen Wortschatzes, idiomatischer Ausdrücke und nuancierter Register auf höchstem Niveau.",
                     "questions": [
                         {
                             "id": "q_4_1",
-                            "text": "The CEO's decision to restructure the entire department was met with _______ from employees who feared losing their positions.",
+                            "text": "Die Entscheidung des CEO, die gesamte Abteilung umzustrukturieren, stieß bei den Mitarbeitern, die um ihre Stellen fürchteten, auf große _______.",
                             "options": [
                                 {
                                     "id": "opt_a",
-                                    "text": "happiness",
+                                    "text": "Erleichterung",
                                     "points": 0
                                 },
                                 {
                                     "id": "opt_b",
-                                    "text": "trepidation",
+                                    "text": "Besorgnis",
                                     "points": 8
                                 },
                                 {
                                     "id": "opt_c",
-                                    "text": "boredom",
+                                    "text": "Gleichgültigkeit",
                                     "points": 0
                                 },
                                 {
                                     "id": "opt_d",
-                                    "text": "curiosity",
+                                    "text": "Heiterkeit",
                                     "points": 0
                                 }
                             ]
                         },
                         {
                             "id": "q_4_2",
-                            "text": "Despite the overwhelming evidence against him, the defendant maintained an air of _______ throughout the entire trial.",
+                            "text": "Trotz der erdrückenden Beweise gegen ihn bewahrte der Angeklagte während des gesamten Prozesses eine Miene der _______.",
                             "options": [
                                 {
                                     "id": "opt_a",
-                                    "text": "guilt",
+                                    "text": "Zerknirschung",
                                     "points": 0
                                 },
                                 {
                                     "id": "opt_b",
-                                    "text": "sadness",
+                                    "text": "Verzweiflung",
                                     "points": 0
                                 },
                                 {
                                     "id": "opt_c",
-                                    "text": "insouciance",
+                                    "text": "Unbekümmertheit",
                                     "points": 7
                                 },
                                 {
                                     "id": "opt_d",
-                                    "text": "anger",
+                                    "text": "Empörung",
                                     "points": 0
                                 }
                             ]

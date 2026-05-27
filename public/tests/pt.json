@@ -1,5 +1,5 @@
 {
-    "language": "EN",
+    "language": "PT",
     "tier_thresholds": {
         "A1": 0,
         "A2": 20,
@@ -17,31 +17,31 @@
                 {
                     "id": "r1",
                     "level": "A1-A2",
-                    "instruction": "Read the text and select the correct option for each question.",
-                    "text": "Welcome to the Central Metro Station. The ticket office is open daily from 6:00 AM to 10:00 PM. If you need assistance outside these hours, please use the automated ticket machines located next to the main entrance. Passengers must hold a valid ticket before boarding the trains. Backpacks and large luggage are subject to security screening.",
+                    "instruction": "Leia o texto e selecione a opção correta para cada questão.",
+                    "text": "Bem-vindo à Estação Central de Metrô. A bilheteria fica aberta diariamente das 6h00 às 22h00. Se precisar de assistência fora desse horário, por favor, utilize as máquinas de autoatendimento localizadas ao lado da entrada principal. Os passageiros devem possuir um bilhete válido antes de embarcar nos trens. Mochilas e bagagens grandes estão sujeitas à inspeção de segurança.",
                     "questions": [
                         {
                             "id": "q_1_1",
-                            "text": "What should a passenger do if the ticket office is closed at 11:00 PM?",
+                            "text": "O que um passageiro deve fazer se a bilheteria estiver fechada às 23h00?",
                             "options": [
                                 {
                                     "id": "opt_a",
-                                    "text": "Wait until the next morning at 6:00 AM.",
+                                    "text": "Esperar até a manhã seguinte às 6h00.",
                                     "points": 0
                                 },
                                 {
                                     "id": "opt_b",
-                                    "text": "Use the automated ticket machines near the main entrance.",
+                                    "text": "Utilizar as máquinas de autoatendimento perto da entrada principal.",
                                     "points": 10
                                 },
                                 {
                                     "id": "opt_c",
-                                    "text": "Board the train immediately and pay inside.",
+                                    "text": "Embarcar no trem imediatamente e pagar a bordo.",
                                     "points": 0
                                 },
                                 {
                                     "id": "opt_d",
-                                    "text": "Contact security to purchase a special pass.",
+                                    "text": "Entrar em contato com a segurança para comprar um passe especial.",
                                     "points": 0
                                 }
                             ]
@@ -58,57 +58,57 @@
                 {
                     "id": "r2",
                     "level": "B1-B2",
-                    "instruction": "Read the sentence and choose the correct word to fill the gap.",
-                    "text": "This section evaluates your knowledge of English grammar, conditionals, and phrasal verbs at an intermediate-to-upper level.",
+                    "instruction": "Leia a frase e escolha a palavra correta para preencher a lacuna.",
+                    "text": "Esta seção avalia seus conhecimentos de gramática da língua portuguesa, tempos verbais do subjuntivo e regência verbal em nível intermediário a avançado.",
                     "questions": [
                         {
                             "id": "q_2_1",
-                            "text": "If I _______ about the meeting earlier, I would have prepared the report on time.",
+                            "text": "Se eu _______ sobre a reunião mais cedo, teria preparado o relatório a tempo.",
                             "options": [
                                 {
                                     "id": "opt_a",
-                                    "text": "know",
+                                    "text": "souber",
                                     "points": 0
                                 },
                                 {
                                     "id": "opt_b",
-                                    "text": "knew",
+                                    "text": "soubera",
                                     "points": 0
                                 },
                                 {
                                     "id": "opt_c",
-                                    "text": "had known",
+                                    "text": "soubesse",
                                     "points": 8
                                 },
                                 {
                                     "id": "opt_d",
-                                    "text": "have known",
+                                    "text": "sei",
                                     "points": 0
                                 }
                             ]
                         },
                         {
                             "id": "q_2_2",
-                            "text": "The company decided to _______ the product launch due to unexpected supply chain issues.",
+                            "text": "A empresa decidiu _______ o lançamento do produto devido a problemas inesperados na cadeia de suprimentos.",
                             "options": [
                                 {
                                     "id": "opt_a",
-                                    "text": "put off",
+                                    "text": "adiar",
                                     "points": 7
                                 },
                                 {
                                     "id": "opt_b",
-                                    "text": "put up",
+                                    "text": "antecipar",
                                     "points": 0
                                 },
                                 {
                                     "id": "opt_c",
-                                    "text": "put on",
+                                    "text": "cancelar",
                                     "points": 0
                                 },
                                 {
                                     "id": "opt_d",
-                                    "text": "put out",
+                                    "text": "promover",
                                     "points": 0
                                 }
                             ]
@@ -129,8 +129,8 @@
                 {
                     "id": "w1",
                     "level": "A2-B1",
-                    "instruction": "Write an email response based on the situation below. Your response must be between 80 and 120 words.",
-                    "prompt_text": "A client sent an angry email because their corporate order arrived four days late due to a customs bottleneck. Write an email apologizing for the delay, explaining briefly that it was a logistics issue, and offering a 15% discount code on their next invoice as compensation.",
+                    "instruction": "Escreva um e-mail de resposta com base na situação abaixo. Sua resposta deve ter entre 80 e 120 palavras.",
+                    "prompt_text": "Um cliente enviou um e-mail indignado porque o pedido corporativo dele chegou com quatro dias de atraso devido a um gargalo alfandegário. Escreva um e-mail pedindo desculpas pelo atraso, explicando brevemente que se tratou de um problema logístico, e oferecendo um código de desconto de 15% em sua próxima fatura como compensação.",
                     "min_words": 80,
                     "max_words": 120
                 }
@@ -144,57 +144,57 @@
                 {
                     "id": "uoe1",
                     "level": "C1-C2",
-                    "instruction": "Read the text and select the most advanced vocabulary word to complete the sentence.",
-                    "text": "This section evaluates your mastery of advanced English vocabulary, idiomatic usage, and nuanced register at a proficiency level.",
+                    "instruction": "Leia o texto e selecione a palavra de vocabulário mais avançada para completar a frase.",
+                    "text": "Esta seção avalia o seu domínio do vocabulário avançado em português, expressões idiomáticas e registros formais em nível de proficiência.",
                     "questions": [
                         {
                             "id": "q_4_1",
-                            "text": "The CEO's decision to restructure the entire department was met with _______ from employees who feared losing their positions.",
+                            "text": "A decisão do CEO de reestruturar todo o departamento foi recebida com _______ pelos funcionários que temiam perder seus cargos.",
                             "options": [
                                 {
                                     "id": "opt_a",
-                                    "text": "happiness",
+                                    "text": "satisfação",
                                     "points": 0
                                 },
                                 {
                                     "id": "opt_b",
-                                    "text": "trepidation",
+                                    "text": "apreensão",
                                     "points": 8
                                 },
                                 {
                                     "id": "opt_c",
-                                    "text": "boredom",
+                                    "text": "indiferença",
                                     "points": 0
                                 },
                                 {
                                     "id": "opt_d",
-                                    "text": "curiosity",
+                                    "text": "curiosidade",
                                     "points": 0
                                 }
                             ]
                         },
                         {
                             "id": "q_4_2",
-                            "text": "Despite the overwhelming evidence against him, the defendant maintained an air of _______ throughout the entire trial.",
+                            "text": "Apesar das provas esmagadoras contra ele, o réu manteve um ar de _______ durante todo o julgamento.",
                             "options": [
                                 {
                                     "id": "opt_a",
-                                    "text": "guilt",
+                                    "text": "remorso",
                                     "points": 0
                                 },
                                 {
                                     "id": "opt_b",
-                                    "text": "sadness",
+                                    "text": "abatimento",
                                     "points": 0
                                 },
                                 {
                                     "id": "opt_c",
-                                    "text": "insouciance",
+                                    "text": "impassibilidade",
                                     "points": 7
                                 },
                                 {
                                     "id": "opt_d",
-                                    "text": "anger",
+                                    "text": "indignação",
                                     "points": 0
                                 }
                             ]
