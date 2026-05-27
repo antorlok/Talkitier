@@ -49,12 +49,12 @@ const scrollToLanguages = () => {
   <!-- Layout global con fondo bg-brand-cream según especificaciones de diseño de marca -->
   <div class="min-h-screen bg-brand-cream text-brand-dark flex flex-col font-body transition-colors duration-500">
     
-    <!-- HEADER / NAVBAR PREMIUM -->
-    <header class="w-full bg-brand-cream/80 backdrop-blur-md sticky top-0 z-50 px-6 py-4 border-b border-brand-blue/10 flex items-center justify-between">
+    <!-- HEADER / NAVBAR PREMIUM RESPONSIVO MOBILE-FIRST (Fase 14) -->
+    <header class="w-full bg-brand-cream/80 backdrop-blur-md sticky top-0 z-50 px-4 py-3 md:px-6 md:py-4 border-b border-brand-blue/10 flex items-center justify-between">
       
       <!-- Logo Talkitier original de la referencia -->
       <div class="flex items-center cursor-pointer" @click="navigateTo('/')">
-        <img src="/assets/logos/logo-full-dark.svg" alt="Talkitier" class="h-8 md:h-10 object-contain" />
+        <img src="/assets/logos/logo-full-dark.svg" alt="Talkitier" class="h-7 md:h-10 object-contain" />
       </div>
 
       <!-- Menú de Navegación de Escritorio -->
@@ -90,18 +90,18 @@ const scrollToLanguages = () => {
       </nav>
 
       <!-- Botón de Menú de Hamburguesa para Móviles -->
-      <button class="md:hidden w-10 h-10 rounded-talki bg-brand-blue text-brand-cream flex items-center justify-center transition-all active:scale-95" @click="toggleMobileMenu">
-        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2.5" stroke="currentColor" class="w-5 h-5">
+      <button class="md:hidden w-9 h-9 rounded-talki bg-brand-blue text-brand-cream flex items-center justify-center transition-all active:scale-95" @click="toggleMobileMenu">
+        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2.5" stroke="currentColor" class="w-4.5 h-4.5">
           <path stroke-linecap="round" stroke-linejoin="round" d="M3.75 6.75h16.5M3.75 12h16.5m-16.5 5.25h16.5" />
         </svg>
       </button>
 
     </header>
 
-    <div v-if="isMobileMenuOpen" class="md:hidden bg-brand-cream border-b border-brand-blue/10 px-6 py-4 flex flex-col gap-3 shadow-lg">
+    <div v-if="isMobileMenuOpen" class="md:hidden bg-brand-cream border-b border-brand-blue/10 px-4 py-3 flex flex-col gap-2.5 shadow-lg">
       <button 
         @click="togglePlans(); isMobileMenuOpen = false;" 
-        class="bg-brand-blue text-brand-cream hover:bg-brand-blue/90 text-xs font-semibold py-3 rounded-talki w-full transition-all flex items-center justify-center gap-1.5 cursor-pointer"
+        class="bg-brand-blue text-brand-cream hover:bg-brand-blue/90 text-xs font-semibold py-2.5 rounded-talki w-full transition-all flex items-center justify-center gap-1.5 cursor-pointer"
       >
         <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2.5" stroke="currentColor" class="w-4 h-4 text-brand-greenLight">
           <path stroke-linecap="round" stroke-linejoin="round" d="M9.813 15.904L9 21L14.907 18L21 21L20.187 15.904L24 12.188L18.828 11.458L16.5 6.75L14.172 11.458L9 12.188L12.813 15.904Z" />
@@ -111,41 +111,41 @@ const scrollToLanguages = () => {
       </button>
       
       <!-- Menú condicional para dispositivos móviles -->
-      <div v-if="isAuthenticated && user" class="flex flex-col items-center gap-3 py-2 border-t border-brand-blue/10">
-        <div class="flex items-center gap-3">
+      <div v-if="isAuthenticated && user" class="flex flex-col items-center gap-2 py-2 border-t border-brand-blue/10">
+        <div class="flex items-center gap-2">
           <img 
             :src="`https://cdn.discordapp.com/avatars/${user.id}/${user.avatar}.png`" 
             alt="Avatar de Discord" 
-            class="w-8 h-8 rounded-full border border-brand-blue/20 shadow-sm"
+            class="w-7 h-7 rounded-full border border-brand-blue/20 shadow-sm"
             @error="(e: any) => e.target.src = 'https://cdn.discordapp.com/embed/avatars/0.png'"
           />
           <span class="font-title font-bold text-sm text-brand-blue">{{ user.username }}</span>
         </div>
-        <BaseButton variant="accent" class="text-xs text-red-600 hover:text-red-700 w-full justify-center" @click="logout">
+        <BaseButton variant="accent" class="text-xs text-red-600 hover:text-red-700 w-full justify-center !py-2" @click="logout">
           Cerrar sesión
         </BaseButton>
       </div>
-      <BaseButton v-else variant="secondary" class="!bg-brand-blue !text-brand-cream justify-center w-full shadow-md border-none" @click="loginWithDiscord">
+      <BaseButton v-else variant="secondary" class="!bg-brand-blue !text-brand-cream justify-center w-full shadow-md border-none !py-2.5" @click="loginWithDiscord">
         Iniciar sesión
       </BaseButton>
     </div>
 
-    <!-- CONTENIDO PRINCIPAL -->
-    <main class="flex-1 flex flex-col items-center justify-center w-full max-w-7xl mx-auto px-6 py-8 md:py-16">
+    <!-- CONTENIDO PRINCIPAL RESPONSIVO -->
+    <main class="flex-1 flex flex-col items-center justify-center w-full max-w-7xl mx-auto px-4 md:px-6 py-6 md:py-16">
       
       <!-- RENDERIZADO DE LA LANDING PAGE ESTÁNDAR -->
-      <div class="w-full flex flex-col gap-12 md:gap-20">
+      <div class="w-full flex flex-col gap-10 md:gap-20">
         
-        <!-- SECCIÓN HERO -->
+        <!-- SECCIÓN HERO RESPONSIVA -->
         <section class="grid grid-cols-1 lg:grid-cols-12 gap-8 items-center">
           
           <!-- Columna Izquierda: Información de Valor -->
-          <div class="lg:col-span-7 flex flex-col gap-6 text-left">
-            <h2 class="font-title font-extrabold text-4xl md:text-5xl lg:text-6xl text-brand-dark leading-tight tracking-tight">
+          <div class="lg:col-span-7 flex flex-col gap-5 text-left">
+            <h2 class="font-title font-extrabold text-3xl md:text-5xl lg:text-6xl text-brand-dark leading-tight tracking-tight">
               El espacio donde tu idioma <span class="bg-[#b6cf7b]/40 px-2 py-0.5 rounded-lg border-b-4 border-brand-greenDark/60">cobra vida.</span>
             </h2>
             
-            <p class="font-body text-base md:text-lg text-gray-700 leading-relaxed max-w-xl">
+            <p class="font-body text-sm md:text-lg text-gray-700 leading-relaxed max-w-xl">
               Ofrecemos grupos conversacionales de lenguas extranjeras para personas principiantes o avanzadas en el mundo de los idiomas.
               Haz el test, descubre tu rango, únete a un servidor de Discord y aprende con amigos.
             </p>
@@ -154,11 +154,11 @@ const scrollToLanguages = () => {
             <BaseButton
               v-if="!isAuthenticated"
               variant="primary"
-              class="self-start !bg-[#5865F2] hover:!bg-[#4752C4] !text-white px-8 py-4 text-base md:text-lg flex items-center gap-3 shadow-lg shadow-[#5865F2]/20 hover:shadow-[#5865F2]/40 rounded-talki font-title tracking-wide transition-all transform hover:-translate-y-0.5 active:translate-y-0"
+              class="self-start !bg-[#5865F2] hover:!bg-[#4752C4] !text-white px-6 py-3.5 md:px-8 md:py-4 text-sm md:text-lg flex items-center gap-3 shadow-lg shadow-[#5865F2]/20 hover:shadow-[#5865F2]/40 rounded-talki font-title tracking-wide transition-all transform hover:-translate-y-0.5 active:translate-y-0"
               @click="loginWithDiscord"
             >
               <!-- Icono oficial de Discord vectorizado -->
-              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 127.14 96.36" class="w-6 h-6 fill-current">
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 127.14 96.36" class="w-5 h-5 md:w-6 md:h-6 fill-current">
                 <path d="M107.7,8.07A105.15,105.15,0,0,0,77.26,0a77.19,77.19,0,0,0-3.3,6.83A96.67,96.67,0,0,0,53.22,6.83,77.19,77.19,0,0,0,49.88,0,105.15,105.15,0,0,0,19.47,8.07C3.66,31.58-1.86,54.65,1,77.53A105.73,105.73,0,0,0,32,96.36a77.7,77.7,0,0,0,6.63-10.85,68.43,68.43,0,0,1-10.5-5c.9-.65,1.76-1.34,2.58-2a75.58,75.58,0,0,0,73,0c.83.69,1.69,1.38,2.58,2a68.43,68.43,0,0,1-10.5,5A77.7,77.7,0,0,0,102,85.51a105.73,105.73,0,0,0,31-18.83C130.67,54.65,125.13,31.58,107.7,8.07ZM42.45,65.69C36.18,65.69,31,60,31,53S36.18,40.36,42.45,40.36,53.83,46,53.83,53,48.72,65.69,42.45,65.69Zm42.24,0C78.42,65.69,73.24,60,73.24,53S78.42,40.36,84.69,40.36,96.07,46,96.07,53,91,65.69,84.69,65.69Z"/>
               </svg>
               INICIAR SESIÓN CON DISCORD
@@ -167,23 +167,23 @@ const scrollToLanguages = () => {
             <div v-else class="relative inline-block self-start z-30">
               <BaseButton
                 variant="primary"
-                class="px-8 py-4 text-base md:text-lg flex items-center gap-2 rounded-talki font-title tracking-wide shadow-lg shadow-brand-greenLight/20 transition-all transform hover:-translate-y-0.5 active:translate-y-0 cursor-pointer"
+                class="px-6 py-3.5 md:px-8 md:py-4 text-sm md:text-lg flex items-center gap-2 rounded-talki font-title tracking-wide shadow-lg shadow-brand-greenLight/20 transition-all transform hover:-translate-y-0.5 active:translate-y-0 cursor-pointer"
                 @click="isTestDropdownOpen = !isTestDropdownOpen"
               >
                 COMENZAR TEST
-                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2.5" stroke="currentColor" class="w-5 h-5 transition-transform" :class="{ 'rotate-180': isTestDropdownOpen }">
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2.5" stroke="currentColor" class="w-4 h-4 md:w-5 md:h-5 transition-transform" :class="{ 'rotate-180': isTestDropdownOpen }">
                   <path stroke-linecap="round" stroke-linejoin="round" d="M19.5 8.25l-7.5 7.5-7.5-7.5" />
                 </svg>
               </BaseButton>
 
-              <!-- Panel Premium de Selección de Idioma para el Test (Fase 12) -->
-              <div v-if="isTestDropdownOpen" class="absolute left-0 mt-2 w-[320px] sm:w-[420px] bg-white border-2 border-brand-blue/15 rounded-3xl shadow-2xl p-4 flex flex-col gap-3 animate-fade-in z-50">
+              <!-- Panel Premium de Selección de Idioma para el Test (Fase 12/14) -->
+              <div v-if="isTestDropdownOpen" class="absolute left-0 mt-2 w-[290px] xs:w-[320px] sm:w-[420px] bg-white border-2 border-brand-blue/15 rounded-3xl shadow-2xl p-3 sm:p-4 flex flex-col gap-3 animate-fade-in z-50">
                 <div class="flex items-center justify-between border-b border-brand-blue/10 pb-2">
-                  <span class="text-xs font-bold text-brand-blue uppercase tracking-wider font-title">Elige el idioma del test</span>
-                  <span class="bg-brand-greenLight text-brand-blue text-[9px] font-bold px-2 py-0.5 rounded-full uppercase">Selección Obligatoria</span>
+                  <span class="text-[10px] sm:text-xs font-bold text-brand-blue uppercase tracking-wider font-title">Elige el idioma del test</span>
+                  <span class="bg-brand-greenLight text-brand-blue text-[8px] sm:text-[9px] font-bold px-2 py-0.5 rounded-full uppercase">Selección Obligatoria</span>
                 </div>
                 
-                <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 max-h-[350px] overflow-y-auto pr-1">
+                <div class="grid grid-cols-1 sm:grid-cols-2 gap-2.5 max-h-[300px] overflow-y-auto pr-1">
                   <button
                     v-for="lang in [
                       { id: 'de', name: 'Deutsch', label: 'Alemán', desc: 'Evalúa tu nivel de alemán e intégrate a los canales.', flag: `<svg class='w-6 h-6 rounded-full' viewBox='0 0 512 512'><g clip-path='circle(256 256 256)'><path fill='#ffce00' d='M0 0h512v512H0z'/><path d='M0 0h512v341.3H0z'/><path fill='#dd0000' d='M0 170.7h512v170.6H0z'/></g></svg>` },
