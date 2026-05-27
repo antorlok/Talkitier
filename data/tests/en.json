@@ -1,0 +1,138 @@
+{
+    "language": "EN",
+    "tier_thresholds": {
+        "A1": 0,
+        "A2": 20,
+        "B1": 40,
+        "B2": 60,
+        "C1": 80,
+        "C2": 100
+    },
+    "modules": [
+        {
+            "id": "module_1_reading",
+            "type": "reading",
+            "grading": "automated",
+            "sections": [
+                {
+                    "id": "r1",
+                    "level": "A1-A2",
+                    "instruction": "Read the text and select the correct option for each question.",
+                    "text": "Welcome to the Central Metro Station. The ticket office is open daily from 6:00 AM to 10:00 PM. If you need assistance outside these hours, please use the automated ticket machines located next to the main entrance. Passengers must hold a valid ticket before boarding the trains. Backpacks and large luggage are subject to security screening.",
+                    "questions": [
+                        {
+                            "id": "q_1_1",
+                            "text": "What should a passenger do if the ticket office is closed at 11:00 PM?",
+                            "options": [
+                                {
+                                    "id": "opt_a",
+                                    "text": "Wait until the next morning at 6:00 AM.",
+                                    "points": 0
+                                },
+                                {
+                                    "id": "opt_b",
+                                    "text": "Use the automated ticket machines near the main entrance.",
+                                    "points": 10
+                                },
+                                {
+                                    "id": "opt_c",
+                                    "text": "Board the train immediately and pay inside.",
+                                    "points": 0
+                                },
+                                {
+                                    "id": "opt_d",
+                                    "text": "Contact security to purchase a special pass.",
+                                    "points": 0
+                                }
+                            ]
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "id": "module_2_listening",
+            "type": "listening",
+            "grading": "automated",
+            "config": {
+                "max_plays": 2,
+                "block_seek": true
+            },
+            "sections": [
+                {
+                    "id": "l1",
+                    "level": "B2-C1",
+                    "instruction": "Listen to the excerpt from a corporate marketing seminar and answer the multiple-choice question.",
+                    "audio_url": "/assets/audio/en/b2_c1_marketing_seminar.mp3",
+                    "questions": [
+                        {
+                            "id": "q_3_1",
+                            "text": "What is the main long-term disadvantage of frequent price cuts mentioned by the speaker?",
+                            "options": [
+                                {
+                                    "id": "opt_a",
+                                    "text": "It causes an immediate drop in production efficiency.",
+                                    "points": 0
+                                },
+                                {
+                                    "id": "opt_b",
+                                    "text": "It alters consumer behavior and damages the product's perceived premium value.",
+                                    "points": 15
+                                },
+                                {
+                                    "id": "opt_c",
+                                    "text": "It directly increases administrative costs.",
+                                    "points": 0
+                                },
+                                {
+                                    "id": "opt_d",
+                                    "text": "It forces competitors to merge.",
+                                    "points": 0
+                                }
+                            ]
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "id": "module_3_writing",
+            "type": "writing",
+            "grading": "deferred",
+            "config": {
+                "block_paste": true,
+                "show_word_counter": true
+            },
+            "sections": [
+                {
+                    "id": "w1",
+                    "level": "A2-B1",
+                    "instruction": "Write an email response based on the situation below. Your response must be between 80 and 120 words.",
+                    "prompt_text": "A client sent an angry email because their corporate order arrived four days late due to a customs bottleneck. Write an email apologizing for the delay, explaining briefly that it was a logistics issue, and offering a 15% discount code on their next invoice as compensation.",
+                    "min_words": 80,
+                    "max_words": 120
+                }
+            ]
+        },
+        {
+            "id": "module_4_speaking",
+            "type": "speaking",
+            "grading": "deferred",
+            "config": {
+                "require_media_access": true,
+                "max_attempts": 1
+            },
+            "sections": [
+                {
+                    "id": "s1",
+                    "level": "B1-B2",
+                    "instruction": "Look at the graphic on the screen. You have 30 seconds to prepare your thoughts, and 1 minute to record an interpretation of the data shown.",
+                    "visual_stimulus_url": "/assets/images/charts/market_share_trend.png",
+                    "prompt_text": "Describe the visual trend clearly and propose one marketing strategy the company should implement to recover its lost position.",
+                    "prep_time_seconds": 30,
+                    "recording_time_seconds": 60
+                }
+            ]
+        }
+    ]
+}
