@@ -48,7 +48,7 @@ interface QuizData {
 const props = defineProps<{
   quizData?: QuizData;
   testData?: QuizData;
-  discordStatus?: 'idle' | 'loading' | 'success' | 'error';
+  discordStatus?: 'idle' | 'loading' | 'success' | 'error' | 'pending_sync';
   discordMessage?: string;
 }>();
 
@@ -64,7 +64,13 @@ const resolvedQuizData = computed(() => {
 // Emits del componente
 const emit = defineEmits<{
   (e: 'finish', payload: { answers: Record<string, any>; score: number }): void;
+  (e: 'retry'): void;
 }>();
+
+// Exponer reintento de sincronización al componente padre
+const retryDiscordSync = () => {
+  emit('retry');
+};
 
 // --- ESTADO REACTIVO DEL MOTOR ---
 const currentModuleIndex = ref(0);
@@ -269,6 +275,63 @@ const finishTest = () => {
           {{ discordMessage || 'No se pudo asignar el rol de forma automática en este momento.' }}
         </p>
       </div>
+
+      <!-- Estado de Sincronización Pendiente (Usuario no está en el servidor de Discord) -->
+      <div v-if="discordStatus === 'pending_sync'" class="w-full flex flex-col gap-4 animate-fade-in">
+        <div class="bg-amber-50 border border-amber-200 p-5 rounded-talki text-xs md:text-sm text-amber-800 text-left shadow-md flex flex-col gap-1.5">
+          <p class="font-bold flex items-center gap-2 text-sm text-amber-900">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="w-5 h-5 text-amber-600">
+              <path fill-rule="evenodd" d="M8.485 2.495c.673-1.167 2.357-1.167 3.03 0l6.28 10.875c.673 1.167-.17 2.537-1.515 2.537H3.72c-1.34 0-2.188-1.37-1.515-2.537l6.28-10.875zM10 5a.75.75 0 01.75.75v3.5a.75.75 0 01-1.5 0v-3.5A.75.75 0 0110 5zm0 9a1 1 0 100-2 1 1 0 000 2z" clip-rule="evenodd" />
+            </svg>
+            Sincronización de Discord pendiente
+          </p>
+          <p class="font-body text-amber-700 leading-relaxed">
+            Hemos calculado tu nivel con éxito, pero <strong>no pudimos asignar tus roles automáticos porque aún no estás en el servidor de Discord</strong>. Sigue los pasos a continuación para completar la integración.
+          </p>
+        </div>
+
+        <div class="flex flex-col gap-3 w-full max-w-md mx-auto mt-2">
+          <!-- Paso 1: Unirme al Servidor -->
+          <a 
+            href="https://discord.gg/3fVNDwA6TJ" 
+            target="_blank" 
+            rel="noopener noreferrer" 
+            class="w-full bg-[#5865F2] hover:bg-[#4752C4] text-white py-4 px-6 rounded-talki font-title font-bold text-md tracking-wider flex items-center justify-center gap-3 shadow-lg shadow-[#5865F2]/20 hover:shadow-[#5865F2]/40 transition-all duration-300 transform hover:-translate-y-0.5 active:translate-y-0 cursor-pointer text-center no-underline"
+          >
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 127.14 96.36" class="w-5 h-5 fill-current">
+              <path d="M107.7,8.07A105.15,105.15,0,0,0,77.26,0a77.19,77.19,0,0,0-3.3,6.83A96.67,96.67,0,0,0,53.22,6.83,77.19,77.19,0,0,0,49.88,0,105.15,105.15,0,0,0,19.47,8.07C3.66,31.58-1.86,54.65,1,77.53A105.73,105.73,0,0,0,32,96.36a77.7,77.7,0,0,0,6.63-10.85,68.43,68.43,0,0,1-10.5-5c.9-.65,1.76-1.34,2.58-2a75.58,75.58,0,0,0,73,0c.83.69,1.69,1.38,2.58,2a68.43,68.43,0,0,1-10.5,5A77.7,77.7,0,0,0,102,85.51a105.73,105.73,0,0,0,31-18.83C130.67,54.65,125.13,31.58,107.7,8.07ZM42.45,65.69C36.18,65.69,31,60,31,53S36.18,40.36,42.45,40.36,53.83,46,53.83,53,48.72,65.69,42.45,65.69Zm42.24,0C78.42,65.69,73.24,60,73.24,53S78.42,40.36,84.69,40.36,96.07,46,96.07,53,91,65.69,84.69,65.69Z"/>
+            </svg>
+            <span>1. Unirme al Servidor de Discord</span>
+          </a>
+
+          <!-- Paso 2: Sincronizar Nivel -->
+          <button 
+            @click="retryDiscordSync" 
+            :disabled="discordStatus as string === 'loading'"
+            class="w-full bg-white hover:bg-brand-cream text-brand-blue border-2 border-brand-blue/30 py-4 px-6 rounded-talki font-title font-bold text-md tracking-wider flex items-center justify-center gap-2 transition-all duration-300 transform hover:-translate-y-0.5 active:translate-y-0 disabled:opacity-50 disabled:cursor-not-allowed cursor-pointer text-center"
+          >
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2.5" stroke="currentColor" class="w-5 h-5">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M16.023 9.348h4.992v-.001M2.985 19.644v-4.992m0 0h4.992m-4.993 0l3.181 3.183a8.25 8.25 0 0013.803-3.7M4.031 9.865a8.25 8.25 0 0113.803-3.7l3.181 3.182m-4.991 15.118H9.75" />
+            </svg>
+            <span>2. Ya me uní, ¡sincronizar mi nivel!</span>
+          </button>
+        </div>
+      </div>
+
+      <!-- Botón de Acción Principal (CTA) para entrar a Discord -->
+      <a 
+        v-if="discordStatus !== 'pending_sync'"
+        href="https://discord.gg/3fVNDwA6TJ" 
+        target="_blank" 
+        rel="noopener noreferrer" 
+        class="w-full max-w-md bg-[#5865F2] hover:bg-[#4752C4] text-white py-4 px-6 rounded-talki font-title font-bold text-md tracking-wider flex items-center justify-center gap-3 shadow-lg shadow-[#5865F2]/20 hover:shadow-[#5865F2]/40 transition-all duration-300 transform hover:-translate-y-0.5 active:translate-y-0 cursor-pointer text-center no-underline"
+      >
+        <!-- Icono oficial de Discord -->
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 127.14 96.36" class="w-5 h-5 fill-current">
+          <path d="M107.7,8.07A105.15,105.15,0,0,0,77.26,0a77.19,77.19,0,0,0-3.3,6.83A96.67,96.67,0,0,0,53.22,6.83,77.19,77.19,0,0,0,49.88,0,105.15,105.15,0,0,0,19.47,8.07C3.66,31.58-1.86,54.65,1,77.53A105.73,105.73,0,0,0,32,96.36a77.7,77.7,0,0,0,6.63-10.85,68.43,68.43,0,0,1-10.5-5c.9-.65,1.76-1.34,2.58-2a75.58,75.58,0,0,0,73,0c.83.69,1.69,1.38,2.58,2a68.43,68.43,0,0,1-10.5,5A77.7,77.7,0,0,0,102,85.51a105.73,105.73,0,0,0,31-18.83C130.67,54.65,125.13,31.58,107.7,8.07ZM42.45,65.69C36.18,65.69,31,60,31,53S36.18,40.36,42.45,40.36,53.83,46,53.83,53,48.72,65.69,42.45,65.69Zm42.24,0C78.42,65.69,73.24,60,73.24,53S78.42,40.36,84.69,40.36,96.07,46,96.07,53,91,65.69,84.69,65.69Z"/>
+        </svg>
+        <span>Ir al Servidor de Discord</span>
+      </a>
 
       <div class="bg-brand-blue/10 border border-brand-blue/20 p-4 rounded-talki text-xs md:text-sm text-brand-blue max-w-lg text-left">
         <p class="font-bold mb-1">📢 Nota sobre tu evaluación final:</p>

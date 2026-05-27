@@ -47,19 +47,12 @@ onMounted(async () => {
 });
 
 // Estados reactivos para la integración de Discord
-const discordStatus = ref<'idle' | 'loading' | 'success' | 'error'>('idle');
+const discordStatus = ref<'idle' | 'loading' | 'success' | 'error' | 'pending_sync'>('idle');
 const discordMessage = ref('');
+const calculatedTierRef = ref('A1');
 
-// Controlador para capturar la finalización del test y gatillar la asignación de roles
-const handleTestFinished = async (payload: { answers: Record<string, any>; score: number }) => {
-  const lang = (route.query.lang as string || 'en').toLowerCase();
-  
-  // Determinamos el nivel obtenido basándonos en los umbrales definidos en el JSON del test
-  const thresholds = testData.value?.tier_thresholds || {};
-  const thresholdEntries = Object.entries(thresholds).sort((a: any, b: any) => b[1] - a[1]);
-  const matched = thresholdEntries.find(([_, minScore]: any) => payload.score >= minScore);
-  const calculatedTier = matched ? matched[0] : 'A1';
-
+// Función unificada para realizar la petición de sincronización de roles en Discord
+const performDiscordSync = async (lang: string, tier: string) => {
   discordStatus.value = 'loading';
   discordMessage.value = '';
 
@@ -68,7 +61,7 @@ const handleTestFinished = async (payload: { answers: Record<string, any>; score
       method: 'POST',
       body: {
         language: lang,
-        tier: calculatedTier
+        tier: tier
       }
     });
 
@@ -80,11 +73,38 @@ const handleTestFinished = async (payload: { answers: Record<string, any>; score
     }
   } catch (error: any) {
     console.error('Error al solicitar asignación de roles:', error);
-    discordStatus.value = 'error';
     
-    // Capturar mensaje semántico retornado de forma controlada por el backend (ej. Error 404 del miembro)
-    discordMessage.value = error.data?.statusMessage || 'Ocurrió un error inesperado al conectar con el servidor.';
+    // Captura específica del error 404 (el usuario no es miembro del servidor de Discord)
+    if (error.statusCode === 404) {
+      discordStatus.value = 'pending_sync';
+      discordMessage.value = error.data?.statusMessage || 'Sincronización de Discord pendiente. No estás en el servidor.';
+    } else {
+      discordStatus.value = 'error';
+      discordMessage.value = error.data?.statusMessage || 'Ocurrió un error inesperado al conectar con el servidor.';
+    }
   }
+};
+
+// Controlador para capturar la finalización del test y gatillar la asignación de roles
+const handleTestFinished = async (payload: { answers: Record<string, any>; score: number }) => {
+  const lang = (route.query.lang as string || 'en').toLowerCase();
+  
+  // Determinamos el nivel obtenido basándonos en los umbrales definidos en el JSON del test
+  const thresholds = testData.value?.tier_thresholds || {};
+  const thresholdEntries = Object.entries(thresholds).sort((a: any, b: any) => b[1] - a[1]);
+  const matched = thresholdEntries.find(([_, minScore]: any) => payload.score >= minScore);
+  const calculatedTier = matched ? matched[0] : 'A1';
+  
+  // Guardamos en memoria el tier calculado por si se requiere un reintento manual (Stateless Fallback)
+  calculatedTierRef.value = calculatedTier;
+
+  await performDiscordSync(lang, calculatedTier);
+};
+
+// Reintento manual disparado por el usuario una vez que se une al servidor de Discord
+const retryDiscordSync = async () => {
+  const lang = (route.query.lang as string || 'en').toLowerCase();
+  await performDiscordSync(lang, calculatedTierRef.value);
 };
 </script>
 
@@ -157,6 +177,7 @@ const handleTestFinished = async (payload: { answers: Record<string, any>; score
           :discordStatus="discordStatus"
           :discordMessage="discordMessage"
           @finish="handleTestFinished"
+          @retry="retryDiscordSync"
         />
       </div>
 

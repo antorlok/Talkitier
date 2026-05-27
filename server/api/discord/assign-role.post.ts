@@ -8,48 +8,69 @@ interface DiscordSession {
   accessToken: string;
 }
 
+// Estructura interna de configuración de roles por idioma
+interface LanguageRoleConfig {
+  languageRoleId: string; // ID del rol principal del idioma (ej. Portugués)
+  levels: Record<string, string>; // Mapeo de niveles CEFR a su respectivo ID de rol
+}
+
 // Diccionario estático con el mapeo de roles por idioma y nivel (CEFR)
-// Incluye el nivel C2 con fallback al rol C1 correspondiente.
-const ROLE_MAP: Record<string, Record<string, string>> = {
+// Permite asignar tanto el rol base del idioma como el rol del nivel obtenido.
+const ROLE_MAP: Record<string, LanguageRoleConfig> = {
   es: {
-    A1: '1509246743727046666',
-    A2: '1509246685489139802',
-    B1: '1509246647010594816',
-    B2: '1509246601611182101',
-    C1: '1509246463966969886',
-    C2: '1509246463966969886'
+    languageRoleId: '1509241994487009382',
+    levels: {
+      A1: '1509246743727046666',
+      A2: '1509246685489139802',
+      B1: '1509246647010594816',
+      B2: '1509246601611182101',
+      C1: '1509246463966969886',
+      C2: '1509246463966969886'
+    }
   },
   de: {
-    A1: '1509247608202203237',
-    A2: '1509247547389120562',
-    B1: '1509247429063737414',
-    B2: '1509247340295225575',
-    C1: '1509247265896665168',
-    C2: '1509247265896665168'
+    languageRoleId: '1509241289353465976',
+    levels: {
+      A1: '1509247608202203237',
+      A2: '1509247547389120562',
+      B1: '1509247429063737414',
+      B2: '1509247340295225575',
+      C1: '1509247265896665168',
+      C2: '1509247265896665168'
+    }
   },
   en: {
-    A1: '1509245076180697159',
-    A2: '1509245283203154112',
-    B1: '1509245334906212422',
-    B2: '1509245440682623077',
-    C1: '1509245629484761199',
-    C2: '1509245629484761199'
+    languageRoleId: '1509240790008729690',
+    levels: {
+      A1: '1509245076180697159',
+      A2: '1509245283203154112',
+      B1: '1509245334906212422',
+      B2: '1509245440682623077',
+      C1: '1509245629484761199',
+      C2: '1509245629484761199'
+    }
   },
   pt: {
-    A1: '1509248129055326329',
-    A2: '1509248079390572634',
-    B1: '1509248021639073962',
-    B2: '1509247955348099244',
-    C1: '1509247751471497226',
-    C2: '1509247751471497226'
+    languageRoleId: '1509241377123205202',
+    levels: {
+      A1: '1509248129055326329',
+      A2: '1509248079390572634',
+      B1: '1509248021639073962',
+      B2: '1509247955348099244',
+      C1: '1509247751471497226',
+      C2: '1509247751471497226'
+    }
   },
   it: {
-    A1: '1509246258261266482',
-    A2: '1509246182659068015',
-    B1: '1509246052987834481',
-    B2: '1509246007521710231',
-    C1: '1509245942841475284',
-    C2: '1509245942841475284'
+    languageRoleId: '1509241145946013828',
+    levels: {
+      A1: '1509246258261266482',
+      A2: '1509246182659068015',
+      B1: '1509246052987834481',
+      B2: '1509246007521710231',
+      C1: '1509245942841475284',
+      C2: '1509245942841475284'
+    }
   }
 };
 
@@ -98,14 +119,17 @@ export default defineEventHandler(async (event) => {
     });
   }
 
-  // Obtener el ID del rol nuevo asignable
-  const newRoleId = langConfig[normalizedTier];
-  if (!newRoleId) {
+  // Obtener el ID del nuevo rol de nivel asignable
+  const newLevelRoleId = langConfig.levels[normalizedTier];
+  if (!newLevelRoleId) {
     throw createError({
       statusCode: 400,
       statusMessage: `El nivel '${tier}' no está configurado para el idioma '${language}'.`
     });
   }
+
+  // Obtener el ID del rol principal del idioma
+  const baseLanguageRoleId = langConfig.languageRoleId;
 
   // 3. Recuperar configuración de Discord en runtimeConfig
   const config = useRuntimeConfig();
@@ -139,7 +163,7 @@ export default defineEventHandler(async (event) => {
       if (fetchError.status === 404) {
         throw createError({
           statusCode: 404,
-          statusMessage: 'No estás en el servidor de Discord de Talkitier. Por favor, únete primero al servidor para recibir tu rol.'
+          statusMessage: 'No estás en el servidor de Discord de Talkitier. Por favor, únete primero al servidor para recibir tus roles.'
         });
       }
       throw fetchError;
@@ -148,14 +172,15 @@ export default defineEventHandler(async (event) => {
     const currentRoles: string[] = memberData.roles || [];
 
     // --- PASO B: Filtrar roles actuales contra los roles del diccionario del idioma evaluado ---
-    // Obtenemos todos los IDs de roles asignados a este idioma (A1, A2, B1, B2, C1)
-    const languageRoleIds = Object.values(langConfig);
-    const rolesToRemove = currentRoles.filter(roleId => languageRoleIds.includes(roleId));
+    // Obtenemos todos los IDs de roles de niveles de este idioma (A1, A2, B1, B2, C1)
+    // El rol base del idioma (ej. Portugués) se queda permanente, por lo que NO se limpia.
+    const levelRoleIds = Object.values(langConfig.levels);
+    const rolesToRemove = currentRoles.filter(roleId => levelRoleIds.includes(roleId));
 
     // --- PASO C: Eliminar de forma limpia los roles de nivel previos para evitar apilamiento ---
     for (const oldRoleId of rolesToRemove) {
       // Omitir si ya tiene el rol correcto para no realizar llamadas API redundantes
-      if (oldRoleId === newRoleId) continue;
+      if (oldRoleId === newLevelRoleId) continue;
 
       const deleteRoleUrl = `https://discord.com/api/v10/guilds/${guildId}/members/${userId}/roles/${oldRoleId}`;
       try {
@@ -164,25 +189,33 @@ export default defineEventHandler(async (event) => {
           headers: authHeaders
         });
       } catch (delError) {
-        // Logueamos pero continuamos para asegurar que se intente asignar el nuevo rol
-        console.warn(`No se pudo remover el rol antiguo ${oldRoleId} del usuario ${userId}:`, delError);
+        // Logueamos pero continuamos para asegurar que se intente asignar los nuevos roles
+        console.warn(`No se pudo remover el rol antiguo de nivel ${oldRoleId} del usuario ${userId}:`, delError);
       }
     }
 
-    // --- PASO D: Asignar el nuevo rol correspondiente al nivel evaluado ---
-    const putRoleUrl = `https://discord.com/api/v10/guilds/${guildId}/members/${userId}/roles/${newRoleId}`;
-    await $fetch(putRoleUrl, {
+    // --- PASO D1: Asignar el rol principal del idioma (ej. Portugués) ---
+    // Esto nos permite llevar la métrica de cuántos usuarios aprenden cada idioma independientemente de su nivel.
+    const putBaseLanguageUrl = `https://discord.com/api/v10/guilds/${guildId}/members/${userId}/roles/${baseLanguageRoleId}`;
+    await $fetch(putBaseLanguageUrl, {
+      method: 'PUT',
+      headers: authHeaders
+    });
+
+    // --- PASO D2: Asignar el nuevo rol correspondiente al nivel evaluado (ej. Portugués A1) ---
+    const putLevelRoleUrl = `https://discord.com/api/v10/guilds/${guildId}/members/${userId}/roles/${newLevelRoleId}`;
+    await $fetch(putLevelRoleUrl, {
       method: 'PUT',
       headers: authHeaders
     });
 
     return {
       success: true,
-      message: `El rol de nivel '${normalizedTier}' para '${normalizedLang}' fue asignado exitosamente.`
+      message: `Sincronización exitosa: Rol del idioma '${normalizedLang}' y rol de nivel '${normalizedTier}' asignados.`
     };
 
   } catch (error: any) {
-    console.error('Error al asignar el rol en Discord:', error);
+    console.error('Error al asignar los roles en Discord:', error);
 
     // Conservar código de error semántico si es un error controlado (ej. 404 del gremio)
     if (error.statusCode) {
