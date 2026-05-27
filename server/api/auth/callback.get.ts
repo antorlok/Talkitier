@@ -50,9 +50,9 @@ export default defineEventHandler(async (event) => {
       accessToken: tokenResponse.access_token
     };
 
-    // Almacenar en una Cookie segura HTTP-Only accesible solo por el servidor
+    // Almacenar en una Cookie accesible por cliente y servidor para mantener reactividad en hidratación
     setCookie(event, 'talkitier_session', JSON.stringify(sessionData), {
-      httpOnly: true,
+      httpOnly: false,
       secure: process.env.NODE_ENV === 'production',
       sameSite: 'lax',
       maxAge: 60 * 60 * 24 * 7 // Duración: 1 semana

@@ -52,10 +52,20 @@ interface QuizData {
   modules: Module[];
 }
 
-// Props recibidos por el componente
+// Props recibidos por el componente (soporta quizData o testData para flexibilidad de integración)
 const props = defineProps<{
-  quizData: QuizData;
+  quizData?: QuizData;
+  testData?: QuizData;
 }>();
+
+// Computado defensivo para unificar ambos nombres de props
+const resolvedQuizData = computed(() => {
+  const data = props.quizData || props.testData;
+  if (!data) {
+    throw new Error('QuizEngine requiere "quizData" o "testData" para inicializarse correctamente.');
+  }
+  return data;
+});
 
 // Emits del componente
 const emit = defineEmits<{
@@ -94,17 +104,17 @@ const timerSeconds = ref(0);
 let timerInterval: any = null;
 
 // --- PROPIEDADES COMPUTADAS DE NAVEGACIÓN ---
-const currentModule = computed<Module>(() => props.quizData.modules[currentModuleIndex.value] as Module);
+const currentModule = computed<Module>(() => resolvedQuizData.value.modules[currentModuleIndex.value] as Module);
 const currentSection = computed<Section>(() => currentModule.value.sections[currentSectionIndex.value] as Section);
 
 const overallProgress = computed(() => {
-  const totalModules = props.quizData.modules.length;
+  const totalModules = resolvedQuizData.value.modules.length;
   if (totalModules === 0) return 0;
   return (currentModuleIndex.value / totalModules) * 100;
 });
 
 const progressLabel = computed(() => {
-  return `Módulo ${currentModuleIndex.value + 1} de ${props.quizData.modules.length} (${getModuleTypeName(currentModule.value.type)})`;
+  return `Módulo ${currentModuleIndex.value + 1} de ${resolvedQuizData.value.modules.length} (${getModuleTypeName(currentModule.value.type)})`;
 });
 
 // Comprobar si se ha seleccionado respuesta en preguntas de opción múltiple
@@ -325,7 +335,7 @@ const nextStep = () => {
     currentSectionIndex.value++;
   } else {
     // Siguiente módulo
-    const modulesCount = props.quizData.modules.length;
+    const modulesCount = resolvedQuizData.value.modules.length;
     if (currentModuleIndex.value < modulesCount - 1) {
       currentModuleIndex.value++;
       currentSectionIndex.value = 0;
@@ -340,7 +350,7 @@ const nextStep = () => {
 const totalScore = computed(() => {
   let score = 0;
   // Solo se suman puntos automatizados de los módulos correspondientes (Reading y Listening)
-  props.quizData.modules.forEach(mod => {
+  resolvedQuizData.value.modules.forEach(mod => {
     if (mod.grading === 'automated') {
       mod.sections.forEach(sec => {
         sec.questions?.forEach(q => {
@@ -357,7 +367,7 @@ const totalScore = computed(() => {
 
 const calculatedTier = computed(() => {
   const score = totalScore.value;
-  const thresholds = props.quizData.tier_thresholds;
+  const thresholds = resolvedQuizData.value.tier_thresholds;
   let finalTier = 'A1';
 
   // Obtener el rango en base a los thresholds del JSON
@@ -678,7 +688,7 @@ const finishQuiz = () => {
           :disabled="!isSectionValid"
           @click="nextStep"
         >
-          {{ currentModuleIndex === props.quizData.modules.length - 1 && currentSectionIndex === currentModule.sections.length - 1 ? 'Finalizar Test' : 'Siguiente' }}
+          {{ currentModuleIndex === resolvedQuizData.modules.length - 1 && currentSectionIndex === currentModule.sections.length - 1 ? 'Finalizar Test' : 'Siguiente' }}
           <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2.5" stroke="currentColor" class="w-4 h-4">
             <path stroke-linecap="round" stroke-linejoin="round" d="M13.5 4.5L21 12m0 0l-7.5 7.5M21 12H3" />
           </svg>

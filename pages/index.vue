@@ -1,22 +1,16 @@
 <script setup lang="ts">
 import { ref } from 'vue';
-import QuizEngine from '~/components/organisms/QuizEngine.vue';
 import LanguageSelector from '~/components/organisms/LanguageSelector.vue';
 import BaseButton from '~/components/atoms/BaseButton.vue';
 
-// Carga de los datos de evaluación en inglés (Data-Driven UI)
-import enQuizRaw from '~/data/tests/en.json';
-const enQuiz = enQuizRaw as any;
+// Importación del Composable de sesión de Discord
+import { useAuth } from '~/composables/useAuth';
 
-// Estados reactivos de la Landing Page
-const isTestStarted = ref(false);
-const selectedLanguageId = ref('');
+// Desestructuración de estados de autenticación reactivos
+const { user, isAuthenticated, logout } = useAuth();
+
+// Estados reactivos de navegación de la Landing Page
 const isMobileMenuOpen = ref(false);
-
-const startPlacementTest = (langId: string = 'en') => {
-  selectedLanguageId.value = langId;
-  isTestStarted.value = true;
-};
 
 const toggleMobileMenu = () => {
   isMobileMenuOpen.value = !isMobileMenuOpen.value;
@@ -24,6 +18,24 @@ const toggleMobileMenu = () => {
 
 const loginWithDiscord = () => {
   navigateTo('/api/auth/login', { external: true });
+};
+
+// Control de flujo seguro: redirecciona a la página de test /test?lang=xx si está logueado
+const handleLanguageSelected = (langId: string) => {
+  if (isAuthenticated.value) {
+    navigateTo(`/test?lang=${langId}`);
+  } else {
+    alert('Se requiere iniciar sesión con Discord para realizar la evaluación de nivelación.');
+    loginWithDiscord();
+  }
+};
+
+// Desplazamiento suave a la sección de selección de idiomas
+const scrollToLanguages = () => {
+  const element = document.getElementById('languages-section');
+  if (element) {
+    element.scrollIntoView({ behavior: 'smooth' });
+  }
 };
 </script>
 
@@ -35,7 +47,7 @@ const loginWithDiscord = () => {
     <header class="w-full bg-brand-cream/80 backdrop-blur-md sticky top-0 z-50 px-6 py-4 border-b border-brand-blue/10 flex items-center justify-between">
       
       <!-- Logo Talkitier original de la referencia -->
-      <div class="flex items-center cursor-pointer" @click="isTestStarted = false">
+      <div class="flex items-center cursor-pointer" @click="navigateTo('/')">
         <img src="/assets/logos/logo-full-dark.svg" alt="Talkitier" class="h-8 md:h-10 object-contain" />
       </div>
 
@@ -46,7 +58,20 @@ const loginWithDiscord = () => {
           Idioma: ES
         </button>
         
-        <BaseButton variant="secondary" class="!bg-brand-blue !text-brand-cream hover:!bg-brand-blue/95 border-none shadow-md" @click="loginWithDiscord">
+        <!-- Renderizado Condicional según Autenticación -->
+        <div v-if="isAuthenticated && user" class="flex items-center gap-3">
+          <img 
+            :src="`https://cdn.discordapp.com/avatars/${user.id}/${user.avatar}.png`" 
+            alt="Avatar de Discord" 
+            class="w-8 h-8 rounded-full border border-brand-blue/20 shadow-sm object-cover" 
+            @error="(e: any) => e.target.src = 'https://cdn.discordapp.com/embed/avatars/0.png'"
+          />
+          <span class="font-title font-bold text-sm text-brand-blue tracking-tight">{{ user.username }}</span>
+          <BaseButton variant="accent" class="text-xs text-red-600 hover:text-red-700 !px-3 !py-1.5" @click="logout">
+            Cerrar sesión
+          </BaseButton>
+        </div>
+        <BaseButton v-else variant="secondary" class="!bg-brand-blue !text-brand-cream hover:!bg-brand-blue/95 border-none shadow-md" @click="loginWithDiscord">
           Iniciar sesión
         </BaseButton>
       </nav>
@@ -65,7 +90,23 @@ const loginWithDiscord = () => {
       <button class="bg-brand-blue text-brand-cream text-xs font-semibold py-2.5 rounded-talki w-full">
         Idioma: ES
       </button>
-      <BaseButton variant="secondary" class="!bg-brand-blue !text-brand-cream justify-center w-full shadow-md border-none" @click="loginWithDiscord">
+      
+      <!-- Menú condicional para dispositivos móviles -->
+      <div v-if="isAuthenticated && user" class="flex flex-col items-center gap-3 py-2 border-t border-brand-blue/10">
+        <div class="flex items-center gap-3">
+          <img 
+            :src="`https://cdn.discordapp.com/avatars/${user.id}/${user.avatar}.png`" 
+            alt="Avatar de Discord" 
+            class="w-8 h-8 rounded-full border border-brand-blue/20 shadow-sm"
+            @error="(e: any) => e.target.src = 'https://cdn.discordapp.com/embed/avatars/0.png'"
+          />
+          <span class="font-title font-bold text-sm text-brand-blue">{{ user.username }}</span>
+        </div>
+        <BaseButton variant="accent" class="text-xs text-red-600 hover:text-red-700 w-full justify-center" @click="logout">
+          Cerrar sesión
+        </BaseButton>
+      </div>
+      <BaseButton v-else variant="secondary" class="!bg-brand-blue !text-brand-cream justify-center w-full shadow-md border-none" @click="loginWithDiscord">
         Iniciar sesión
       </BaseButton>
     </div>
@@ -73,21 +114,8 @@ const loginWithDiscord = () => {
     <!-- CONTENIDO PRINCIPAL -->
     <main class="flex-1 flex flex-col items-center justify-center w-full max-w-7xl mx-auto px-6 py-8 md:py-16">
       
-      <!-- RENDERIZADO DEL ENGINE DE PREGUNTAS (SI SE INICIÓ EL TEST) -->
-      <div v-if="isTestStarted" class="w-full flex flex-col items-center gap-4">
-        <!-- Botón Volver a la Landing -->
-        <BaseButton variant="accent" class="self-start text-brand-blue flex items-center gap-2 mb-4 hover:translate-x-[-4px] transition-transform duration-300" @click="isTestStarted = false">
-          <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2.5" stroke="currentColor" class="w-4 h-4">
-            <path stroke-linecap="round" stroke-linejoin="round" d="M10.5 19.5L3 12m0 0l7.5-7.5M3 12h18" />
-          </svg>
-          Volver al Inicio
-        </BaseButton>
-
-        <QuizEngine :quizData="enQuiz" />
-      </div>
-
       <!-- RENDERIZADO DE LA LANDING PAGE ESTÁNDAR -->
-      <div v-else class="w-full flex flex-col gap-12 md:gap-20">
+      <div class="w-full flex flex-col gap-12 md:gap-20">
         
         <!-- SECCIÓN HERO -->
         <section class="grid grid-cols-1 lg:grid-cols-12 gap-8 items-center">
@@ -103,8 +131,9 @@ const loginWithDiscord = () => {
               Haz el test, descubre tu rango, únete a un servidor de Discord y aprende con amigos.
             </p>
 
-            <!-- Botón CTA de Discord con micro-animaciones -->
+            <!-- Botón CTA Dinámico según estado de sesión -->
             <BaseButton
+              v-if="!isAuthenticated"
               variant="primary"
               class="self-start !bg-[#5865F2] hover:!bg-[#4752C4] !text-white px-8 py-4 text-base md:text-lg flex items-center gap-3 shadow-lg shadow-[#5865F2]/20 hover:shadow-[#5865F2]/40 rounded-talki font-title tracking-wide transition-all transform hover:-translate-y-0.5 active:translate-y-0"
               @click="loginWithDiscord"
@@ -113,7 +142,19 @@ const loginWithDiscord = () => {
               <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 127.14 96.36" class="w-6 h-6 fill-current">
                 <path d="M107.7,8.07A105.15,105.15,0,0,0,77.26,0a77.19,77.19,0,0,0-3.3,6.83A96.67,96.67,0,0,0,53.22,6.83,77.19,77.19,0,0,0,49.88,0,105.15,105.15,0,0,0,19.47,8.07C3.66,31.58-1.86,54.65,1,77.53A105.73,105.73,0,0,0,32,96.36a77.7,77.7,0,0,0,6.63-10.85,68.43,68.43,0,0,1-10.5-5c.9-.65,1.76-1.34,2.58-2a75.58,75.58,0,0,0,73,0c.83.69,1.69,1.38,2.58,2a68.43,68.43,0,0,1-10.5,5A77.7,77.7,0,0,0,102,85.51a105.73,105.73,0,0,0,31-18.83C130.67,54.65,125.13,31.58,107.7,8.07ZM42.45,65.69C36.18,65.69,31,60,31,53S36.18,40.36,42.45,40.36,53.83,46,53.83,53,48.72,65.69,42.45,65.69Zm42.24,0C78.42,65.69,73.24,60,73.24,53S78.42,40.36,84.69,40.36,96.07,46,96.07,53,91,65.69,84.69,65.69Z"/>
               </svg>
-              ÚNETE A NUESTRO SERVIDOR
+              INICIAR SESIÓN CON DISCORD
+            </BaseButton>
+
+            <BaseButton
+              v-else
+              variant="primary"
+              class="self-start px-8 py-4 text-base md:text-lg flex items-center gap-2 rounded-talki font-title tracking-wide shadow-lg shadow-brand-greenLight/20 transition-all transform hover:-translate-y-0.5 active:translate-y-0"
+              @click="scrollToLanguages"
+            >
+              COMENZAR TEST
+              <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2.5" stroke="currentColor" class="w-5 h-5">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M19.5 8.25l-7.5 7.5-7.5-7.5" />
+              </svg>
             </BaseButton>
 
           </div>
@@ -151,7 +192,7 @@ const loginWithDiscord = () => {
         </section>
 
         <!-- SECCIÓN DE SELECCIÓN DE IDIOMAS CON BOCADILLO DE DIÁLOGO -->
-        <section class="flex flex-col items-center gap-6 mt-8">
+        <section id="languages-section" class="flex flex-col items-center gap-6 mt-8">
           
           <!-- Bocadillo de diálogo de la mascota animada -->
           <div class="relative bg-brand-greenLight text-brand-dark px-8 py-4 rounded-talki font-title font-bold text-lg md:text-xl shadow-lg border border-brand-greenDark/20 tracking-wide inline-block">
@@ -161,8 +202,8 @@ const loginWithDiscord = () => {
             <div class="absolute bottom-0 left-1/2 transform -translate-x-1/2 translate-y-1/2 rotate-45 w-4 h-4 bg-brand-greenLight border-r border-b border-brand-greenDark/20" />
           </div>
 
-          <!-- Selector de Idiomas con navegación interactiva -->
-          <LanguageSelector @languageSelected="startPlacementTest" />
+          <!-- Selector de Idiomas con navegación interactiva y control de sesión -->
+          <LanguageSelector @languageSelected="handleLanguageSelected" />
 
         </section>
 
