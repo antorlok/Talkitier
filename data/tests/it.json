@@ -1,207 +1,134 @@
 {
-    "language": "IT",
-    "tier_thresholds": {
-        "A1": 0,
-        "A2": 20,
-        "B1": 40,
-        "B2": 60,
-        "C1": 80,
-        "C2": 100
-    },
-    "modules": [
+  "language": "IT",
+  "tier_thresholds": {
+    "A1": 0,
+    "A2": 20,
+    "B1": 40,
+    "B2": 60,
+    "C1": 80,
+    "C2": 100
+  },
+  "modules": [
+    {
+      "id": "module_1_reading",
+      "type": "multiple_choice",
+      "grading": "automated",
+      "sections": [
         {
-            "id": "module_1_reading",
-            "type": "reading",
-            "grading": "automated",
-            "sections": [
-                {
-                    "id": "r1",
-                    "level": "A1-A2",
-                    "instruction": "Leggi il testo e seleziona l'opzione corretta per ogni domanda.",
-                    "text": "Benvenuti alla Stazione Centrale della Metropolitana. La biglietteria è aperta tutti i giorni dalle 6:00 alle 22:00. Se hai bisogno di assistenza al di fuori di questi orari, utilizza le biglietterie automatiche situate accanto all'ingresso principale. I passeggeri devono essere in possesso di un biglietto valido prima di salire a bordo dei treni. Zaini e bagagli di grandi dimensioni sono soggetti a controlli di sicurezza.",
-                    "questions": [
-                        {
-                            "id": "q_1_1",
-                            "text": "Cosa dovrebbe fare un passeggero se la biglietteria è chiusa alle 23:00?",
-                            "options": [
-                                {
-                                    "id": "opt_a",
-                                    "text": "Aspettare fino al mattino successivo alle 6:00.",
-                                    "points": 0
-                                },
-                                {
-                                    "id": "opt_b",
-                                    "text": "Utilizzare le biglietterie automatiche vicino all'ingresso principale.",
-                                    "points": 10
-                                },
-                                {
-                                    "id": "opt_c",
-                                    "text": "Salire immediatamente a bordo del treno e pagare all'interno.",
-                                    "points": 0
-                                },
-                                {
-                                    "id": "opt_d",
-                                    "text": "Contattare la sicurezza per acquistare un pass speciale.",
-                                    "points": 0
-                                }
-                            ]
-                        }
-                    ]
-                }
-            ]
-        },
-        {
-            "id": "module_2_reading_advanced",
-            "type": "reading",
-            "grading": "automated",
-            "sections": [
-                {
-                    "id": "r2",
-                    "level": "B1-B2",
-                    "instruction": "Leggi la frase e scegli la parola corretta per completare lo spazio vuoto.",
-                    "text": "Questa sezione valuta la tua conoscenza della grammatica italiana, del periodo ipotetico e dei tempi del congiuntivo a livello intermedio-avanzato.",
-                    "questions": [
-                        {
-                            "id": "q_2_1",
-                            "text": "Se _______ della riunione in anticipo, avrei preparato la relazione in tempo.",
-                            "options": [
-                                {
-                                    "id": "opt_a",
-                                    "text": "sapessi",
-                                    "points": 0
-                                },
-                                {
-                                    "id": "opt_b",
-                                    "text": "ho saputo",
-                                    "points": 0
-                                },
-                                {
-                                    "id": "opt_c",
-                                    "text": "avessi saputo",
-                                    "points": 8
-                                },
-                                {
-                                    "id": "opt_d",
-                                    "text": "saprei",
-                                    "points": 0
-                                }
-                            ]
-                        },
-                        {
-                            "id": "q_2_2",
-                            "text": "L'azienda ha deciso di _______ il lancio del prodotto a causa di imprevisti problemi nella catena di fornitura.",
-                            "options": [
-                                {
-                                    "id": "opt_a",
-                                    "text": "rinviare",
-                                    "points": 7
-                                },
-                                {
-                                    "id": "opt_b",
-                                    "text": "avviare",
-                                    "points": 0
-                                },
-                                {
-                                    "id": "opt_c",
-                                    "text": "anticipare",
-                                    "points": 0
-                                },
-                                {
-                                    "id": "opt_d",
-                                    "text": "annullare",
-                                    "points": 0
-                                }
-                            ]
-                        }
-                    ]
-                }
-            ]
-        },
-        {
-            "id": "module_3_writing",
-            "type": "writing",
-            "grading": "deferred",
-            "config": {
-                "block_paste": true,
-                "show_word_counter": true
+          "id": "r1",
+          "level": "A1-A2",
+          "instruction": "Leggi il testo e seleziona l'opzione corretta per ogni domanda.",
+          "text": "Benvenuto alla Stazione Centrale della Metropolitana. La biglietteria è aperta tutti i giorni dalle 6:00 alle 22:00. Se hai bisogno di assistenza al di fuori di questi orari, utilizza le emettitrici automatiche di biglietti situate accanto all'ingresso principale. I passeggeri devono essere in possesso di un biglietto valido prima di salire sui treni. Zaini e bagagli di grandi dimensioni sono soggetti a controlli di sicurezza.",
+          "questions": [
+            {
+              "id": "q_1_1",
+              "text": "Cosa deve fare un passeggero se la biglietteria è chiusa alle 23:00?",
+              "options": [
+                { "id": "opt_a", "text": "Aspettare fino alla mattina successiva alle 6:00.", "points": 0 },
+                { "id": "opt_b", "text": "Utilizzare le emettitrici automatiche di biglietti vicino all'ingresso principale.", "points": 10 },
+                { "id": "opt_c", "text": "Salire sul treno immediatamente e pagare a bordo.", "points": 0 },
+                { "id": "opt_d", "text": "Contattare la sicurezza per acquistare un pass speciale.", "points": 0 }
+              ]
             },
-            "sections": [
-                {
-                    "id": "w1",
-                    "level": "A2-B1",
-                    "instruction": "Scrivi un'e-mail di risposta in base alla situazione descritta di seguito. La tua risposta deve essere compresa tra 80 e 120 parole.",
-                    "prompt_text": "Un cliente ha inviato un'e-mail contrariata perché il suo ordine aziendale è arrivato con quattro giorni di ritardo a causa di un rallentamento alla dogana. Scrivi un'e-mail per scusarti del ritardo, spiegando brevemente che si è trattato di un problema logistico e offrendo come indennizzo un codice di sconto del 15% sulla prossima fattura.",
-                    "min_words": 80,
-                    "max_words": 120
-                }
-            ]
-        },
-        {
-            "id": "module_4_use_of_english",
-            "type": "reading",
-            "grading": "automated",
-            "sections": [
-                {
-                    "id": "uoe1",
-                    "level": "C1-C2",
-                    "instruction": "Leggi il testo e seleziona il termine di vocabolario più avanzato per completare la frase.",
-                    "text": "Questa sezione valuta la tua padronanza del vocabolario italiano avanzato, delle espressioni idiomatiche e dei registri formali a livello di competenza professionale.",
-                    "questions": [
-                        {
-                            "id": "q_4_1",
-                            "text": "La decisione del CEO di ristrutturare l'intero dipartimento è stata accolta con _______ dai dipendenti che temevano di perdere il posto.",
-                            "options": [
-                                {
-                                    "id": "opt_a",
-                                    "text": "soddisfazione",
-                                    "points": 0
-                                },
-                                {
-                                    "id": "opt_b",
-                                    "text": "apprensione",
-                                    "points": 8
-                                },
-                                {
-                                    "id": "opt_c",
-                                    "text": "indifferenza",
-                                    "points": 0
-                                },
-                                {
-                                    "id": "opt_d",
-                                    "text": "curiosità",
-                                    "points": 0
-                                }
-                            ]
-                        },
-                        {
-                            "id": "q_4_2",
-                            "text": "Nonostante le prove schiaccianti contro di lui, l'imputato ha mantenuto un'aria di _______ durante l'intero processo.",
-                            "options": [
-                                {
-                                    "id": "opt_a",
-                                    "text": "pentimento",
-                                    "points": 0
-                                },
-                                {
-                                    "id": "opt_b",
-                                    "text": "tristezza",
-                                    "points": 0
-                                },
-                                {
-                                    "id": "opt_c",
-                                    "text": "imperturbabilità",
-                                    "points": 7
-                                },
-                                {
-                                    "id": "opt_d",
-                                    "text": "rabbia",
-                                    "points": 0
-                                }
-                            ]
-                        }
-                    ]
-                }
-            ]
+            {
+              "id": "q_1_2",
+              "text": "Quali oggetti sono soggetti a controlli di sicurezza?",
+              "options": [
+                { "id": "opt_a", "text": "Solo piccole borse.", "points": 0 },
+                { "id": "opt_b", "text": "Tutti i dispositivi elettronici.", "points": 0 },
+                { "id": "opt_c", "text": "Zaini e bagagli grandi.", "points": 10 },
+                { "id": "opt_d", "text": "Nessun oggetto viene controllato.", "points": 0 }
+              ]
+            }
+          ]
         }
-    ]
+      ]
+    },
+    {
+      "id": "module_2_grammar",
+      "type": "multiple_choice",
+      "grading": "automated",
+      "sections": [
+        {
+          "id": "r2",
+          "level": "B1",
+          "instruction": "Leggi la frase e scegli la parola corretta per completare lo spazio vuoto.",
+          "questions": [
+            {
+              "id": "q_2_1",
+              "text": "Se _______ della riunione in tempo, avrei preparato il rapporto prima.",
+              "options": [
+                { "id": "opt_a", "text": "sapessi", "points": 0 },
+                { "id": "opt_b", "text": "avessi saputo", "points": 10 },
+                { "id": "opt_c", "text": "ho saputo", "points": 0 },
+                { "id": "opt_d", "text": "so", "points": 0 }
+              ]
+            },
+            {
+              "id": "q_2_2",
+              "text": "L'azienda ha deciso di _______ il lancio del prodotto a causa di problemi imprevisti nella catena di fornitura.",
+              "options": [
+                { "id": "opt_a", "text": "rinviare", "points": 10 },
+                { "id": "opt_b", "text": "promuovere", "points": 0 },
+                { "id": "opt_c", "text": "anticipare", "points": 0 },
+                { "id": "opt_d", "text": "cancellare", "points": 0 }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "module_3_written_precision",
+      "type": "text_input",
+      "grading": "automated",
+      "sections": [
+        {
+          "id": "wp1",
+          "level": "B2",
+          "instruction": "Scrivi la parola esatta che manca per completare la frase.",
+          "questions": [
+            {
+              "id": "b2_write_01",
+              "type": "text_input",
+              "text": "Se avessi saputo che venivi, ti _____ preparato una torta.",
+              "correctAnswers": ["avrei", "avessi"],
+              "points": 15
+            },
+            {
+              "id": "b2_write_02",
+              "type": "text_input",
+              "text": "Non credo che _____ necessario comprare altro pane per la cena.",
+              "correctAnswers": ["sia", "fosse"],
+              "points": 15
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "module_4_advanced",
+      "type": "cloze",
+      "grading": "automated",
+      "sections": [
+        {
+          "id": "c1",
+          "level": "C1",
+          "instruction": "Leggi il texto e scegli la parola corretta per ogni spazio vuoto.",
+          "questions": [
+            {
+              "id": "c1_cloze_01",
+              "type": "cloze",
+              "text": "Il progetto è stato infine {blank_1} a causa di problemi di finanziamento. Avevano {blank_2} gravemente i costi, portando a un grave {blank_3} di bilancio.",
+              "blanks": {
+                "blank_1": { "options": ["abolito", "scartato", "distrutto"], "correct": "scartato", "points": 10 },
+                "blank_2": { "options": ["sottovalutato", "ignorato", "minimizzato"], "correct": "sottovalutato", "points": 10 },
+                "blank_3": { "options": ["deficit", "surplus", "sussidio"], "correct": "deficit", "points": 10 }
+              }
+            }
+          ]
+        }
+      ]
+    }
+  ]
 }

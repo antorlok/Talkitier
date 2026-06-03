@@ -1,207 +1,134 @@
 {
-    "language": "DE",
-    "tier_thresholds": {
-        "A1": 0,
-        "A2": 20,
-        "B1": 40,
-        "B2": 60,
-        "C1": 80,
-        "C2": 100
-    },
-    "modules": [
+  "language": "DE",
+  "tier_thresholds": {
+    "A1": 0,
+    "A2": 20,
+    "B1": 40,
+    "B2": 60,
+    "C1": 80,
+    "C2": 100
+  },
+  "modules": [
+    {
+      "id": "module_1_reading",
+      "type": "multiple_choice",
+      "grading": "automated",
+      "sections": [
         {
-            "id": "module_1_reading",
-            "type": "reading",
-            "grading": "automated",
-            "sections": [
-                {
-                    "id": "r1",
-                    "level": "A1-A2",
-                    "instruction": "Lesen Sie den Text und wählen Sie die richtige Option für jede Frage aus.",
-                    "text": "Willkommen am Hauptbahnhof. Der Fahrkartenschalter ist täglich von 6:00 bis 22:00 Uhr geöffnet. Wenn Sie außerhalb dieser Zeiten Hilfe benötigen, nutzen Sie bitte die Fahrkartenautomaten neben dem Haupteingang. Fahrgäste müssen vor dem Betreten der Züge im Besitz einer gültigen Fahrkarte sein. Rucksäcke und großes Gepäck können einer Sicherheitskontrolle unterzogen werden.",
-                    "questions": [
-                        {
-                            "id": "q_1_1",
-                            "text": "Was sollte ein Fahrgast tun, wenn der Fahrkartenschalter um 23:00 Uhr geschlossen ist?",
-                            "options": [
-                                {
-                                    "id": "opt_a",
-                                    "text": "Bis zum nächsten Morgen um 6:00 Uhr warten.",
-                                    "points": 0
-                                },
-                                {
-                                    "id": "opt_b",
-                                    "text": "Die Fahrkartenautomaten in der Nähe des Haupteingangs benutzen.",
-                                    "points": 10
-                                },
-                                {
-                                    "id": "opt_c",
-                                    "text": "Sofort in den Zug einsteigen und drinnen bezahlen.",
-                                    "points": 0
-                                },
-                                {
-                                    "id": "opt_d",
-                                    "text": "Den Sicherheitsdienst kontaktieren, um einen Sonderausweis zu kaufen.",
-                                    "points": 0
-                                }
-                            ]
-                        }
-                    ]
-                }
-            ]
-        },
-        {
-            "id": "module_2_reading_advanced",
-            "type": "reading",
-            "grading": "automated",
-            "sections": [
-                {
-                    "id": "r2",
-                    "level": "B1-B2",
-                    "instruction": "Lesen Sie den Satz und wählen Sie das richtige Wort aus, um die Lücke zu füllen.",
-                    "text": "Dieser Abschnitt bewertet Ihre Kenntnisse der deutschen Grammatik, der Konditionalsätze und der trennbaren Verben auf fortgeschrittenem Niveau.",
-                    "questions": [
-                        {
-                            "id": "q_2_1",
-                            "text": "Wenn ich früher von dem Treffen _______ hätte, hätte ich den Bericht rechtzeitig vorbereitet.",
-                            "options": [
-                                {
-                                    "id": "opt_a",
-                                    "text": "gewissen",
-                                    "points": 0
-                                },
-                                {
-                                    "id": "opt_b",
-                                    "text": "wüsste",
-                                    "points": 0
-                                },
-                                {
-                                    "id": "opt_c",
-                                    "text": "gewusst",
-                                    "points": 8
-                                },
-                                {
-                                    "id": "opt_d",
-                                    "text": "gewiss",
-                                    "points": 0
-                                }
-                            ]
-                        },
-                        {
-                            "id": "q_2_2",
-                            "text": "Das Unternehmen beschloss, den Produktlaunch wegen unerwarteter Lieferkettenschwierigkeiten zu _______.",
-                            "options": [
-                                {
-                                    "id": "opt_a",
-                                    "text": "verschieben",
-                                    "points": 7
-                                },
-                                {
-                                    "id": "opt_b",
-                                    "text": "abschaffen",
-                                    "points": 0
-                                },
-                                {
-                                    "id": "opt_c",
-                                    "text": "einstellen",
-                                    "points": 0
-                                },
-                                {
-                                    "id": "opt_d",
-                                    "text": "vertreiben",
-                                    "points": 0
-                                }
-                            ]
-                        }
-                    ]
-                }
-            ]
-        },
-        {
-            "id": "module_3_writing",
-            "type": "writing",
-            "grading": "deferred",
-            "config": {
-                "block_paste": true,
-                "show_word_counter": true
+          "id": "r1",
+          "level": "A1-A2",
+          "instruction": "Lesen Sie den Text und wählen Sie die richtige Option für jede Frage aus.",
+          "text": "Willkommen am Hauptbahnhof. Der Fahrkartenschalter ist täglich von 6:00 bis 22:00 Uhr geöffnet. Wenn Sie außerhalb dieser Zeiten Hilfe benötigen, nutzen Sie bitte die Fahrkartenautomaten neben dem Haupteingang. Fahrgäste müssen vor dem Betreten der Züge im Besitz einer gültigen Fahrkarte sein. Rucksäcke und großes Gepäck können einer Sicherheitskontrolle unterzogen werden.",
+          "questions": [
+            {
+              "id": "q_1_1",
+              "text": "Was sollte ein Fahrgast tun, wenn der Fahrkartenschalter um 23:00 Uhr geschlossen ist?",
+              "options": [
+                { "id": "opt_a", "text": "Bis zum nächsten Morgen um 6:00 Uhr warten.", "points": 0 },
+                { "id": "opt_b", "text": "Die Fahrkartenautomaten in der Nähe des Haupteingangs benutzen.", "points": 10 },
+                { "id": "opt_c", "text": "Sofort in den Zug einsteigen und drinnen bezahlen.", "points": 0 },
+                { "id": "opt_d", "text": "Den Sicherheitsdienst kontaktieren, um einen Sonderausweis zu kaufen.", "points": 0 }
+              ]
             },
-            "sections": [
-                {
-                    "id": "w1",
-                    "level": "A2-B1",
-                    "instruction": "Schreiben Sie eine E-Mail-Antwort basierend auf der unten beschriebenen Situation. Ihre Antwort muss zwischen 80 und 120 Wörtern lang sein.",
-                    "prompt_text": "Ein Kunde hat eine verärgerte E-Mail geschickt, weil seine Firmenbestellung aufgrund eines Zollengpasses mit vier Tagen Verspätung eingetroffen ist. Schreiben Sie eine E-Mail, in der Sie sich für die Verzögerung entschuldigen, kurz erklären, dass es sich um ein logistisches Problem handelte, und als Entschädigung einen Rabattcode von 15 % auf die nächste Rechnung anbieten.",
-                    "min_words": 80,
-                    "max_words": 120
-                }
-            ]
-        },
-        {
-            "id": "module_4_use_of_english",
-            "type": "reading",
-            "grading": "automated",
-            "sections": [
-                {
-                    "id": "uoe1",
-                    "level": "C1-C2",
-                    "instruction": "Lesen Sie den Text und wählen Sie das anspruchsvollste Vokabelwort aus, um den Satz zu vervollständigen.",
-                    "text": "Dieser Abschnitt bewertet Ihre Beherrschung des fortgeschrittenen deutschen Wortschatzes, idiomatischer Ausdrücke und nuancierter Register auf höchstem Niveau.",
-                    "questions": [
-                        {
-                            "id": "q_4_1",
-                            "text": "Die Entscheidung des CEO, die gesamte Abteilung umzustrukturieren, stieß bei den Mitarbeitern, die um ihre Stellen fürchteten, auf große _______.",
-                            "options": [
-                                {
-                                    "id": "opt_a",
-                                    "text": "Erleichterung",
-                                    "points": 0
-                                },
-                                {
-                                    "id": "opt_b",
-                                    "text": "Besorgnis",
-                                    "points": 8
-                                },
-                                {
-                                    "id": "opt_c",
-                                    "text": "Gleichgültigkeit",
-                                    "points": 0
-                                },
-                                {
-                                    "id": "opt_d",
-                                    "text": "Heiterkeit",
-                                    "points": 0
-                                }
-                            ]
-                        },
-                        {
-                            "id": "q_4_2",
-                            "text": "Trotz der erdrückenden Beweise gegen ihn bewahrte der Angeklagte während des gesamten Prozesses eine Miene der _______.",
-                            "options": [
-                                {
-                                    "id": "opt_a",
-                                    "text": "Zerknirschung",
-                                    "points": 0
-                                },
-                                {
-                                    "id": "opt_b",
-                                    "text": "Verzweiflung",
-                                    "points": 0
-                                },
-                                {
-                                    "id": "opt_c",
-                                    "text": "Unbekümmertheit",
-                                    "points": 7
-                                },
-                                {
-                                    "id": "opt_d",
-                                    "text": "Empörung",
-                                    "points": 0
-                                }
-                            ]
-                        }
-                    ]
-                }
-            ]
+            {
+              "id": "q_1_2",
+              "text": "Welche Gegenstände können kontrolliert werden?",
+              "options": [
+                { "id": "opt_a", "text": "Nur kleine Handtaschen.", "points": 0 },
+                { "id": "opt_b", "text": "Alle elektronischen Geräte.", "points": 0 },
+                { "id": "opt_c", "text": "Rucksäcke und großes Gepäck.", "points": 10 },
+                { "id": "opt_d", "text": "Es werden keine Gegenstände kontrolliert.", "points": 0 }
+              ]
+            }
+          ]
         }
-    ]
+      ]
+    },
+    {
+      "id": "module_2_grammar",
+      "type": "multiple_choice",
+      "grading": "automated",
+      "sections": [
+        {
+          "id": "r2",
+          "level": "B1",
+          "instruction": "Lesen Sie den Satz und wählen Sie das richtige Wort aus, um die Lücke zu füllen.",
+          "questions": [
+            {
+              "id": "q_2_1",
+              "text": "Wenn ich früher von dem Treffen _______ hätte, hätte ich den Bericht rechtzeitig vorbereitet.",
+              "options": [
+                { "id": "opt_a", "text": "gewusst", "points": 10 },
+                { "id": "opt_b", "text": "wüsste", "points": 0 },
+                { "id": "opt_c", "text": "wissen", "points": 0 },
+                { "id": "opt_d", "text": "gewiss", "points": 0 }
+              ]
+            },
+            {
+              "id": "q_2_2",
+              "text": "Das Unternehmen beschloss, den Produktlaunch wegen unerwarteter Lieferkettenschwierigkeiten zu _______.",
+              "options": [
+                { "id": "opt_a", "text": "verschieben", "points": 10 },
+                { "id": "opt_b", "text": "abschaffen", "points": 0 },
+                { "id": "opt_c", "text": "einstellen", "points": 0 },
+                { "id": "opt_d", "text": "vertreiben", "points": 0 }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "module_3_written_precision",
+      "type": "text_input",
+      "grading": "automated",
+      "sections": [
+        {
+          "id": "wp1",
+          "level": "B2",
+          "instruction": "Geben Sie das genaue fehlende Wort ein, um den Satz zu vervollständigen.",
+          "questions": [
+            {
+              "id": "b2_write_01",
+              "type": "text_input",
+              "text": "Wenn ich gewusst hätte, dass du kommst, _____ ich einen Kuchen gebacken.",
+              "correctAnswers": ["hätte", "haette"],
+              "points": 15
+            },
+            {
+              "id": "b2_write_02",
+              "type": "text_input",
+              "text": "Ich glaube nicht, dass es notwendig _____, noch mehr Brot für das Abendessen zu kaufen.",
+              "correctAnswers": ["ist", "sei", "wäre", "waere"],
+              "points": 15
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "module_4_advanced",
+      "type": "cloze",
+      "grading": "automated",
+      "sections": [
+        {
+          "id": "c1",
+          "level": "C1",
+          "instruction": "Lesen Sie den Text und wählen Sie das richtige Wort für jede Lücke aus.",
+          "questions": [
+            {
+              "id": "c1_cloze_01",
+              "type": "cloze",
+              "text": "Das Projekt wurde letztendlich aufgrund von Finanzierungsproblemen {blank_1}. Sie hatten die Kosten stark {blank_2}, was zu einem schweren Haushalts{blank_3} führte.",
+              "blanks": {
+                "blank_1": { "options": ["abgeschafft", "verworfen", "zerstört"], "correct": "verworfen", "points": 10 },
+                "blank_2": { "options": ["unterschätzt", "übersehen", "minimiert"], "correct": "unterschätzt", "points": 10 },
+                "blank_3": { "options": ["defizit", "überschuss", "zuschuss"], "correct": "defizit", "points": 10 }
+              }
+            }
+          ]
+        }
+      ]
+    }
+  ]
 }

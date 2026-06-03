@@ -228,18 +228,11 @@ const scrollToLanguages = () => {
 
             <!-- Personaje decorativo de marca (editables-28.svg) superpuesto -->
             <div class="absolute -bottom-8 -right-8 w-32 h-32 hidden md:block">
-              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1131 1024" class="w-full h-full text-brand-dark drop-shadow-xl">
-                <!-- Cuerpo simplificado del waving character cargado de img/editables-28 -->
-                <circle cx="565" cy="400" r="160" fill="none" stroke="currentColor" stroke-width="40" />
-                <circle cx="500" cy="370" r="20" fill="currentColor" />
-                <circle cx="630" cy="370" r="20" fill="currentColor" />
-                <path d="M480 470 q85 50 170 0" fill="none" stroke="currentColor" stroke-width="30" stroke-linecap="round" />
-                <path d="M565 560 L565 850" stroke="currentColor" stroke-width="40" />
-                <path d="M565 650 L380 500" stroke="currentColor" stroke-width="35" stroke-linecap="round" />
-                <path d="M565 650 L780 500" stroke="currentColor" stroke-width="35" stroke-linecap="round" />
-                <circle cx="360" cy="480" r="30" fill="currentColor" />
-                <circle cx="800" cy="480" r="30" fill="currentColor" />
-              </svg>
+              <img
+                src="/img/editables-28.svg"
+                alt="Mascota con megáfono"
+                class="w-full h-full object-contain filter drop-shadow-xl"
+              />
             </div>
 
           </div>

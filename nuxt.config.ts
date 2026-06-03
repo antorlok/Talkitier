@@ -3,6 +3,16 @@ export default defineNuxtConfig({
   compatibilityDate: '2025-07-15',
   devtools: { enabled: true },
 
+  // Configuración de la cabecera de la aplicación y favicon de marca (Fase 14)
+  app: {
+    head: {
+      title: 'Talkitier - Aprendizaje de Idiomas',
+      link: [
+        { rel: 'icon', type: 'image/svg+xml', href: '/img/editables-22.svg' }
+      ]
+    }
+  },
+
   // Registro de módulos principales de la aplicación
   modules: [
     '@nuxtjs/tailwindcss',
