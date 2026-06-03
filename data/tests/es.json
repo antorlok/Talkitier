@@ -11,7 +11,7 @@
   "modules": [
     {
       "id": "module_1_reading",
-      "type": "reading",
+      "type": "multiple_choice",
       "grading": "automated",
       "sections": [
         {
@@ -39,16 +39,6 @@
                 { "id": "opt_c", "text": "Mochilas y equipaje grande.", "points": 10 },
                 { "id": "opt_d", "text": "Ningún objeto es revisado.", "points": 0 }
               ]
-            },
-            {
-              "id": "q_1_3",
-              "text": "¿En qué horario está abierta la taquilla?",
-              "options": [
-                { "id": "opt_a", "text": "Las 24 horas del día.", "points": 0 },
-                { "id": "opt_b", "text": "Solo los días laborables.", "points": 0 },
-                { "id": "opt_c", "text": "De 6:00 a 22:00 horas todos los días.", "points": 10 },
-                { "id": "opt_d", "text": "De mediodía a medianoche.", "points": 0 }
-              ]
             }
           ]
         }
@@ -56,26 +46,16 @@
     },
     {
       "id": "module_2_grammar",
-      "type": "reading",
+      "type": "multiple_choice",
       "grading": "automated",
       "sections": [
         {
           "id": "r2",
-          "level": "B1-B2",
-          "instruction": "Lea la oración y elija la palabra correcta para completar el espacio en blanco.",
+          "level": "B1",
+          "instruction": "Lea la oración y elija la opción correcta para completar el espacio en blanco.",
           "questions": [
             {
               "id": "q_2_1",
-              "text": "Si _______ de la reunión antes, habría preparado el informe a tempo.",
-              "options": [
-                { "id": "opt_a", "text": "supiera", "points": 0 },
-                { "id": "opt_b", "text": "he sabido", "points": 0 },
-                { "id": "opt_c", "text": "hubiera sabido", "points": 10 },
-                { "id": "opt_d", "text": "sé", "points": 0 }
-              ]
-            },
-            {
-              "id": "q_2_2",
               "text": "La empresa decidió _______ el lanzamiento del producto debido a problemas imprevistos en la cadena de suministro.",
               "options": [
                 { "id": "opt_a", "text": "posponer", "points": 10 },
@@ -85,17 +65,7 @@
               ]
             },
             {
-              "id": "q_2_3",
-              "text": "Cuando el director llegó, los empleados ya _______ el informe final.",
-              "options": [
-                { "id": "opt_a", "text": "enviarán", "points": 0 },
-                { "id": "opt_b", "text": "habían enviado", "points": 10 },
-                { "id": "opt_c", "text": "han enviando", "points": 0 },
-                { "id": "opt_d", "text": "están enviar", "points": 0 }
-              ]
-            },
-            {
-              "id": "q_2_4",
+              "id": "q_2_2",
               "text": "Te recomiendo que _______ el contrato detenidamente antes de firmar.",
               "options": [
                 { "id": "opt_a", "text": "leas", "points": 10 },
@@ -109,7 +79,35 @@
       ]
     },
     {
-      "id": "module_3_advanced",
+      "id": "module_3_written_precision",
+      "type": "text_input",
+      "grading": "automated",
+      "sections": [
+        {
+          "id": "wp1",
+          "level": "B2",
+          "instruction": "Escriba la palabra exacta que falta para completar la oración.",
+          "questions": [
+            {
+              "id": "b2_write_01",
+              "type": "text_input",
+              "text": "Si hubiera sabido que venías, te _____ preparado un pastel.",
+              "correctAnswers": ["habría", "habria", "hubiera"],
+              "points": 15
+            },
+            {
+              "id": "b2_write_02",
+              "type": "text_input",
+              "text": "No creo que _____ necesario comprar más pan para la cena.",
+              "correctAnswers": ["sea", "fuera", "fuese"],
+              "points": 15
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "module_4_advanced",
       "type": "cloze",
       "grading": "automated",
       "sections": [

@@ -11,7 +11,7 @@
   "modules": [
     {
       "id": "module_1_reading",
-      "type": "reading",
+      "type": "multiple_choice",
       "grading": "automated",
       "sections": [
         {
@@ -39,16 +39,6 @@
                 { "id": "opt_c", "text": "Backpacks and large luggage.", "points": 10 },
                 { "id": "opt_d", "text": "No items are checked.", "points": 0 }
               ]
-            },
-            {
-              "id": "q_1_3",
-              "text": "When is the ticket office open?",
-              "options": [
-                { "id": "opt_a", "text": "24 hours a day.", "points": 0 },
-                { "id": "opt_b", "text": "Only on weekdays.", "points": 0 },
-                { "id": "opt_c", "text": "From 6:00 AM to 10:00 PM daily.", "points": 10 },
-                { "id": "opt_d", "text": "From noon to midnight.", "points": 0 }
-              ]
             }
           ]
         }
@@ -56,46 +46,26 @@
     },
     {
       "id": "module_2_grammar",
-      "type": "reading",
+      "type": "multiple_choice",
       "grading": "automated",
       "sections": [
         {
           "id": "r2",
-          "level": "B1-B2",
-          "instruction": "Read the sentence and choose the correct word to fill the gap.",
+          "level": "B1",
+          "instruction": "Read the sentence and choose the correct option to fill the gap.",
           "questions": [
             {
               "id": "q_2_1",
-              "text": "If I _______ about the meeting earlier, I would have prepared the report on time.",
-              "options": [
-                { "id": "opt_a", "text": "know", "points": 0 },
-                { "id": "opt_b", "text": "knew", "points": 0 },
-                { "id": "opt_c", "text": "had known", "points": 10 },
-                { "id": "opt_d", "text": "have known", "points": 0 }
-              ]
-            },
-            {
-              "id": "q_2_2",
               "text": "The company decided to _______ the product launch due to unexpected supply chain issues.",
               "options": [
-                { "id": "opt_a", "text": "put off", "points": 10 },
-                { "id": "opt_b", "text": "put up", "points": 0 },
+                { "id": "opt_a", "text": "put up", "points": 0 },
+                { "id": "opt_b", "text": "put off", "points": 10 },
                 { "id": "opt_c", "text": "put on", "points": 0 },
                 { "id": "opt_d", "text": "put out", "points": 0 }
               ]
             },
             {
-              "id": "q_2_3",
-              "text": "By the time the manager arrived, the employees _______ the project files.",
-              "options": [
-                { "id": "opt_a", "text": "will finish", "points": 0 },
-                { "id": "opt_b", "text": "had already sent", "points": 10 },
-                { "id": "opt_c", "text": "have sending", "points": 0 },
-                { "id": "opt_d", "text": "are finish", "points": 0 }
-              ]
-            },
-            {
-              "id": "q_2_4",
+              "id": "q_2_2",
               "text": "She suggested _______ the new system as soon as possible to avoid security risks.",
               "options": [
                 { "id": "opt_a", "text": "to upgrade", "points": 0 },
@@ -109,7 +79,35 @@
       ]
     },
     {
-      "id": "module_3_advanced",
+      "id": "module_3_written_precision",
+      "type": "text_input",
+      "grading": "automated",
+      "sections": [
+        {
+          "id": "wp1",
+          "level": "B2",
+          "instruction": "Type the exact missing word to complete the sentence.",
+          "questions": [
+            {
+              "id": "b2_write_01",
+              "type": "text_input",
+              "text": "If I had known you were coming, I _____ have baked a cake.",
+              "correctAnswers": ["would", "could"],
+              "points": 15
+            },
+            {
+              "id": "b2_write_02",
+              "type": "text_input",
+              "text": "By the time we arrived at the station, the train had _____ left.",
+              "correctAnswers": ["already", "just"],
+              "points": 15
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "module_4_advanced",
       "type": "cloze",
       "grading": "automated",
       "sections": [

@@ -11,7 +11,7 @@
   "modules": [
     {
       "id": "module_1_reading",
-      "type": "reading",
+      "type": "multiple_choice",
       "grading": "automated",
       "sections": [
         {
@@ -39,16 +39,6 @@
                 { "id": "opt_c", "text": "Rucksäcke und großes Gepäck.", "points": 10 },
                 { "id": "opt_d", "text": "Es werden keine Gegenstände kontrolliert.", "points": 0 }
               ]
-            },
-            {
-              "id": "q_1_3",
-              "text": "Wann ist der Fahrkartenschalter geöffnet?",
-              "options": [
-                { "id": "opt_a", "text": "Rund um die Uhr.", "points": 0 },
-                { "id": "opt_b", "text": "Nur an Werktagen.", "points": 0 },
-                { "id": "opt_c", "text": "Täglich von 6:00 bis 22:00 Uhr.", "points": 10 },
-                { "id": "opt_d", "text": "Von Mittag bis Mitternacht.", "points": 0 }
-              ]
             }
           ]
         }
@@ -56,12 +46,12 @@
     },
     {
       "id": "module_2_grammar",
-      "type": "reading",
+      "type": "multiple_choice",
       "grading": "automated",
       "sections": [
         {
           "id": "r2",
-          "level": "B1-B2",
+          "level": "B1",
           "instruction": "Lesen Sie den Satz und wählen Sie das richtige Wort aus, um die Lücke zu füllen.",
           "questions": [
             {
@@ -83,33 +73,41 @@
                 { "id": "opt_c", "text": "einstellen", "points": 0 },
                 { "id": "opt_d", "text": "vertreiben", "points": 0 }
               ]
-            },
-            {
-              "id": "q_2_3",
-              "text": "Als der Manager ankam, _______ die Mitarbeiter die Dateien bereits gesendet.",
-              "options": [
-                { "id": "opt_a", "text": "haben", "points": 0 },
-                { "id": "opt_b", "text": "hatten", "points": 10 },
-                { "id": "opt_c", "text": "wurden", "points": 0 },
-                { "id": "opt_d", "text": "sind", "points": 0 }
-              ]
-            },
-            {
-              "id": "q_2_4",
-              "text": "Wir schlagen vor, das System so schnell wie möglich zu _______, um Risiken zu vermeiden.",
-              "options": [
-                { "id": "opt_a", "text": "aktualisieren", "points": 10 },
-                { "id": "opt_b", "text": "aktualisiert", "points": 0 },
-                { "id": "opt_c", "text": "aktualisierte", "points": 0 },
-                { "id": "opt_d", "text": "aktualisiere", "points": 0 }
-              ]
             }
           ]
         }
       ]
     },
     {
-      "id": "module_3_advanced",
+      "id": "module_3_written_precision",
+      "type": "text_input",
+      "grading": "automated",
+      "sections": [
+        {
+          "id": "wp1",
+          "level": "B2",
+          "instruction": "Geben Sie das genaue fehlende Wort ein, um den Satz zu vervollständigen.",
+          "questions": [
+            {
+              "id": "b2_write_01",
+              "type": "text_input",
+              "text": "Wenn ich gewusst hätte, dass du kommst, _____ ich einen Kuchen gebacken.",
+              "correctAnswers": ["hätte", "haette"],
+              "points": 15
+            },
+            {
+              "id": "b2_write_02",
+              "type": "text_input",
+              "text": "Ich glaube nicht, dass es notwendig _____, noch mehr Brot für das Abendessen zu kaufen.",
+              "correctAnswers": ["ist", "sei", "wäre", "waere"],
+              "points": 15
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "module_4_advanced",
       "type": "cloze",
       "grading": "automated",
       "sections": [

@@ -19,9 +19,11 @@ interface BlankDetail {
 interface Question {
   id: string;
   text: string;
-  type?: 'reading' | 'grammar' | 'cloze';
+  type?: 'multiple_choice' | 'text_input' | 'cloze' | 'reading' | 'grammar';
   options?: Option[];
   blanks?: Record<string, BlankDetail>;
+  correctAnswers?: string[];
+  points?: number;
 }
 
 interface Section {
@@ -34,7 +36,7 @@ interface Section {
 
 interface Module {
   id: string;
-  type: 'reading' | 'cloze';
+  type: 'multiple_choice' | 'text_input' | 'cloze' | 'reading';
   grading: 'automated';
   sections: Section[];
 }
@@ -78,6 +80,7 @@ const currentModuleIndex = ref(0);
 const currentSectionIndex = ref(0);
 const userAnswers = ref<Record<string, { optionId: string; points: number }>>({});
 const clozeAnswers = ref<Record<string, string>>({});
+const textAnswers = ref<Record<string, string>>({});
 const testCompleted = ref(false);
 const calculatedTier = ref('A1');
 const totalScore = ref(0);
@@ -106,11 +109,22 @@ const isSectionValid = computed(() => {
   const mod = currentModule.value;
   const sec = currentSection.value;
 
-  if (mod.type === 'reading') {
+  // Ambos tipos de opción múltiple se validan asegurándose de tener respuesta para todas las preguntas
+  if (mod.type === 'reading' || mod.type === 'multiple_choice') {
     if (!sec.questions) return true;
     return sec.questions.every(q => isCurrentQuestionAnswered(q.id));
   }
 
+  // Validación de respuestas escritas: cada pregunta debe tener un texto no vacío ni únicamente espacios
+  if (mod.type === 'text_input') {
+    if (!sec.questions) return true;
+    return sec.questions.every(q => {
+      const val = textAnswers.value[q.id];
+      return val !== undefined && val.trim() !== '';
+    });
+  }
+
+  // Validación del Cloze Test: cada espacio en blanco debe tener una opción seleccionada
   if (mod.type === 'cloze') {
     const q = sec.questions?.[0];
     if (!q || q.type !== 'cloze' || !q.blanks) return true;
@@ -126,15 +140,21 @@ const isSectionValid = computed(() => {
 // Traducir nombres de módulos a español para el header
 const getModuleTypeName = (type: string) => {
   switch (type) {
-    case 'reading': return 'Lectura y Vocabulario';
-    case 'cloze': return 'Estructura Avanzada';
-    default: return type;
+    case 'reading':
+    case 'multiple_choice':
+      return 'Lectura y Gramática';
+    case 'text_input':
+      return 'Precisión Escrita';
+    case 'cloze':
+      return 'Estructura Avanzada';
+    default:
+      return type;
   }
 };
 
 // --- LÓGICA POR MÓDULO ---
 
-// --- 1. READING (Respuestas de Opción Múltiple) ---
+// --- 1. MULTIPLE CHOICE / READING (Respuestas de Opción Múltiple) ---
 const selectOption = (questionId: string, option: Option) => {
   userAnswers.value[questionId] = {
     optionId: option.id,
@@ -142,7 +162,20 @@ const selectOption = (questionId: string, option: Option) => {
   };
 };
 
-// --- 2. CLOZE TEST ---
+// --- 2. TEXT INPUT (Respuestas de Entrada de Texto Libre) ---
+// Normaliza y evalúa la respuesta en tiempo real comparándola con las opciones correctas permitidas (case-insensitive)
+const handleTextInput = (questionId: string, value: string, correctAnswers: string[], points: number) => {
+  textAnswers.value[questionId] = value;
+  const cleanVal = value.trim().toLowerCase();
+  const isCorrect = correctAnswers.some(correct => correct.trim().toLowerCase() === cleanVal);
+  
+  userAnswers.value[questionId] = {
+    optionId: cleanVal,
+    points: isCorrect ? points : 0
+  };
+};
+
+// --- 3. CLOZE TEST ---
 const handleClozeSelect = (questionId: string, blankKey: string, selectedOption: string, blankData: BlankDetail | undefined) => {
   if (!blankData) return;
   const answerKey = `${questionId}_${blankKey}`;
@@ -224,14 +257,17 @@ const currentMascot = computed(() => {
   // Mapeamos dinámicamente las imágenes para mostrar diferentes facetas de la mascota
   switch (currentModuleIndex.value) {
     case 0:
-      // Módulo 1 (Lectura Inicial): Mascota saludando feliz
+      // Módulo 1 (Lectura y Vocabulario): Mascota saludando feliz
       return '/img/editables-28.svg';
     case 1:
-      // Módulo 2 (Lectura Avanzada): Mascota concentrada
+      // Módulo 2 (Gramática y Sintaxis): Mascota concentrada
       return '/img/editables-29.svg';
     case 2:
-      // Módulo 3 (Estructura Avanzada / Cloze): Mascota pensativa/creativa
+      // Módulo 3 (Precisión Escrita): Mascota pensativa/creativa
       return '/img/editables-30.svg';
+    case 3:
+      // Módulo 4 (Estructura Avanzada): Reusar mascota saludando/inicial
+      return '/img/editables-28.svg';
     default:
       // Fallback
       return '/img/editables-28.svg';
@@ -252,6 +288,8 @@ const currentBubbleText = computed(() => {
     case 1:
       return `¡Excelente! Ahora en Gramática y Sintaxis (${level}) elige la opción que complete la frase.`;
     case 2:
+      return `¡Demuestra tu precisión escrita (${level})! Escribe la palabra exacta que falta en cada oración.`;
+    case 3:
       return `¡El tramo final (${level})! Completa los espacios vacíos del texto Cloze. ¡Tú puedes!`;
     default:
       return `¡Vas muy bien! Sigue respondiendo para obtener un resultado más preciso.`;
@@ -406,8 +444,8 @@ const currentBubbleText = computed(() => {
           </h3>
         </div>
 
-        <!-- 1. CASO DE USO: READING / GRAMMAR -->
-        <div v-if="currentModule.type === 'reading'" class="flex flex-col gap-5 md:gap-6">
+        <!-- 1. CASO DE USO: READING / GRAMMAR (RESPUESTAS DE OPCIÓN MÚLTIPLE) -->
+        <div v-if="currentModule.type === 'reading' || currentModule.type === 'multiple_choice'" class="flex flex-col gap-5 md:gap-6">
           <!-- Texto del ejercicio de lectura con excelente contraste y espaciado (si existe) -->
           <div v-if="currentSection.text" class="bg-brand-blue/5 p-4 md:p-6 rounded-talki border border-brand-blue/10 font-body text-sm md:text-lg leading-relaxed text-gray-800 shadow-inner">
             {{ currentSection.text }}
@@ -442,7 +480,26 @@ const currentBubbleText = computed(() => {
           </div>
         </div>
 
-        <!-- 2. CASO DE USO: CLOZE TEST -->
+        <!-- 2. CASO DE USO: TEXT INPUT (RESPUESTAS DE ENTRADA DE TEXTO LIBRE) -->
+        <div v-if="currentModule.type === 'text_input'" class="flex flex-col gap-6">
+          <div v-for="q in currentSection.questions" :key="q.id" class="flex flex-col gap-4">
+            <h4 class="text-sm md:text-md font-bold font-title text-brand-dark leading-snug">
+              {{ q.text }}
+            </h4>
+            <div class="relative rounded-talki shadow-sm max-w-lg">
+              <input
+                :id="q.id"
+                type="text"
+                :value="textAnswers[q.id] || ''"
+                @input="e => handleTextInput(q.id, (e.target as HTMLInputElement).value, q.correctAnswers || [], q.points || 0)"
+                placeholder="Escribe tu respuesta aquí..."
+                class="w-full px-4 py-3 bg-white border-2 border-brand-blue/15 hover:border-brand-blue/30 focus:border-brand-lightBlue focus:ring-2 focus:ring-brand-lightBlue/10 rounded-xl font-body text-xs md:text-base outline-none transition-all text-brand-dark shadow-inner"
+              />
+            </div>
+          </div>
+        </div>
+
+        <!-- 3. CASO DE USO: CLOZE TEST -->
         <div v-if="currentModule.type === 'cloze'" class="flex flex-col gap-6">
           <div v-for="q in currentSection.questions" :key="q.id" class="flex flex-col gap-4">
             <!-- Párrafo interactivo con alineación fluida y espaciado de línea amplio (Fase 15) -->
