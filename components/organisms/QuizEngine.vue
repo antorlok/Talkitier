@@ -212,11 +212,61 @@ const finishTest = () => {
     score: totalScore.value
   });
 };
+
+// --- COMPONENTE MASCOTA GUÍA ---
+// Retorna la imagen adecuada para la mascota según la etapa del examen (módulo actual)
+const currentMascot = computed(() => {
+  if (testCompleted.value) {
+    // Mascota celebrando al finalizar con éxito el test
+    return '/img/editables-31.svg';
+  }
+
+  // Mapeamos dinámicamente las imágenes para mostrar diferentes facetas de la mascota
+  switch (currentModuleIndex.value) {
+    case 0:
+      // Módulo 1 (Lectura Inicial): Mascota saludando feliz
+      return '/img/editables-28.svg';
+    case 1:
+      // Módulo 2 (Lectura Avanzada): Mascota concentrada
+      return '/img/editables-29.svg';
+    case 2:
+      // Módulo 3 (Redacción escrita): Mascota pensativa/creativa
+      return '/img/editables-30.svg';
+    case 3:
+      // Módulo 4 (Vocabulario avanzado): Mascota experta
+      return '/img/editables-29.svg';
+    default:
+      // Fallback
+      return '/img/editables-28.svg';
+  }
+});
+
+// Mensajes interactivos de la mascota según la etapa y nivel actual
+const currentBubbleText = computed(() => {
+  if (testCompleted.value) {
+    return '¡Extraordinario! Completaste la evaluación. Aquí tienes tu nivel de ingreso.';
+  }
+
+  const level = currentSection.value?.level || '';
+
+  switch (currentModuleIndex.value) {
+    case 0:
+      return `¡Hola! Comencemos con Lectura (${level}). Lee el texto y elige con calma.`;
+    case 1:
+      return `¡Excelente! Ahora en Lectura Avanzada (${level}) presta atención a los detalles.`;
+    case 2:
+      return `¡Turno de escribir (${level})! Redacta tu texto cuidando el mínimo de palabras.`;
+    case 3:
+      return `¡El tramo final (${level})! Elige la palabra perfecta para este nivel avanzado.`;
+    default:
+      return `¡Vas muy bien! Sigue respondiendo para obtener un resultado más preciso.`;
+  }
+});
 </script>
 
 <template>
-  <!-- Wrapper principal adaptativo Mobile-First (Fase 14) -->
-  <div class="w-full max-w-3xl mx-auto px-4 py-3 md:px-6 md:py-6 flex flex-col gap-5 sm:gap-6">
+  <!-- Wrapper principal adaptativo con ancho expandido para albergar la mascota al costado -->
+  <div class="w-full max-w-5xl mx-auto px-4 py-3 md:px-6 md:py-6 flex flex-col gap-5 sm:gap-6">
     
     <!-- Barra de Progreso Global a nivel de organismo -->
     <div v-if="!testCompleted" class="bg-brand-blue/30 border border-brand-lightBlue/10 p-3 sm:p-4 rounded-talki shadow-xl backdrop-blur-md">
@@ -225,10 +275,10 @@ const finishTest = () => {
 
     <!-- PÁGINA DE RESULTADOS (CUANDO EL QUIZ HA TERMINADO) -->
     <div v-if="testCompleted" class="bg-brand-cream text-brand-dark p-6 md:p-12 rounded-talki shadow-2xl flex flex-col items-center text-center gap-5 md:gap-6 border-4 border-brand-greenLight">
-      <div class="w-16 h-16 md:w-20 md:h-20 rounded-full bg-brand-greenLight/20 flex items-center justify-center text-brand-greenDark">
-        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2.5" stroke="currentColor" class="w-8 h-8 md:w-10 md:h-10">
-          <path stroke-linecap="round" stroke-linejoin="round" d="M9 12.75L11.25 15 15 9.75M21 12c0 1.268-.63 2.39-1.593 3.068a3.745 3.745 0 01-1.043 3.296 3.745 3.745 0 01-3.296 1.043A3.745 3.745 0 0112 21c-1.268 0-2.39-.63-3.068-1.593a3.746 3.746 0 01-3.296-1.043 3.745 3.745 0 01-1.043-3.296A3.745 3.745 0 013 12c0-1.268.63-2.39 1.593-3.068a3.745 3.745 0 011.043-3.296 3.746 3.746 0 013.296-1.043A3.746 3.746 0 0112 3c1.268 0 2.39.63 3.068 1.593a3.746 3.746 0 013.296 1.043 3.746 3.746 0 011.043 3.296A3.745 3.745 0 0121 12z" />
-        </svg>
+      
+      <!-- Mascota celebrando en la pantalla de resultados para darle más vida -->
+      <div class="w-32 h-32 md:w-44 md:h-44 relative flex items-center justify-center animate-bounce-subtle mt-2">
+        <img :src="currentMascot" alt="Mascota celebrando" class="w-full h-full object-contain filter drop-shadow-xl" />
       </div>
 
       <h2 class="text-2xl md:text-3xl font-bold font-title text-brand-dark tracking-tight">¡Test Completado!</h2>
@@ -290,7 +340,7 @@ const finishTest = () => {
           </p>
         </div>
 
-        <!-- Botones apilados en móvil y en fila horizontal a partir de pantallas sm/md (Fase 14) -->
+        <!-- Botones apilados en móvil y en fila horizontal a partir de pantallas sm/md con alineación perfecta (Fase 14) -->
         <div class="flex flex-col sm:flex-row gap-3 w-full max-w-lg mx-auto mt-2">
           <!-- Paso 1: Unirme al Servidor -->
           <a 
@@ -299,7 +349,7 @@ const finishTest = () => {
             rel="noopener noreferrer" 
             class="flex-1 bg-[#5865F2] hover:bg-[#4752C4] text-white py-3.5 px-5 rounded-talki font-title font-bold text-sm tracking-wider flex items-center justify-center gap-2.5 shadow-lg shadow-[#5865F2]/20 hover:shadow-[#5865F2]/40 transition-all duration-300 transform hover:-translate-y-0.5 active:translate-y-0 cursor-pointer text-center no-underline"
           >
-            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 127.14 96.36" class="w-4.5 h-4.5 fill-current">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 127.14 96.36" class="w-5 h-5 flex-shrink-0 fill-current">
               <path d="M107.7,8.07A105.15,105.15,0,0,0,77.26,0a77.19,77.19,0,0,0-3.3,6.83A96.67,96.67,0,0,0,53.22,6.83,77.19,77.19,0,0,0,49.88,0,105.15,105.15,0,0,0,19.47,8.07C3.66,31.58-1.86,54.65,1,77.53A105.73,105.73,0,0,0,32,96.36a77.7,77.7,0,0,0,6.63-10.85,68.43,68.43,0,0,1-10.5-5c.9-.65,1.76-1.34,2.58-2a75.58,75.58,0,0,0,73,0c.83.69,1.69,1.38,2.58,2a68.43,68.43,0,0,1-10.5,5A77.7,77.7,0,0,0,102,85.51a105.73,105.73,0,0,0,31-18.83C130.67,54.65,125.13,31.58,107.7,8.07ZM42.45,65.69C36.18,65.69,31,60,31,53S36.18,40.36,42.45,40.36,53.83,46,53.83,53,48.72,65.69,42.45,65.69Zm42.24,0C78.42,65.69,73.24,60,73.24,53S78.42,40.36,84.69,40.36,96.07,46,96.07,53,91,65.69,84.69,65.69Z"/>
             </svg>
             <span>1. Unirme</span>
@@ -309,9 +359,9 @@ const finishTest = () => {
           <button 
             @click="retryDiscordSync" 
             :disabled="discordStatus as string === 'loading'"
-            class="flex-1 bg-white hover:bg-brand-cream text-brand-blue border-2 border-brand-blue/30 py-3.5 px-5 rounded-talki font-title font-bold text-sm tracking-wider flex items-center justify-center gap-2 transition-all duration-300 transform hover:-translate-y-0.5 active:translate-y-0 disabled:opacity-50 disabled:cursor-not-allowed cursor-pointer text-center"
+            class="flex-1 bg-white hover:bg-brand-cream text-brand-blue border-2 border-brand-blue/30 py-3.5 px-5 rounded-talki font-title font-bold text-sm tracking-wider flex items-center justify-center gap-2.5 transition-all duration-300 transform hover:-translate-y-0.5 active:translate-y-0 disabled:opacity-50 disabled:cursor-not-allowed cursor-pointer text-center"
           >
-            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2.5" stroke="currentColor" class="w-4.5 h-4.5">
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2.5" stroke="currentColor" class="w-5 h-5 flex-shrink-0">
               <path stroke-linecap="round" stroke-linejoin="round" d="M16.023 9.348h4.992v-.001M2.985 19.644v-4.992m0 0h4.992m-4.993 0l3.181 3.183a8.25 8.25 0 0013.803-3.7M4.031 9.865a8.25 8.25 0 0113.803-3.7l3.181 3.182m-4.991 15.118H9.75" />
             </svg>
             <span>2. Sincronizar</span>
@@ -328,7 +378,7 @@ const finishTest = () => {
         class="w-full max-w-md bg-[#5865F2] hover:bg-[#4752C4] text-white py-3.5 px-6 rounded-talki font-title font-bold text-sm tracking-wider flex items-center justify-center gap-3 shadow-lg shadow-[#5865F2]/20 hover:shadow-[#5865F2]/40 transition-all duration-300 transform hover:-translate-y-0.5 active:translate-y-0 cursor-pointer text-center no-underline"
       >
         <!-- Icono oficial de Discord -->
-        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 127.14 96.36" class="w-4.5 h-4.5 fill-current">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 127.14 96.36" class="w-5 h-5 flex-shrink-0 fill-current">
           <path d="M107.7,8.07A105.15,105.15,0,0,0,77.26,0a77.19,77.19,0,0,0-3.3,6.83A96.67,96.67,0,0,0,53.22,6.83,77.19,77.19,0,0,0,49.88,0,105.15,105.15,0,0,0,19.47,8.07C3.66,31.58-1.86,54.65,1,77.53A105.73,105.73,0,0,0,32,96.36a77.7,77.7,0,0,0,6.63-10.85,68.43,68.43,0,0,1-10.5-5c.9-.65,1.76-1.34,2.58-2a75.58,75.58,0,0,0,73,0c.83.69,1.69,1.38,2.58,2a68.43,68.43,0,0,1-10.5,5A77.7,77.7,0,0,0,102,85.51a105.73,105.73,0,0,0,31-18.83C130.67,54.65,125.13,31.58,107.7,8.07ZM42.45,65.69C36.18,65.69,31,60,31,53S36.18,40.36,42.45,40.36,53.83,46,53.83,53,48.72,65.69,42.45,65.69Zm42.24,0C78.42,65.69,73.24,60,73.24,53S78.42,40.36,84.69,40.36,96.07,46,96.07,53,91,65.69,84.69,65.69Z"/>
         </svg>
         <span>Ir al Servidor de Discord</span>
@@ -342,120 +392,161 @@ const finishTest = () => {
       </div>
     </div>
 
-    <!-- TARJETA DEL CONTENEDOR DE PREGUNTAS (ACTIVA) -->
-    <div v-else class="bg-brand-cream text-brand-dark rounded-talki shadow-2xl p-5 md:p-10 flex flex-col gap-5 md:gap-6 border-b-8 border-brand-blue relative overflow-hidden">
+    <!-- SECCIÓN DEL EXAMEN ACTIVO CON DISPOSICIÓN DE DOBLE COLUMNA PARA LA MASCOTA -->
+    <div v-else class="grid grid-cols-1 lg:grid-cols-12 gap-6 items-start w-full">
       
-      <!-- Indicador visual del nivel del módulo -->
-      <div class="absolute top-0 right-0 bg-brand-blue text-brand-cream text-[10px] md:text-xs font-bold font-title px-3 py-1.5 md:px-4 md:py-2 rounded-bl-talki tracking-wide shadow-md">
-        Nivel: {{ currentSection.level }}
-      </div>
-
-      <!-- Cabecera del Módulo -->
-      <div class="flex flex-col gap-1.5 border-b border-brand-blue/15 pb-4 mt-2">
-        <span class="text-[10px] font-bold tracking-wider text-brand-lightBlue uppercase font-body">Módulo de {{ getModuleTypeName(currentModule.type) }}</span>
-        <h3 class="text-base md:text-xl font-bold font-title leading-relaxed text-brand-dark">
-          {{ currentSection.instruction }}
-        </h3>
-      </div>
-
-      <!-- 1. CASO DE USO: READING -->
-      <div v-if="currentModule.type === 'reading'" class="flex flex-col gap-5 md:gap-6">
-        <!-- Texto del ejercicio de lectura con excelente contraste y espaciado -->
-        <div class="bg-brand-blue/5 p-4 md:p-6 rounded-talki border border-brand-blue/10 font-body text-sm md:text-lg leading-relaxed text-gray-800 shadow-inner">
-          {{ currentSection.text }}
+      <!-- Tarjeta principal de la pregunta (Desktop: Izquierda, Mobile: Abajo) -->
+      <div class="lg:col-span-8 bg-brand-cream text-brand-dark rounded-talki shadow-2xl p-5 md:p-10 flex flex-col gap-5 md:gap-6 border-b-8 border-brand-blue relative overflow-hidden order-2 lg:order-1">
+        
+        <!-- Indicador visual del nivel del módulo -->
+        <div class="absolute top-0 right-0 bg-brand-blue text-brand-cream text-[10px] md:text-xs font-bold font-title px-3 py-1.5 md:px-4 md:py-2 rounded-bl-talki tracking-wide shadow-md">
+          Nivel: {{ currentSection.level }}
         </div>
 
-        <!-- Renderizado de las preguntas -->
-        <div v-for="q in currentSection.questions" :key="q.id" class="flex flex-col gap-3.5">
-          <h4 class="text-sm md:text-md font-bold font-title text-brand-dark leading-snug">
-            {{ q.text }}
-          </h4>
-
-          <!-- Opciones mapeadas a BaseButton de forma limpia en 1 columna en móvil y 2 en escritorio (Fase 14) -->
-          <div class="grid grid-cols-1 md:grid-cols-2 gap-2.5 sm:gap-3">
-            <BaseButton
-              v-for="opt in q.options"
-              :key="opt.id"
-              :variant="userAnswers[q.id]?.optionId === opt.id ? 'primary' : 'secondary'"
-              class="w-full text-left justify-start !py-2.5 sm:!py-3"
-              @click="selectOption(q.id, opt)"
-            >
-              <div class="flex items-center gap-2.5">
-                <span 
-                  class="w-5.5 h-5.5 md:w-6 md:h-6 rounded-full flex items-center justify-center border font-bold text-[10px] md:text-xs flex-shrink-0"
-                  :class="userAnswers[q.id]?.optionId === opt.id ? 'bg-brand-dark text-white border-transparent' : 'border-brand-blue/40 text-brand-blue'"
-                >
-                  {{ opt.id.slice(-1).toUpperCase() }}
-                </span>
-                <span class="font-medium text-xs md:text-base leading-snug">{{ opt.text }}</span>
-              </div>
-            </BaseButton>
-          </div>
-        </div>
-      </div>
-
-      <!-- 2. CASO DE USO: WRITING -->
-      <div v-if="currentModule.type === 'writing'" class="flex flex-col gap-4">
-        <!-- Indicaciones y estímulo del email/texto a escribir -->
-        <div class="bg-brand-blue/5 p-5 md:p-6 rounded-talki border border-brand-blue/10 flex flex-col gap-3">
-          <span class="text-xs font-bold text-brand-lightBlue uppercase tracking-wider font-body">Instrucciones de Redacción</span>
-          <p class="font-body text-sm md:text-base text-gray-800 leading-relaxed">
-            {{ currentSection.prompt_text }}
-          </p>
+        <!-- Cabecera del Módulo -->
+        <div class="flex flex-col gap-1.5 border-b border-brand-blue/15 pb-4 mt-2">
+          <span class="text-[10px] font-bold tracking-wider text-brand-lightBlue uppercase font-body">Módulo de {{ getModuleTypeName(currentModule.type) }}</span>
+          <h3 class="text-base md:text-xl font-bold font-title leading-relaxed text-brand-dark">
+            {{ currentSection.instruction }}
+          </h3>
         </div>
 
-        <!-- Área de escritura con protección contra pegado y contador activo -->
-        <div class="flex flex-col gap-2">
-          <div class="flex justify-between items-center text-xs text-gray-500 font-body px-1">
-            <span class="flex items-center gap-1.5 text-red-600 font-semibold" v-if="currentModule.config?.block_paste">
-              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="w-3.5 h-3.5">
-                <path fill-rule="evenodd" d="M5.47 5.47a.75.75 0 011.06 0L10 8.94l3.47-3.47a.75.75 0 111.06 1.06L11.06 10l3.47 3.47a.75.75 0 11-1.06 1.06L10 11.06l-3.47 3.47a.75.75 0 11-1.06-1.06L8.94 10 5.47 6.53a.75.75 0 010-1.06z" clip-rule="evenodd" />
-              </svg>
-              Pegado de texto deshabilitado
-            </span>
-            <span v-else>Listo para redactar</span>
-            
-            <span 
-              class="font-bold text-xs" 
-              :class="{
-                'text-red-500': wordCount < (currentSection.min_words || 0) || wordCount > (currentSection.max_words || 0),
-                'text-brand-greenDark': wordCount >= (currentSection.min_words || 0) && wordCount <= (currentSection.max_words || 0)
-              }"
-            >
-              Palabras: {{ wordCount }} / {{ currentSection.min_words }} - {{ currentSection.max_words }}
-            </span>
+        <!-- 1. CASO DE USO: READING -->
+        <div v-if="currentModule.type === 'reading'" class="flex flex-col gap-5 md:gap-6">
+          <!-- Texto del ejercicio de lectura con excelente contraste y espaciado -->
+          <div class="bg-brand-blue/5 p-4 md:p-6 rounded-talki border border-brand-blue/10 font-body text-sm md:text-lg leading-relaxed text-gray-800 shadow-inner">
+            {{ currentSection.text }}
           </div>
 
-          <textarea
-            v-model="writingText"
-            rows="8"
-            class="w-full bg-white text-brand-dark p-5 rounded-talki border-2 border-brand-blue/15 focus:border-brand-lightBlue focus:ring-4 focus:ring-brand-lightBlue/20 outline-none font-body text-sm md:text-base leading-relaxed transition-all shadow-inner resize-none"
-            placeholder="Escribe tu respuesta aquí..."
-            @paste.prevent
+          <!-- Renderizado de las preguntas -->
+          <div v-for="q in currentSection.questions" :key="q.id" class="flex flex-col gap-3.5">
+            <h4 class="text-sm md:text-md font-bold font-title text-brand-dark leading-snug">
+              {{ q.text }}
+            </h4>
+
+            <!-- Opciones mapeadas a BaseButton de forma limpia en 1 columna en móvil y 2 en escritorio (Fase 14) -->
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-2.5 sm:gap-3">
+              <BaseButton
+                v-for="opt in q.options"
+                :key="opt.id"
+                :variant="userAnswers[q.id]?.optionId === opt.id ? 'primary' : 'secondary'"
+                class="w-full text-left justify-start !py-2.5 sm:!py-3"
+                @click="selectOption(q.id, opt)"
+              >
+                <div class="flex items-center gap-2.5">
+                  <span 
+                    class="w-5.5 h-5.5 md:w-6 md:h-6 rounded-full flex items-center justify-center border font-bold text-[10px] md:text-xs flex-shrink-0"
+                    :class="userAnswers[q.id]?.optionId === opt.id ? 'bg-brand-dark text-white border-transparent' : 'border-brand-blue/40 text-brand-blue'"
+                  >
+                    {{ opt.id.slice(-1).toUpperCase() }}
+                  </span>
+                  <span class="font-medium text-xs md:text-base leading-snug">{{ opt.text }}</span>
+                </div>
+              </BaseButton>
+            </div>
+          </div>
+        </div>
+
+        <!-- 2. CASO DE USO: WRITING -->
+        <div v-if="currentModule.type === 'writing'" class="flex flex-col gap-4">
+          <!-- Indicaciones y estímulo del email/texto a escribir -->
+          <div class="bg-brand-blue/5 p-5 md:p-6 rounded-talki border border-brand-blue/10 flex flex-col gap-3">
+            <span class="text-xs font-bold text-brand-lightBlue uppercase tracking-wider font-body">Instrucciones de Redacción</span>
+            <p class="font-body text-sm md:text-base text-gray-800 leading-relaxed">
+              {{ currentSection.prompt_text }}
+            </p>
+          </div>
+
+          <!-- Área de escritura con protección contra pegado y contador activo -->
+          <div class="flex flex-col gap-2">
+            <div class="flex justify-between items-center text-xs text-gray-500 font-body px-1">
+              <span class="flex items-center gap-1.5 text-red-600 font-semibold" v-if="currentModule.config?.block_paste">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="w-3.5 h-3.5">
+                  <path fill-rule="evenodd" d="M5.47 5.47a.75.75 0 011.06 0L10 8.94l3.47-3.47a.75.75 0 111.06 1.06L11.06 10l3.47 3.47a.75.75 0 11-1.06 1.06L10 11.06l-3.47 3.47a.75.75 0 11-1.06-1.06L8.94 10 5.47 6.53a.75.75 0 010-1.06z" clip-rule="evenodd" />
+                </svg>
+                Pegado de texto deshabilitado
+              </span>
+              <span v-else>Listo para redactar</span>
+              
+              <span 
+                class="font-bold text-xs" 
+                :class="{
+                  'text-red-500': wordCount < (currentSection.min_words || 0) || wordCount > (currentSection.max_words || 0),
+                  'text-brand-greenDark': wordCount >= (currentSection.min_words || 0) && wordCount <= (currentSection.max_words || 0)
+                }"
+              >
+                Palabras: {{ wordCount }} / {{ currentSection.min_words }} - {{ currentSection.max_words }}
+              </span>
+            </div>
+
+            <textarea
+              v-model="writingText"
+              rows="8"
+              class="w-full bg-white text-brand-dark p-5 rounded-talki border-2 border-brand-blue/15 focus:border-brand-lightBlue focus:ring-4 focus:ring-brand-lightBlue/20 outline-none font-body text-sm md:text-base leading-relaxed transition-all shadow-inner resize-none"
+              placeholder="Escribe tu respuesta aquí..."
+              @paste.prevent
+            />
+          </div>
+        </div>
+
+        <!-- Barra de Navegación del Cuestionario -->
+        <div class="flex justify-between items-center border-t border-brand-blue/15 pt-5 mt-4">
+          <!-- Indicador de Preguntas del Módulo -->
+          <span class="text-xs font-semibold text-gray-500 font-body">
+            Sección {{ currentSectionIndex + 1 }} de {{ currentModule.sections.length }}
+          </span>
+
+          <!-- Botón para avanzar, habilitado solo si la sección cumple los criterios de validación -->
+          <BaseButton
+            variant="primary"
+            :disabled="!isSectionValid"
+            @click="nextStep"
+          >
+            {{ currentModuleIndex === resolvedQuizData.modules.length - 1 && currentSectionIndex === currentModule.sections.length - 1 ? 'Finalizar Test' : 'Siguiente' }}
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2.5" stroke="currentColor" class="w-4 h-4">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M13.5 4.5L21 12m0 0l-7.5 7.5M21 12H3" />
+            </svg>
+          </BaseButton>
+        </div>
+
+      </div>
+
+      <!-- Columna de la Mascota Guía (Desktop: Derecha, Mobile: Arriba) -->
+      <div class="lg:col-span-4 bg-brand-cream text-brand-dark rounded-talki shadow-2xl p-5 md:p-8 flex flex-col items-center gap-5 border-b-8 border-brand-greenLight w-full relative overflow-hidden order-1 lg:order-2">
+        
+        <!-- Bocadillo de diálogo con cola de SVG orientada -->
+        <div class="relative bg-brand-blue text-brand-cream p-4 rounded-3xl font-body text-xs md:text-sm leading-relaxed border border-brand-lightBlue/20 shadow-md text-center w-full animate-bounce-subtle">
+          {{ currentBubbleText }}
+          <!-- Cola del bocadillo en móvil (apunta hacia abajo) -->
+          <div class="absolute bottom-[-6px] left-1/2 transform -translate-x-1/2 rotate-45 w-3 h-3 bg-brand-blue border-r border-b border-brand-lightBlue/20 lg:hidden" />
+          <!-- Cola del bocadillo en desktop (apunta hacia la izquierda) -->
+          <div class="absolute left-[-6px] top-1/2 transform -translate-y-1/2 rotate-45 w-3 h-3 bg-brand-blue border-l border-b border-brand-lightBlue/20 hidden lg:block" />
+        </div>
+
+        <!-- Contenedor premium de la mascota -->
+        <div class="w-36 h-36 md:w-52 md:h-52 flex items-center justify-center relative group">
+          <img 
+            :src="currentMascot" 
+            alt="Mascota del proyecto" 
+            class="w-full h-full object-contain filter drop-shadow-xl transition-all duration-500 group-hover:scale-105"
           />
         </div>
-      </div>
-
-      <!-- Barra de Navegación del Cuestionario -->
-      <div class="flex justify-between items-center border-t border-brand-blue/15 pt-5 mt-4">
-        <!-- Indicador de Preguntas del Módulo -->
-        <span class="text-xs font-semibold text-gray-500 font-body">
-          Sección {{ currentSectionIndex + 1 }} de {{ currentModule.sections.length }}
-        </span>
-
-        <!-- Botón para avanzar, habilitado solo si la sección cumple los criterios de validación -->
-        <BaseButton
-          variant="primary"
-          :disabled="!isSectionValid"
-          @click="nextStep"
-        >
-          {{ currentModuleIndex === resolvedQuizData.modules.length - 1 && currentSectionIndex === currentModule.sections.length - 1 ? 'Finalizar Test' : 'Siguiente' }}
-          <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2.5" stroke="currentColor" class="w-4 h-4">
-            <path stroke-linecap="round" stroke-linejoin="round" d="M13.5 4.5L21 12m0 0l-7.5 7.5M21 12H3" />
-          </svg>
-        </BaseButton>
       </div>
 
     </div>
   </div>
 </template>
+
+<style scoped>
+@keyframes bounce-subtle {
+  0%, 100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-6px);
+  }
+}
+.animate-bounce-subtle {
+  animation: bounce-subtle 4s ease-in-out infinite;
+}
+</style>
