@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { ref, computed, watch } from 'vue';
+import { ref, computed } from 'vue';
 import BaseButton from '../atoms/BaseButton.vue';
 import ProgressBar from '../molecules/ProgressBar.vue';
 
@@ -10,10 +10,18 @@ interface Option {
   points: number;
 }
 
+interface BlankDetail {
+  options: string[];
+  correct: string;
+  points: number;
+}
+
 interface Question {
   id: string;
   text: string;
-  options: Option[];
+  type?: 'reading' | 'grammar' | 'cloze';
+  options?: Option[];
+  blanks?: Record<string, BlankDetail>;
 }
 
 interface Section {
@@ -22,19 +30,12 @@ interface Section {
   instruction: string;
   text?: string;
   questions?: Question[];
-  prompt_text?: string;
-  min_words?: number;
-  max_words?: number;
 }
 
 interface Module {
   id: string;
-  type: 'reading' | 'writing';
-  grading: 'automated' | 'deferred';
-  config?: {
-    block_paste?: boolean;
-    show_word_counter?: boolean;
-  };
+  type: 'reading' | 'cloze';
+  grading: 'automated';
   sections: Section[];
 }
 
@@ -76,19 +77,10 @@ const retryDiscordSync = () => {
 const currentModuleIndex = ref(0);
 const currentSectionIndex = ref(0);
 const userAnswers = ref<Record<string, { optionId: string; points: number }>>({});
-const writingAnswers = ref<Record<string, { text: string; words: number }>>({});
+const clozeAnswers = ref<Record<string, string>>({});
 const testCompleted = ref(false);
 const calculatedTier = ref('A1');
 const totalScore = ref(0);
-
-// --- ESTADOS PARTICULARES DE LOS SUB-MÓDULOS ---
-
-// Writing Module State
-const writingText = ref('');
-const wordCount = computed(() => {
-  const text = writingText.value.trim();
-  return text === '' ? 0 : text.split(/\s+/).length;
-});
 
 // --- PROPIEDADES COMPUTADAS DE NAVEGACIÓN ---
 const currentModule = computed<Module>(() => resolvedQuizData.value.modules[currentModuleIndex.value] as Module);
@@ -119,10 +111,13 @@ const isSectionValid = computed(() => {
     return sec.questions.every(q => isCurrentQuestionAnswered(q.id));
   }
 
-  if (mod.type === 'writing') {
-    const min = sec.min_words || 0;
-    const max = sec.max_words || Infinity;
-    return wordCount.value >= min && wordCount.value <= max;
+  if (mod.type === 'cloze') {
+    const q = sec.questions?.[0];
+    if (!q || q.type !== 'cloze' || !q.blanks) return true;
+    return Object.keys(q.blanks).every(blankKey => {
+      const answerKey = `${q.id}_${blankKey}`;
+      return clozeAnswers.value[answerKey] !== undefined && clozeAnswers.value[answerKey] !== '';
+    });
   }
 
   return false;
@@ -131,40 +126,52 @@ const isSectionValid = computed(() => {
 // Traducir nombres de módulos a español para el header
 const getModuleTypeName = (type: string) => {
   switch (type) {
-    case 'reading': return 'Lectura Comprensiva';
-    case 'writing': return 'Expresión Escrita';
+    case 'reading': return 'Lectura y Vocabulario';
+    case 'cloze': return 'Estructura Avanzada';
     default: return type;
   }
 };
-
-// Manejar cambios de módulo/sección para resetear estados específicos
-watch([currentModuleIndex, currentSectionIndex], () => {
-  // Resetear estados del writing
-  writingText.value = '';
-});
 
 // --- LÓGICA POR MÓDULO ---
 
 // --- 1. READING (Respuestas de Opción Múltiple) ---
 const selectOption = (questionId: string, option: Option) => {
-  // Guardamos la respuesta seleccionada y los puntos asignados por el test
   userAnswers.value[questionId] = {
     optionId: option.id,
     points: option.points
   };
 };
 
+// --- 2. CLOZE TEST ---
+const handleClozeSelect = (questionId: string, blankKey: string, selectedOption: string, blankData: BlankDetail | undefined) => {
+  if (!blankData) return;
+  const answerKey = `${questionId}_${blankKey}`;
+  clozeAnswers.value[answerKey] = selectedOption;
+  
+  userAnswers.value[answerKey] = {
+    optionId: selectedOption,
+    points: selectedOption === blankData.correct ? blankData.points : 0
+  };
+};
+
+// Separar el texto del Cloze por los marcadores {blank_X}
+const parseClozeText = (text: string) => {
+  return text.split(/(\{blank_\d+\})/g);
+};
+
+// Comprobar si un segmento es un marcador de espacio en blanco
+const isBlankMarker = (segment: string) => {
+  return /^\{blank_\d+\}$/.test(segment);
+};
+
+// Obtener la llave limpia del espacio en blanco a partir del marcador
+const getBlankKey = (segment: string) => {
+  return segment.replace(/[{}]/g, '');
+};
+
 // --- NAVEGACIÓN GENERAL DEL QUIZ ---
 const nextStep = () => {
   if (!isSectionValid.value) return;
-
-  // Si estamos en módulo de escritura, guardar texto redactado antes de avanzar
-  if (currentModule.value.type === 'writing') {
-    writingAnswers.value[currentSection.value.id] = {
-      text: writingText.value,
-      words: wordCount.value
-    };
-  }
 
   const sectionsCount = currentModule.value.sections.length;
   if (currentSectionIndex.value < sectionsCount - 1) {
@@ -185,29 +192,22 @@ const nextStep = () => {
 
 // Finalización y grading automatizado inicial del MCER
 const finishTest = () => {
-  // 1. Sumamos los puntos de userAnswers
   let sum = 0;
   for (const qId in userAnswers.value) {
     sum += userAnswers.value[qId]?.points ?? 0;
   }
   totalScore.value = sum;
 
-  // 2. Iteramos sobre props.testData.tier_thresholds para determinar el nivel más alto alcanzado
   const thresholds = resolvedQuizData.value.tier_thresholds;
-  // Convertimos en tuplas ordenadas por puntaje mínimo descendente para hacer coincidir el umbral superior
   const thresholdEntries = Object.entries(thresholds).sort((a, b) => b[1] - a[1]);
   const matched = thresholdEntries.find(([_, minScore]) => sum >= minScore);
 
   calculatedTier.value = matched ? matched[0] : 'A1';
-
-  // 3. Establecer testCompleted en true para renderizar la vista de resultados
   testCompleted.value = true;
 
-  // 4. Emitimos el evento de finalización para integraciones y control de flujo superior
   emit('finish', {
     answers: {
-      ...userAnswers.value,
-      ...writingAnswers.value
+      ...userAnswers.value
     },
     score: totalScore.value
   });
@@ -230,11 +230,8 @@ const currentMascot = computed(() => {
       // Módulo 2 (Lectura Avanzada): Mascota concentrada
       return '/img/editables-29.svg';
     case 2:
-      // Módulo 3 (Redacción escrita): Mascota pensativa/creativa
+      // Módulo 3 (Estructura Avanzada / Cloze): Mascota pensativa/creativa
       return '/img/editables-30.svg';
-    case 3:
-      // Módulo 4 (Vocabulario avanzado): Mascota experta
-      return '/img/editables-29.svg';
     default:
       // Fallback
       return '/img/editables-28.svg';
@@ -251,13 +248,11 @@ const currentBubbleText = computed(() => {
 
   switch (currentModuleIndex.value) {
     case 0:
-      return `¡Hola! Comencemos con Lectura (${level}). Lee el texto y elige con calma.`;
+      return `¡Hola! Comencemos con Lectura y Vocabulario (${level}). Lee el texto y elige con calma.`;
     case 1:
-      return `¡Excelente! Ahora en Lectura Avanzada (${level}) presta atención a los detalles.`;
+      return `¡Excelente! Ahora en Gramática y Sintaxis (${level}) elige la opción que complete la frase.`;
     case 2:
-      return `¡Turno de escribir (${level})! Redacta tu texto cuidando el mínimo de palabras.`;
-    case 3:
-      return `¡El tramo final (${level})! Elige la palabra perfecta para este nivel avanzado.`;
+      return `¡El tramo final (${level})! Completa los espacios vacíos del texto Cloze. ¡Tú puedes!`;
     default:
       return `¡Vas muy bien! Sigue respondiendo para obtener un resultado más preciso.`;
   }
@@ -387,7 +382,7 @@ const currentBubbleText = computed(() => {
       <div class="bg-brand-blue/10 border border-brand-blue/20 p-4 rounded-talki text-xs md:text-sm text-brand-blue max-w-lg text-left">
         <p class="font-bold mb-1">📢 Nota sobre tu evaluación final:</p>
         <p class="font-body text-xs md:text-sm text-gray-700">
-          El módulo de <strong>Expresión Escrita</strong> (Writing) requiere una revisión diferida por nuestros evaluadores. Una vez calificado manualmente, tu nivel final se actualizará y se te asignará el rol correspondiente en el servidor de Discord.
+          La evaluación se procesa en tiempo real de forma automática. Tus roles de nivel se asignarán instantáneamente en base a tu puntuación obtenida en el cuestionario.
         </p>
       </div>
     </div>
@@ -411,10 +406,10 @@ const currentBubbleText = computed(() => {
           </h3>
         </div>
 
-        <!-- 1. CASO DE USO: READING -->
+        <!-- 1. CASO DE USO: READING / GRAMMAR -->
         <div v-if="currentModule.type === 'reading'" class="flex flex-col gap-5 md:gap-6">
-          <!-- Texto del ejercicio de lectura con excelente contraste y espaciado -->
-          <div class="bg-brand-blue/5 p-4 md:p-6 rounded-talki border border-brand-blue/10 font-body text-sm md:text-lg leading-relaxed text-gray-800 shadow-inner">
+          <!-- Texto del ejercicio de lectura con excelente contraste y espaciado (si existe) -->
+          <div v-if="currentSection.text" class="bg-brand-blue/5 p-4 md:p-6 rounded-talki border border-brand-blue/10 font-body text-sm md:text-lg leading-relaxed text-gray-800 shadow-inner">
             {{ currentSection.text }}
           </div>
 
@@ -424,7 +419,7 @@ const currentBubbleText = computed(() => {
               {{ q.text }}
             </h4>
 
-            <!-- Opciones mapeadas a BaseButton de forma limpia en 1 columna en móvil y 2 en escritorio (Fase 14) -->
+            <!-- Opciones mapeadas a BaseButton de forma limpia en 1 columna en móvil y 2 en escritorio -->
             <div class="grid grid-cols-1 md:grid-cols-2 gap-2.5 sm:gap-3">
               <BaseButton
                 v-for="opt in q.options"
@@ -447,45 +442,32 @@ const currentBubbleText = computed(() => {
           </div>
         </div>
 
-        <!-- 2. CASO DE USO: WRITING -->
-        <div v-if="currentModule.type === 'writing'" class="flex flex-col gap-4">
-          <!-- Indicaciones y estímulo del email/texto a escribir -->
-          <div class="bg-brand-blue/5 p-5 md:p-6 rounded-talki border border-brand-blue/10 flex flex-col gap-3">
-            <span class="text-xs font-bold text-brand-lightBlue uppercase tracking-wider font-body">Instrucciones de Redacción</span>
-            <p class="font-body text-sm md:text-base text-gray-800 leading-relaxed">
-              {{ currentSection.prompt_text }}
-            </p>
-          </div>
-
-          <!-- Área de escritura con protección contra pegado y contador activo -->
-          <div class="flex flex-col gap-2">
-            <div class="flex justify-between items-center text-xs text-gray-500 font-body px-1">
-              <span class="flex items-center gap-1.5 text-red-600 font-semibold" v-if="currentModule.config?.block_paste">
-                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="w-3.5 h-3.5">
-                  <path fill-rule="evenodd" d="M5.47 5.47a.75.75 0 011.06 0L10 8.94l3.47-3.47a.75.75 0 111.06 1.06L11.06 10l3.47 3.47a.75.75 0 11-1.06 1.06L10 11.06l-3.47 3.47a.75.75 0 11-1.06-1.06L8.94 10 5.47 6.53a.75.75 0 010-1.06z" clip-rule="evenodd" />
-                </svg>
-                Pegado de texto deshabilitado
-              </span>
-              <span v-else>Listo para redactar</span>
-              
-              <span 
-                class="font-bold text-xs" 
-                :class="{
-                  'text-red-500': wordCount < (currentSection.min_words || 0) || wordCount > (currentSection.max_words || 0),
-                  'text-brand-greenDark': wordCount >= (currentSection.min_words || 0) && wordCount <= (currentSection.max_words || 0)
-                }"
-              >
-                Palabras: {{ wordCount }} / {{ currentSection.min_words }} - {{ currentSection.max_words }}
-              </span>
+        <!-- 2. CASO DE USO: CLOZE TEST -->
+        <div v-if="currentModule.type === 'cloze'" class="flex flex-col gap-6">
+          <div v-for="q in currentSection.questions" :key="q.id" class="flex flex-col gap-4">
+            <!-- Párrafo interactivo con alineación fluida y espaciado de línea amplio (Fase 15) -->
+            <div class="bg-brand-blue/5 p-6 md:p-8 rounded-talki border border-brand-blue/10 font-body text-sm md:text-lg leading-loose text-gray-800 shadow-inner">
+              <template v-for="(seg, idx) in parseClozeText(q.text)" :key="idx">
+                <!-- Si el segmento es un marcador, renderizamos un select inline con estilo premium -->
+                <select
+                  v-if="isBlankMarker(seg)"
+                  :value="clozeAnswers[`${q.id}_${getBlankKey(seg)}`] || ''"
+                  @change="e => handleClozeSelect(q.id, getBlankKey(seg), (e.target as HTMLSelectElement).value, q.blanks?.[getBlankKey(seg)])"
+                  class="inline-block mx-1.5 px-3 py-1 bg-white border-2 border-brand-blue/15 hover:border-brand-blue/40 focus:border-brand-lightBlue focus:ring-2 focus:ring-brand-lightBlue/10 rounded-xl font-title text-xs md:text-sm font-bold outline-none transition-all shadow-sm text-brand-dark cursor-pointer max-w-[150px] md:max-w-[200px]"
+                >
+                  <option value="" disabled selected>...</option>
+                  <option 
+                    v-for="opt in q.blanks?.[getBlankKey(seg)]?.options || []" 
+                    :key="opt" 
+                    :value="opt"
+                  >
+                    {{ opt }}
+                  </option>
+                </select>
+                <!-- Si es texto estándar -->
+                <span v-else class="align-middle">{{ seg }}</span>
+              </template>
             </div>
-
-            <textarea
-              v-model="writingText"
-              rows="8"
-              class="w-full bg-white text-brand-dark p-5 rounded-talki border-2 border-brand-blue/15 focus:border-brand-lightBlue focus:ring-4 focus:ring-brand-lightBlue/20 outline-none font-body text-sm md:text-base leading-relaxed transition-all shadow-inner resize-none"
-              placeholder="Escribe tu respuesta aquí..."
-              @paste.prevent
-            />
           </div>
         </div>
 

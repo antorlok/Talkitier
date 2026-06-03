@@ -1,207 +1,136 @@
 {
-    "language": "ES",
-    "tier_thresholds": {
-        "A1": 0,
-        "A2": 20,
-        "B1": 40,
-        "B2": 60,
-        "C1": 80,
-        "C2": 100
-    },
-    "modules": [
+  "language": "ES",
+  "tier_thresholds": {
+    "A1": 0,
+    "A2": 20,
+    "B1": 40,
+    "B2": 60,
+    "C1": 80,
+    "C2": 100
+  },
+  "modules": [
+    {
+      "id": "module_1_reading",
+      "type": "reading",
+      "grading": "automated",
+      "sections": [
         {
-            "id": "module_1_reading",
-            "type": "reading",
-            "grading": "automated",
-            "sections": [
-                {
-                    "id": "r1",
-                    "level": "A1-A2",
-                    "instruction": "Lea el texto y seleccione la opción correcta para cada pregunta.",
-                    "text": "Bienvenido a la Estación Central de Metro. La taquilla está abierta todos los días de 6:00 a 22:00 horas. Si necesita asistencia fuera de este horario, por favor utilice las máquinas expendedoras automáticas situadas junto a la entrada principal. Los pasajeros deben disponer de un billete válido antes de subir a los trenes. Las mochilas y el equipaje grande están sujetos a controles de seguridad.",
-                    "questions": [
-                        {
-                            "id": "q_1_1",
-                            "text": "¿Qué debe hacer un pasajero si la taquilla está cerrada a las 23:00 horas?",
-                            "options": [
-                                {
-                                    "id": "opt_a",
-                                    "text": "Esperar hasta la mañana siguiente a las 6:00.",
-                                    "points": 0
-                                },
-                                {
-                                    "id": "opt_b",
-                                    "text": "Utilizar las máquinas expendedoras automáticas cerca de la entrada principal.",
-                                    "points": 10
-                                },
-                                {
-                                    "id": "opt_c",
-                                    "text": "Subir al tren inmediatamente y pagar a bordo.",
-                                    "points": 0
-                                },
-                                {
-                                    "id": "opt_d",
-                                    "text": "Contactar con seguridad para comprar un pase especial.",
-                                    "points": 0
-                                }
-                            ]
-                        }
-                    ]
-                }
-            ]
-        },
-        {
-            "id": "module_2_reading_advanced",
-            "type": "reading",
-            "grading": "automated",
-            "sections": [
-                {
-                    "id": "r2",
-                    "level": "B1-B2",
-                    "instruction": "Lea la oración y elija la palabra correcta para completar el espacio en blanco.",
-                    "text": "Esta sección evalúa sus conocimientos de gramática española, oraciones condicionales y conjugaciones del subjuntivo a nivel intermedio-avanzado.",
-                    "questions": [
-                        {
-                            "id": "q_2_1",
-                            "text": "Si _______ de la reunión antes, habría preparado el informe a tiempo.",
-                            "options": [
-                                {
-                                    "id": "opt_a",
-                                    "text": "supiera",
-                                    "points": 0
-                                },
-                                {
-                                    "id": "opt_b",
-                                    "text": "he sabido",
-                                    "points": 0
-                                },
-                                {
-                                    "id": "opt_c",
-                                    "text": "hubiera sabido",
-                                    "points": 8
-                                },
-                                {
-                                    "id": "opt_d",
-                                    "text": "sé",
-                                    "points": 0
-                                }
-                            ]
-                        },
-                        {
-                            "id": "q_2_2",
-                            "text": "La empresa decidió _______ el lanzamiento del producto debido a problemas imprevistos en la cadena de suministro.",
-                            "options": [
-                                {
-                                    "id": "opt_a",
-                                    "text": "posponer",
-                                    "points": 7
-                                },
-                                {
-                                    "id": "opt_b",
-                                    "text": "promover",
-                                    "points": 0
-                                },
-                                {
-                                    "id": "opt_c",
-                                    "text": "adelantar",
-                                    "points": 0
-                                },
-                                {
-                                    "id": "opt_d",
-                                    "text": "cancelar",
-                                    "points": 0
-                                }
-                            ]
-                        }
-                    ]
-                }
-            ]
-        },
-        {
-            "id": "module_3_writing",
-            "type": "writing",
-            "grading": "deferred",
-            "config": {
-                "block_paste": true,
-                "show_word_counter": true
+          "id": "r1",
+          "level": "A1-A2",
+          "instruction": "Lea el texto y seleccione la opción correcta para cada pregunta.",
+          "text": "Bienvenido a la Estación Central de Metro. La taquilla está abierta todos los días de 6:00 a 22:00 horas. Si necesita asistencia fuera de este horario, por favor utilice las máquinas expendedoras automáticas situadas junto a la entrada principal. Los pasajeros deben disponer de un billete válido antes de subir a los trenes. Las mochilas y el equipaje grande están sujetos a controles de seguridad.",
+          "questions": [
+            {
+              "id": "q_1_1",
+              "text": "¿Qué debe hacer un pasajero si la taquilla está cerrada a las 23:00 horas?",
+              "options": [
+                { "id": "opt_a", "text": "Esperar hasta la mañana siguiente a las 6:00.", "points": 0 },
+                { "id": "opt_b", "text": "Utilizar las máquinas expendedoras automáticas cerca de la entrada principal.", "points": 10 },
+                { "id": "opt_c", "text": "Subir al tren inmediatamente y pagar a bordo.", "points": 0 },
+                { "id": "opt_d", "text": "Contactar con seguridad para comprar un pase especial.", "points": 0 }
+              ]
             },
-            "sections": [
-                {
-                    "id": "w1",
-                    "level": "A2-B1",
-                    "instruction": "Redacte una respuesta formal por correo electrónico basándose en la situación descrita a continuación. Su respuesta debe tener entre 80 y 120 palabras.",
-                    "prompt_text": "Un cliente envió un correo muy molesto porque su pedido corporativo llegó con cuatro días de retraso debido a un embotellamiento en la aduana. Escriba un correo electrónico pidiendo disculpas por la demora, explicando brevemente que se trató de un problema logístico y ofreciendo un código de descuento del 15% en su próxima factura como compensación.",
-                    "min_words": 80,
-                    "max_words": 120
-                }
-            ]
-        },
-        {
-            "id": "module_4_use_of_english",
-            "type": "reading",
-            "grading": "automated",
-            "sections": [
-                {
-                    "id": "uoe1",
-                    "level": "C1-C2",
-                    "instruction": "Lea el texto y seleccione la palabra de vocabulario más avanzada para completar la oración.",
-                    "text": "Esta sección evalúa su dominio del vocabulario avanzado en español, expresiones idiomáticas y registros cultos en nivel de competencia profesional.",
-                    "questions": [
-                        {
-                            "id": "q_4_1",
-                            "text": "La decisión del director general de reestructurar todo el departamento fue recibida con _______ por parte de los empleados que temían perder sus puestos.",
-                            "options": [
-                                {
-                                    "id": "opt_a",
-                                    "text": "beneplácito",
-                                    "points": 0
-                                },
-                                {
-                                    "id": "opt_b",
-                                    "text": "zozobra",
-                                    "points": 8
-                                },
-                                {
-                                    "id": "opt_c",
-                                    "text": "indiferencia",
-                                    "points": 0
-                                },
-                                {
-                                    "id": "opt_d",
-                                    "text": "expectación",
-                                    "points": 0
-                                }
-                            ]
-                        },
-                        {
-                            "id": "q_4_2",
-                            "text": "A pesar de las pruebas abrumadoras en su contra, el acusado mantuvo un aire de _______ durante todo el juicio.",
-                            "options": [
-                                {
-                                    "id": "opt_a",
-                                    "text": "pesadumbre",
-                                    "points": 0
-                                },
-                                {
-                                    "id": "opt_b",
-                                    "text": "arrepentimiento",
-                                    "points": 0
-                                },
-                                {
-                                    "id": "opt_c",
-                                    "text": "imperturbabilidad",
-                                    "points": 7
-                                },
-                                {
-                                    "id": "opt_d",
-                                    "text": "indignación",
-                                    "points": 0
-                                }
-                            ]
-                        }
-                    ]
-                }
-            ]
+            {
+              "id": "q_1_2",
+              "text": "¿Qué objetos están sujetos a controles de seguridad?",
+              "options": [
+                { "id": "opt_a", "text": "Solo bolsos pequeños.", "points": 0 },
+                { "id": "opt_b", "text": "Todos los dispositivos electrónicos.", "points": 0 },
+                { "id": "opt_c", "text": "Mochilas y equipaje grande.", "points": 10 },
+                { "id": "opt_d", "text": "Ningún objeto es revisado.", "points": 0 }
+              ]
+            },
+            {
+              "id": "q_1_3",
+              "text": "¿En qué horario está abierta la taquilla?",
+              "options": [
+                { "id": "opt_a", "text": "Las 24 horas del día.", "points": 0 },
+                { "id": "opt_b", "text": "Solo los días laborables.", "points": 0 },
+                { "id": "opt_c", "text": "De 6:00 a 22:00 horas todos los días.", "points": 10 },
+                { "id": "opt_d", "text": "De mediodía a medianoche.", "points": 0 }
+              ]
+            }
+          ]
         }
-    ]
+      ]
+    },
+    {
+      "id": "module_2_grammar",
+      "type": "reading",
+      "grading": "automated",
+      "sections": [
+        {
+          "id": "r2",
+          "level": "B1-B2",
+          "instruction": "Lea la oración y elija la palabra correcta para completar el espacio en blanco.",
+          "questions": [
+            {
+              "id": "q_2_1",
+              "text": "Si _______ de la reunión antes, habría preparado el informe a tempo.",
+              "options": [
+                { "id": "opt_a", "text": "supiera", "points": 0 },
+                { "id": "opt_b", "text": "he sabido", "points": 0 },
+                { "id": "opt_c", "text": "hubiera sabido", "points": 10 },
+                { "id": "opt_d", "text": "sé", "points": 0 }
+              ]
+            },
+            {
+              "id": "q_2_2",
+              "text": "La empresa decidió _______ el lanzamiento del producto debido a problemas imprevistos en la cadena de suministro.",
+              "options": [
+                { "id": "opt_a", "text": "posponer", "points": 10 },
+                { "id": "opt_b", "text": "promover", "points": 0 },
+                { "id": "opt_c", "text": "adelantar", "points": 0 },
+                { "id": "opt_d", "text": "cancelar", "points": 0 }
+              ]
+            },
+            {
+              "id": "q_2_3",
+              "text": "Cuando el director llegó, los empleados ya _______ el informe final.",
+              "options": [
+                { "id": "opt_a", "text": "enviarán", "points": 0 },
+                { "id": "opt_b", "text": "habían enviado", "points": 10 },
+                { "id": "opt_c", "text": "han enviando", "points": 0 },
+                { "id": "opt_d", "text": "están enviar", "points": 0 }
+              ]
+            },
+            {
+              "id": "q_2_4",
+              "text": "Te recomiendo que _______ el contrato detenidamente antes de firmar.",
+              "options": [
+                { "id": "opt_a", "text": "leas", "points": 10 },
+                { "id": "opt_b", "text": "leer", "points": 0 },
+                { "id": "opt_c", "text": "leyeras", "points": 0 },
+                { "id": "opt_d", "text": "lees", "points": 0 }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "module_3_advanced",
+      "type": "cloze",
+      "grading": "automated",
+      "sections": [
+        {
+          "id": "c1",
+          "level": "C1",
+          "instruction": "Lea el texto y elija la palabra correcta para cada espacio en blanco.",
+          "questions": [
+            {
+              "id": "c1_cloze_01",
+              "type": "cloze",
+              "text": "El proyecto fue finalmente {blank_1} debido a problemas de financiación. Habían {blank_2} gravemente los costes, lo que provocó un severo {blank_3} presupuestario.",
+              "blanks": {
+                "blank_1": { "options": ["abolido", "descartado", "destruido"], "correct": "descartado", "points": 10 },
+                "blank_2": { "options": ["subestimado", "ignorado", "minimizado"], "correct": "subestimado", "points": 10 },
+                "blank_3": { "options": ["déficit", "superávit", "subsidio"], "correct": "déficit", "points": 10 }
+              }
+            }
+          ]
+        }
+      ]
+    }
+  ]
 }
